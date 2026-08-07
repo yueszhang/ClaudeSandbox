@@ -1,0 +1,127 @@
+---
+// Why 400+ requirements was a negotiating position rather than documentation
+// overhead: the core/future-state split determines where you push on price
+// and where you refuse to pay a premium.
+const W = 640;
+const H = 340;
+
+const branches = [
+  {
+    title: 'Core',
+    sub: 'The floor',
+    rule: 'Fail these and the vendor is disqualified.',
+    lever: 'Negotiate hard — every vendor clears the same bar.',
+    accent: true,
+    y: 92,
+  },
+  {
+    title: 'Future-state',
+    sub: 'The roadmap that must stay open',
+    rule: 'Including AI and gamification, still ahead of us.',
+    lever: 'No premium — but the platform must not foreclose it.',
+    accent: false,
+    y: 218,
+  },
+];
+
+const SRC_X = 0;
+const SRC_W = 168;
+const SRC_Y = 128;
+const SRC_H = 80;
+const BR_X = 268;
+const BR_W = W - BR_X;
+const BR_H = 104;
+---
+
+<svg viewBox={`0 0 ${W} ${H}`} role="img" aria-labelledby="req-title">
+  <title id="req-title">
+    Four hundred requirements split into two branches: core requirements that
+    disqualify a vendor if unmet and are negotiated hard, and future-state
+    requirements that the platform must not foreclose but that command no
+    premium.
+  </title>
+
+  <rect x={SRC_X + 0.5} y={SRC_Y + 0.5} width={SRC_W} height={SRC_H} rx="3"
+    fill="var(--bg-subtle)" stroke="var(--border-strong)" />
+  <text class="d-big" x={SRC_X + 18} y={SRC_Y + 40}>400+</text>
+  <text class="d-sub" x={SRC_X + 18} y={SRC_Y + 60}>requirements</text>
+  <text class="d-sub" x={SRC_X + 18} y={SRC_Y + 74}>25+ discovery sessions</text>
+
+  {
+    branches.map((b) => (
+      <g>
+        <path
+          d={`M${SRC_W + 6} ${SRC_Y + SRC_H / 2} C${SRC_W + 60} ${SRC_Y + SRC_H / 2}, ${BR_X - 60} ${b.y + BR_H / 2}, ${BR_X - 6} ${b.y + BR_H / 2}`}
+          fill="none"
+          stroke={b.accent ? 'var(--accent)' : 'var(--border-strong)'}
+          stroke-width="1.5"
+        />
+        <rect
+          x={BR_X + 0.5}
+          y={b.y + 0.5}
+          width={BR_W - 1}
+          height={BR_H}
+          rx="3"
+          fill={b.accent ? 'var(--accent-soft)' : 'var(--bg-subtle)'}
+          stroke={b.accent ? 'var(--accent)' : 'var(--border-strong)'}
+        />
+        <text class="d-quad" x={BR_X + 18} y={b.y + 28} fill={b.accent ? 'var(--accent)' : 'var(--text)'}>
+          {b.title}
+        </text>
+        <text class="d-tag" x={BR_X + 18} y={b.y + 45}>{b.sub}</text>
+        <foreignObject x={BR_X + 18} y={b.y + 52} width={BR_W - 36} height={BR_H - 58}>
+          <div class="d-detail">
+            {b.rule}
+            <br />
+            <span class="d-lever">{b.lever}</span>
+          </div>
+        </foreignObject>
+      </g>
+    ))
+  }
+
+  <text class="d-eyebrow" x="0" y="18">$1.2M SAVED ACROSS 5 VENDOR NEGOTIATIONS</text>
+</svg>
+
+<style>
+  .d-big {
+    font-family: var(--font-serif);
+    font-size: 28px;
+    font-weight: 600;
+    fill: var(--text);
+  }
+  .d-sub {
+    font-family: var(--font-sans);
+    font-size: 11.5px;
+    fill: var(--text-muted);
+  }
+  .d-quad {
+    font-family: var(--font-serif);
+    font-size: 19px;
+    font-weight: 600;
+  }
+  .d-tag {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    fill: var(--text-faint);
+  }
+  .d-eyebrow {
+    font-family: var(--font-sans);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    fill: var(--text-faint);
+  }
+  .d-detail {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    line-height: 1.42;
+    color: var(--text-muted);
+  }
+  .d-lever {
+    color: var(--text);
+    font-weight: 600;
+  }
+</style>

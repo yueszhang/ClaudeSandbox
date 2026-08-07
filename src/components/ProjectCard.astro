@@ -1,0 +1,155 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  /** Leading metric shown on the card; index into the project's metrics. */
+  headline?: number;
+}
+
+const { project, headline = 0 } = Astro.props;
+const d = project.data;
+const metric = d.metrics[headline];
+---
+
+<article class="card">
+  <a href={`/work/${project.id}/`} class="card-link">
+    <span class="visually-hidden">Read case study: {d.title}</span>
+  </a>
+
+  <div class="card-head">
+    <p class="eyebrow">{d.company}</p>
+    {metric && (
+      <p class="card-metric">
+        <span class="card-metric-value">{metric.value}</span>
+        <span class="card-metric-label">{metric.label}</span>
+      </p>
+    )}
+  </div>
+
+  <h3 class="card-title">{d.title}</h3>
+  <p class="card-tagline">{d.tagline}</p>
+
+  <p class="meta card-role">{d.role}<span class="card-sep"> · </span>{d.period}</p>
+
+  <ul class="card-themes">
+    {d.themes.map((theme) => <li>{theme}</li>)}
+  </ul>
+</article>
+
+<style>
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 1.75rem 0 2rem;
+    border-top: 1px solid var(--border);
+    transition: border-color 0.15s ease;
+  }
+
+  .card:hover {
+    border-top-color: var(--accent);
+  }
+
+  /* Whole card is the target; the title still reads as the link. */
+  .card-link {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  /* Company left, headline metric right. The metric is allowed to wrap its
+     label; the company name never should. */
+  .card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1.25rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .card-head .eyebrow {
+    white-space: nowrap;
+  }
+
+  .card-metric {
+    margin: 0;
+    text-align: right;
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    min-width: 0;
+  }
+
+  .card-metric-value {
+    font-family: var(--font-serif);
+    font-size: var(--step-1);
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+
+  .card-metric-label {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    line-height: 1.3;
+    letter-spacing: 0.02em;
+    color: var(--text-faint);
+    max-width: 9rem;
+  }
+
+  .card-title {
+    font-size: var(--step-2);
+    margin-bottom: 0.5rem;
+    max-width: 24ch;
+  }
+
+  .card:hover .card-title {
+    color: var(--accent);
+  }
+
+  .card-tagline {
+    color: var(--text-muted);
+    max-width: 52ch;
+    margin-bottom: 0.9rem;
+  }
+
+  .card-role {
+    margin: 0 0 1.1rem;
+    color: var(--text-faint);
+  }
+
+  .card-themes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    list-style: none;
+    margin: auto 0 0;
+    padding: 0;
+  }
+
+  .card-themes li {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.03em;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 0.22rem 0.6rem;
+  }
+
+  @media (max-width: 34rem) {
+    .card-head {
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .card-metric {
+      text-align: left;
+    }
+    .card-metric-value {
+      display: inline;
+      font-size: var(--step-0);
+    }
+  }
+</style>

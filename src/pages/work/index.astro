@@ -1,0 +1,318 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+
+const projects = (await getCollection('projects'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.sortDate.localeCompare(a.data.sortDate));
+
+const roles = (await getCollection('roles')).sort((a, b) =>
+  b.data.sortDate.localeCompare(a.data.sortDate)
+);
+
+const themes = [...new Set(projects.flatMap((p) => p.data.themes))].sort();
+
+// Spelled out so the headline reads as prose rather than a dashboard figure.
+const WORDS = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten'];
+const countWord = WORDS[projects.length] ?? String(projects.length);
+
+/** Projects belong to a role when company and role title both match. */
+const projectsForRole = (company: string, roleTitle: string) =>
+  projects.filter((p) => p.data.company === company && p.data.role.startsWith(roleTitle.split(' — ')[0]));
+---
+
+<Base
+  title="Work"
+  description="Case studies across AI enablement, AI-native delivery, product management, and platform strategy — anonymized by client, specific about approach and outcome."
+>
+  <section class="page intro">
+    <p class="eyebrow">Work</p>
+    <h1>{countWord} projects, each written to be argued with.</h1>
+    <p class="lede">
+      Every case study says what the situation was, what I owned, how I made the
+      call, and what I would do differently. Clients are anonymized — the
+      reasoning is not.
+    </p>
+  </section>
+
+  <section class="page filters" aria-label="Filter projects by theme">
+    <button type="button" class="chip is-active" data-filter="all" aria-pressed="true">
+      All work
+      <span class="chip-count">{projects.length}</span>
+    </button>
+    {
+      themes.map((theme) => (
+        <button type="button" class="chip" data-filter={theme} aria-pressed="false">
+          {theme}
+          <span class="chip-count">
+            {projects.filter((p) => p.data.themes.includes(theme)).length}
+          </span>
+        </button>
+      ))
+    }
+  </section>
+
+  <section class="page cards" id="project-list">
+    {
+      projects.map((project) => (
+        <div class="card-slot" data-themes={JSON.stringify(project.data.themes)}>
+          <ProjectCard project={project} />
+        </div>
+      ))
+    }
+  </section>
+
+  <p class="page empty-state" data-empty hidden>
+    No projects match that theme.
+  </p>
+
+  <section class="page timeline">
+    <h2 class="eyebrow">By role</h2>
+    <p class="timeline-lede">
+      The same work, arranged as a career rather than a portfolio.
+    </p>
+
+    <ol class="roles">
+      {
+        roles.map((role) => {
+          const related = projectsForRole(role.data.company, role.data.role);
+          return (
+            <li class="role">
+              <div class="role-head">
+                <h3>{role.data.company}</h3>
+                <p class="meta role-period">{role.data.period}</p>
+              </div>
+              <p class="role-title">{role.data.role}</p>
+              <p class="role-summary">{role.data.summary}</p>
+              {related.length > 0 && (
+                <ul class="role-projects">
+                  {related.map((p) => (
+                    <li>
+                      <a href={`/work/${p.id}/`}>{p.data.title}</a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          );
+        })
+      }
+    </ol>
+  </section>
+</Base>
+
+<style>
+  .intro {
+    padding-block: clamp(3rem, 8vh, 5rem) 0;
+  }
+
+  .intro h1 {
+    font-size: var(--step-3);
+    max-width: 20ch;
+    margin: 0.9rem 0 1.2rem;
+  }
+
+  .lede {
+    max-width: var(--measure);
+    color: var(--text-muted);
+    font-size: var(--step-1);
+    line-height: 1.5;
+  }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 2.75rem;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.45rem;
+    font-family: var(--font-sans);
+    font-size: var(--step--1);
+    color: var(--text-muted);
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 0.4rem 0.85rem;
+    cursor: pointer;
+    transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+
+  .chip:hover {
+    border-color: var(--border-strong);
+    color: var(--text);
+  }
+
+  .chip.is-active {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+
+  .chip-count {
+    font-size: 0.72rem;
+    color: var(--text-faint);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .chip.is-active .chip-count {
+    color: var(--accent);
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(22rem, 100%), 1fr));
+    gap: 0 3.5rem;
+    margin-top: 2.25rem;
+  }
+
+  .card-slot[hidden] {
+    display: none;
+  }
+
+  .empty-state {
+    font-family: var(--font-sans);
+    font-size: var(--step--1);
+    color: var(--text-muted);
+    padding-block: 3rem;
+  }
+
+  .timeline {
+    margin-top: clamp(4rem, 10vh, 7rem);
+    padding-top: 2.75rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .timeline-lede {
+    color: var(--text-muted);
+    margin: 0.6rem 0 2.5rem;
+    max-width: var(--measure);
+  }
+
+  .roles {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 2.75rem;
+  }
+
+  .role {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+    gap: 0.4rem 3rem;
+    padding-top: 1.6rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .role-head h3 {
+    font-size: var(--step-1);
+    margin: 0;
+  }
+
+  .role-period {
+    margin: 0.25rem 0 0;
+    color: var(--text-faint);
+  }
+
+  .role-title {
+    grid-column: 2;
+    grid-row: 1;
+    font-family: var(--font-sans);
+    font-size: var(--step--1);
+    font-weight: 600;
+    color: var(--text-muted);
+    margin: 0.15rem 0 0.5rem;
+  }
+
+  .role-summary {
+    grid-column: 2;
+    color: var(--text-muted);
+    margin: 0;
+    max-width: 54ch;
+  }
+
+  .role-projects {
+    grid-column: 2;
+    list-style: none;
+    margin: 0.9rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .role-projects a {
+    font-family: var(--font-sans);
+    font-size: var(--step--1);
+    text-decoration-color: var(--border-strong);
+  }
+
+  @media (max-width: 46rem) {
+    .role {
+      grid-template-columns: 1fr;
+      gap: 0.3rem;
+    }
+    .role-title,
+    .role-summary,
+    .role-projects {
+      grid-column: 1;
+    }
+    .role-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+    }
+    .role-period {
+      margin: 0;
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .cards {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  const chips = document.querySelectorAll<HTMLButtonElement>('.chip');
+  const slots = document.querySelectorAll<HTMLElement>('.card-slot');
+  const empty = document.querySelector<HTMLElement>('[data-empty]');
+
+  const applyFilter = (filter: string) => {
+    let visible = 0;
+    slots.forEach((slot) => {
+      const themes: string[] = JSON.parse(slot.dataset.themes ?? '[]');
+      const show = filter === 'all' || themes.includes(filter);
+      slot.hidden = !show;
+      if (show) visible++;
+    });
+    if (empty) empty.hidden = visible > 0;
+
+    chips.forEach((chip) => {
+      const active = chip.dataset.filter === filter;
+      chip.classList.toggle('is-active', active);
+      chip.setAttribute('aria-pressed', String(active));
+    });
+
+    // Keep the filter in the URL so a filtered view can be shared.
+    const url = new URL(window.location.href);
+    if (filter === 'all') url.searchParams.delete('theme');
+    else url.searchParams.set('theme', filter);
+    history.replaceState(null, '', url);
+  };
+
+  chips.forEach((chip) => {
+    chip.addEventListener('click', () => applyFilter(chip.dataset.filter ?? 'all'));
+  });
+
+  const initial = new URL(window.location.href).searchParams.get('theme');
+  if (initial && [...chips].some((c) => c.dataset.filter === initial)) {
+    applyFilter(initial);
+  }
+</script>

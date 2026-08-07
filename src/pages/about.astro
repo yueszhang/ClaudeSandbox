@@ -1,0 +1,242 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { site } from '../site';
+
+const roles = (await getCollection('roles')).sort((a, b) =>
+  b.data.sortDate.localeCompare(a.data.sortDate)
+);
+
+const education = [
+  {
+    school: 'Columbia Business School',
+    credential: 'MBA — Media & Technology Program',
+    year: 'May 2025',
+    detail:
+      'GSAP Award recipient, tuition sponsored by Deloitte Digital. Columbia Build Lab incubatee.',
+  },
+  {
+    school: 'The George Washington University',
+    credential: 'BS — Finance & Economics',
+    year: 'May 2018',
+    detail:
+      'Cum Laude. Presidential Scholarship, Dean’s Honor List. Passed CFA Level I.',
+  },
+];
+
+const toolkit = [
+  {
+    group: 'AI',
+    items: 'Claude (Code, Cowork) · OpenAI (ChatGPT, API, Codex) · Copilot (Microsoft, GitHub) · Codify · Rovo',
+  },
+  {
+    group: 'Product & delivery',
+    items: 'Jira · Confluence · Miro · Playwright · Git · Vercel · Clerk · Excel / PowerPoint',
+  },
+  {
+    group: 'Design & research',
+    items: 'Figma Make · InVision · Canva · TheyDo · Dovetail · Brox · WeVo · Outset · SAP Signavio · Aris',
+  },
+  {
+    group: 'Data & analytics',
+    items: 'SQL · Tableau · Google Marketing Platform · Adobe Experience Cloud (Analytics, AEM)',
+  },
+];
+---
+
+<Base
+  title="About"
+  description={`${site.name} — ${site.role} in New York. Career, education, and the tools I actually use.`}
+>
+  <section class="page intro">
+    <p class="eyebrow">About</p>
+    <h1>I started in credit analysis and ended up building the tools instead.</h1>
+  </section>
+
+  <div class="page body">
+    <div class="prose">
+      <p>
+        I was an investment analyst covering a $750M aerospace and defense book.
+        The desk needed better portfolio analytics, I volunteered to run the
+        project, and that turned out to be more interesting than the trades.
+        I have been doing some version of it ever since.
+      </p>
+      <p>
+        What followed was product management at Deloitte Digital — mostly travel
+        and hospitality, mostly systems with a lot of users and a lot of
+        history. A loyalty program replatform. An internal web design platform
+        serving 8,000 hotels across 139 countries. Conversion work for two
+        Fortune 500 retailers.
+      </p>
+      <p>
+        Deloitte sponsored my MBA at Columbia on the strength of that work. I
+        spent the summer in between at Adobe, on the vendor side of enterprise
+        software for the first time, then came back to Deloitte with a narrower
+        brief: help large organizations actually use AI.
+      </p>
+      <p>
+        That is the work now, and it runs on two tracks that need each other.
+        One is personal — AI in my own delivery loop, on real launches with real
+        deadlines. The other is organizational — turning what survives contact
+        with a delivery pod into infrastructure, guardrails, and change
+        management that 900+ teams can adopt. Neither works alone. Fluency that
+        does not scale stays a party trick, and enablement designed by people
+        who have not shipped with the tools produces platforms nobody uses.
+      </p>
+      <p>
+        Outside work I am an aspiring marathoner, a black diamond snowboarder,
+        an ex-competitive breakdancer, an amateur rugby player, and a decidedly
+        beginner kitesurfer.
+      </p>
+    </div>
+
+    <aside class="sidebar">
+      <section class="block">
+        <h2 class="eyebrow">Career</h2>
+        <ul class="stack">
+          {
+            roles.map((role) => (
+              <li>
+                <p class="item-title">{role.data.company}</p>
+                <p class="item-sub">{role.data.role}</p>
+                <p class="item-meta">{role.data.period}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section class="block">
+        <h2 class="eyebrow">Education</h2>
+        <ul class="stack">
+          {
+            education.map((e) => (
+              <li>
+                <p class="item-title">{e.school}</p>
+                <p class="item-sub">{e.credential}</p>
+                <p class="item-meta">{e.year}</p>
+                <p class="item-detail">{e.detail}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section class="block">
+        <h2 class="eyebrow">Toolkit</h2>
+        <ul class="stack">
+          {
+            toolkit.map((t) => (
+              <li>
+                <p class="item-sub">{t.group}</p>
+                <p class="item-detail">{t.items}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section class="block">
+        <h2 class="eyebrow">Contact</h2>
+        <ul class="stack">
+          <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+          <li><a href={site.linkedin} rel="me noopener">{site.linkedinLabel}</a></li>
+        </ul>
+      </section>
+    </aside>
+  </div>
+</Base>
+
+<style>
+  .intro {
+    padding-block: clamp(3rem, 8vh, 5rem) 0;
+  }
+
+  .intro h1 {
+    font-size: var(--step-3);
+    max-width: 20ch;
+    margin-top: 0.9rem;
+  }
+
+  .body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 15rem;
+    gap: 4rem;
+    margin-top: 3rem;
+    align-items: start;
+  }
+
+  .body > * {
+    min-width: 0;
+  }
+
+  .sidebar {
+    display: grid;
+    gap: 2.25rem;
+  }
+
+  .block h2 {
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1rem;
+  }
+
+  .stack {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1.15rem;
+  }
+
+  .stack p {
+    margin: 0;
+  }
+
+  .stack a {
+    font-family: var(--font-sans);
+    font-size: var(--step--1);
+  }
+
+  .item-title {
+    font-family: var(--font-serif);
+    font-size: var(--step-0);
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .item-sub {
+    font-family: var(--font-sans);
+    font-size: var(--step--1);
+    color: var(--text-muted);
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .item-meta {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    color: var(--text-faint);
+    margin-top: 0.15rem !important;
+  }
+
+  .item-detail {
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    line-height: 1.5;
+    color: var(--text-muted);
+    margin-top: 0.35rem !important;
+  }
+
+  @media (max-width: 62rem) {
+    .body {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+    .sidebar {
+      grid-template-columns: repeat(auto-fit, minmax(min(14rem, 100%), 1fr));
+      gap: 2.5rem;
+      max-width: none;
+    }
+  }
+</style>

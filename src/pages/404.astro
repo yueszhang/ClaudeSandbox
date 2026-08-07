@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Not found" description="That page doesn’t exist.">
+  <section class="page wrap">
+    <p class="eyebrow">404</p>
+    <h1>That page doesn’t exist.</h1>
+    <p class="body-text">
+      It may have moved, or the link may be wrong. The work is all in one place.
+    </p>
+    <p class="meta"><a href="/work">Browse the work →</a></p>
+  </section>
+</Base>
+
+<style>
+  .wrap {
+    padding-block: clamp(5rem, 16vh, 9rem) 4rem;
+    max-width: var(--measure);
+  }
+
+  h1 {
+    font-size: var(--step-3);
+    margin: 0.9rem 0 1rem;
+  }
+
+  .body-text {
+    color: var(--text-muted);
+    font-size: var(--step-1);
+    line-height: 1.5;
+  }
+
+  .meta a {
+    text-decoration: none;
+  }
+</style>

@@ -1,0 +1,29 @@
+---
+import Figure from './Figure.astro';
+import MaturityModel from './diagrams/MaturityModel.astro';
+import AiDeliveryLoop from './diagrams/AiDeliveryLoop.astro';
+import BuildBuy from './diagrams/BuildBuy.astro';
+import RequirementsSplit from './diagrams/RequirementsSplit.astro';
+
+interface Props {
+  name: string;
+}
+const { name } = Astro.props;
+
+// Captions live here so a case study only has to name a diagram.
+const captions: Record<string, string> = {
+  maturity:
+    'Staged maturity with explicit gates. Gates make a team’s stage observable rather than self-reported — which is the difference between a program that reports green and one that moves.',
+  ailoop:
+    'AI tooling mapped to the delivery lifecycle. The gain came from the stages that were never writing code: clarifying what was being built, and proving it still worked.',
+  buildbuy:
+    'Build only where the capability is the differentiation. Everywhere else the market solution wins, and building it is a tax you pay forever.',
+  requirements:
+    'The core/future-state split is what converts requirements into negotiating leverage — a hard floor to compare vendors against, and a roadmap you refuse to pay a premium for.',
+};
+---
+
+{name === 'maturity' && <Figure caption={captions.maturity} wide><MaturityModel /></Figure>}
+{name === 'ailoop' && <Figure caption={captions.ailoop} wide><AiDeliveryLoop /></Figure>}
+{name === 'buildbuy' && <Figure caption={captions.buildbuy} wide><BuildBuy /></Figure>}
+{name === 'requirements' && <Figure caption={captions.requirements} wide><RequirementsSplit /></Figure>}

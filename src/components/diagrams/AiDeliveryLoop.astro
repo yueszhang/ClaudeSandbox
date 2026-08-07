@@ -1,0 +1,122 @@
+---
+// Where AI tooling sat in the delivery lifecycle — the difference between
+// "we adopted AI tools" and "the default path through the work runs through
+// them." Sourced from the tools actually embedded: Claude, Copilot,
+// Playwright, Rovo.
+// Notes are kept to ~4 wrapped lines — the column is 118px of usable width,
+// and anything longer clips against the box.
+const stages = [
+  { name: 'Clarify', tool: 'Claude', note: 'Requirements and specs resolved up front.', gain: true },
+  { name: 'Build', tool: 'GitHub Copilot', note: 'In-editor throughput across three pods.', gain: false },
+  { name: 'Verify', tool: 'Playwright', note: 'Automated regression coverage — the release gate.', gain: true },
+  { name: 'Release', tool: '—', note: 'Twelve launches, one phase structure.', gain: false },
+];
+
+const W = 640;
+const COL = 146;
+const GAP = 18;
+const TOP = 44;
+const BOX_H = 146;
+const colX = (i: number) => i * (COL + GAP);
+const height = TOP + BOX_H + 92;
+---
+
+<svg viewBox={`0 0 ${W} ${height}`} role="img" aria-labelledby="loop-title">
+  <title id="loop-title">
+    The delivery lifecycle — Clarify, Build, Verify, Release — showing which AI
+    tool was embedded at each stage, with Rovo spanning all four, and the
+    velocity gain concentrated in Clarify and Verify.
+  </title>
+
+  {
+    stages.map((s, i) => {
+      const x = colX(i);
+      return (
+        <g>
+          <rect
+            x={x + 0.5}
+            y={TOP + 0.5}
+            width={COL}
+            height={BOX_H}
+            rx="3"
+            fill={s.gain ? 'var(--accent-soft)' : 'var(--bg-subtle)'}
+            stroke={s.gain ? 'var(--accent)' : 'var(--border-strong)'}
+          />
+          <text class="d-stage" x={x + 14} y={TOP + 28}>{s.name}</text>
+          <text class="d-tool" x={x + 14} y={TOP + 50} fill={s.gain ? 'var(--accent)' : 'var(--text-faint)'}>
+            {s.tool}
+          </text>
+          <foreignObject x={x + 14} y={TOP + 60} width={COL - 28} height={BOX_H - 68}>
+            <div class="d-detail">{s.note}</div>
+          </foreignObject>
+
+          {i < stages.length - 1 && (
+            <path
+              d={`M${x + COL + 4} ${TOP + BOX_H / 2} L${x + COL + GAP - 4} ${TOP + BOX_H / 2}`}
+              stroke="var(--border-strong)"
+              stroke-width="1.5"
+              marker-end="url(#loop-arrow)"
+            />
+          )}
+        </g>
+      );
+    })
+  }
+
+  <defs>
+    <marker id="loop-arrow" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M0 1 L6 4 L0 7 z" fill="var(--border-strong)" />
+    </marker>
+  </defs>
+
+  {/* Rovo spans the whole lifecycle rather than sitting at one stage. */}
+  <rect x="0.5" y={TOP + BOX_H + 16} width={W - 1} height="34" rx="3"
+    fill="none" stroke="var(--border-strong)" stroke-dasharray="4 4" />
+  <text class="d-span" x="14" y={TOP + BOX_H + 38}>
+    Rovo — context retrieval across every artifact the program generates
+  </text>
+
+  <text class="d-caption" x="0" y={TOP + BOX_H + 74}>
+    Velocity gain concentrated in the shaded stages — the parts of delivery that were never writing code.
+  </text>
+  <text class="d-eyebrow" x="0" y="18">1.5× LAUNCH VELOCITY · 3 PODS · 72 PEOPLE</text>
+</svg>
+
+<style>
+  .d-stage {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    font-weight: 600;
+    fill: var(--text);
+  }
+  .d-tool {
+    font-family: var(--font-sans);
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+  .d-span {
+    font-family: var(--font-sans);
+    font-size: 11.5px;
+    font-weight: 600;
+    fill: var(--text-muted);
+  }
+  .d-caption {
+    font-family: var(--font-sans);
+    font-size: 11.5px;
+    fill: var(--text-faint);
+  }
+  .d-eyebrow {
+    font-family: var(--font-sans);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    fill: var(--text-faint);
+  }
+  .d-detail {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    line-height: 1.42;
+    color: var(--text-muted);
+  }
+</style>

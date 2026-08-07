@@ -1,0 +1,123 @@
+---
+// AI adoption maturity — four stages with an explicit gate between each.
+// The gates are the substance of the figure: they make a team's stage an
+// observable fact rather than a self-assessment.
+const stages = [
+  { n: '01', name: 'Exploring', detail: 'Individual curiosity. Unsanctioned tools, no shared practice, no visibility.' },
+  { n: '02', name: 'Assisted', detail: 'Governed access in place. AI applied to discrete tasks inside the existing workflow.' },
+  { n: '03', name: 'Integrated', detail: 'The default path runs through the tooling. Team-level practice rather than individual habit.' },
+  { n: '04', name: 'Autonomous', detail: 'Teams select AI-assisted approaches unprompted, on work that matters.' },
+];
+
+// Kept to a similar length so none collides with the dashed rule at x=480.
+const gates = [
+  'Gate — governed access, responsible AI training',
+  'Gate — workflow instrumented, usage observable',
+  'Gate — outcomes attributable, practice self-sustaining',
+];
+
+const W = 640;
+const ROW_H = 86;
+const GATE_H = 38;
+const TOP = 10;
+const height = TOP + stages.length * ROW_H + gates.length * GATE_H + 26;
+const rowY = (i: number) => TOP + i * (ROW_H + GATE_H);
+---
+
+<svg viewBox={`0 0 ${W} ${height}`} role="img" aria-labelledby="maturity-title">
+  <title id="maturity-title">
+    A four-stage AI adoption maturity model — Exploring, Assisted, Integrated,
+    Autonomous — separated by three gates that must be met to advance.
+  </title>
+
+  {
+    stages.map((stage, i) => {
+      const y = rowY(i);
+      const last = i === stages.length - 1;
+      const fill = (160 * (i + 1)) / stages.length;
+      return (
+        <g>
+          <rect
+            x="0.5"
+            y={y + 0.5}
+            width={W - 1}
+            height={ROW_H}
+            rx="3"
+            fill={last ? 'var(--accent-soft)' : 'var(--bg-subtle)'}
+            stroke={last ? 'var(--accent)' : 'var(--border-strong)'}
+          />
+          <text class="d-num" x="20" y={y + 28}>{stage.n}</text>
+          <text class="d-name" x="20" y={y + 54} fill={last ? 'var(--accent)' : 'var(--text)'}>
+            {stage.name}
+          </text>
+
+          {/* Depth indicator — fills as maturity increases */}
+          <rect x="20" y={y + 66} width="160" height="3" rx="1.5" fill="var(--border-strong)" />
+          <rect x="20" y={y + 66} width={fill} height="3" rx="1.5" fill="var(--accent)" />
+
+          <foreignObject x="216" y={y + 20} width={W - 240} height={ROW_H - 30}>
+            <div class="d-detail">{stage.detail}</div>
+          </foreignObject>
+        </g>
+      );
+    })
+  }
+
+  {
+    gates.map((gate, i) => {
+      const gy = rowY(i) + ROW_H + GATE_H / 2;
+      return (
+        <g>
+          <circle cx="6" cy={gy} r="3" fill="var(--accent)" />
+          <text class="d-gate" x="18" y={gy + 4}>{gate}</text>
+          <line
+            x1="480"
+            y1={gy}
+            x2={W}
+            y2={gy}
+            stroke="var(--accent)"
+            stroke-width="1"
+            stroke-dasharray="3 4"
+            opacity="0.7"
+          />
+        </g>
+      );
+    })
+  }
+
+  <text class="d-axis" x="0" y={height - 6}>INCREASING ADOPTION DEPTH</text>
+</svg>
+
+<style>
+  .d-num {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.4px;
+    fill: var(--text-faint);
+  }
+  .d-name {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    font-weight: 600;
+  }
+  .d-gate {
+    font-family: var(--font-sans);
+    font-size: 11.5px;
+    font-weight: 600;
+    fill: var(--accent);
+  }
+  .d-axis {
+    font-family: var(--font-sans);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    fill: var(--text-faint);
+  }
+  .d-detail {
+    font-family: var(--font-sans);
+    font-size: 12.5px;
+    line-height: 1.45;
+    color: var(--text-muted);
+  }
+</style>

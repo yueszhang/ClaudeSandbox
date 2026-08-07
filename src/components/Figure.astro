@@ -1,0 +1,53 @@
+---
+interface Props {
+  caption: string;
+  /** Lets a diagram break out past the reading column when it needs the width. */
+  wide?: boolean;
+}
+const { caption, wide = false } = Astro.props;
+---
+
+<figure class:list={['figure', wide && 'figure--wide']}>
+  <div class="figure-frame">
+    <slot />
+  </div>
+  <figcaption>{caption}</figcaption>
+</figure>
+
+<style>
+  .figure {
+    margin: 2.75rem 0;
+  }
+
+  /* Diagrams earn more width than prose, but only where there's room. */
+  @media (min-width: 62rem) {
+    .figure--wide {
+      width: calc(var(--measure) + 9rem);
+      margin-left: -4.5rem;
+    }
+  }
+
+  .figure-frame {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    padding: 1.75rem 1.5rem;
+    overflow-x: auto;
+  }
+
+  .figure-frame :global(svg) {
+    display: block;
+    width: 100%;
+    height: auto;
+    min-width: 30rem;
+  }
+
+  figcaption {
+    font-family: var(--font-sans);
+    font-size: var(--step--1);
+    line-height: 1.5;
+    color: var(--text-muted);
+    margin-top: 0.85rem;
+    max-width: var(--measure);
+  }
+</style>

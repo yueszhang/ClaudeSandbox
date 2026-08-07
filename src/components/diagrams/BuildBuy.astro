@@ -1,0 +1,100 @@
+---
+// Build vs. buy, decided on two axes rather than on vendor enthusiasm.
+// The rule that falls out: build only where the capability *is* your
+// differentiation. Everywhere else, buying wins.
+const W = 640;
+const H = 430;
+const PAD_L = 118;
+const PAD_B = 62;
+const PAD_T = 26;
+const PAD_R = 8;
+const plotW = W - PAD_L - PAD_R;
+const plotH = H - PAD_T - PAD_B;
+const midX = PAD_L + plotW / 2;
+const midY = PAD_T + plotH / 2;
+
+const quadrants = [
+  { label: 'Build', note: 'The capability is the differentiation. Buying erodes it.', x: PAD_L, y: PAD_T, accent: true },
+  { label: 'Build selectively', note: 'Differentiating, but wrap the market solution rather than rebuild it.', x: midX, y: PAD_T, accent: false },
+  { label: 'Defer', note: 'Not differentiating and nothing mature exists. Revisit later.', x: PAD_L, y: midY, accent: false },
+  { label: 'Buy', note: 'Undifferentiated capability. Building it is a tax.', x: midX, y: midY, accent: false },
+];
+---
+
+<svg viewBox={`0 0 ${W} ${H}`} role="img" aria-labelledby="bb-title">
+  <title id="bb-title">
+    A build-versus-buy matrix. The vertical axis is how differentiating the
+    capability is to the practice; the horizontal axis is whether a mature
+    market solution exists. Build where the capability is the differentiation.
+  </title>
+
+  {
+    quadrants.map((q) => (
+      <g>
+        <rect
+          x={q.x + 0.5}
+          y={q.y + 0.5}
+          width={plotW / 2 - 1}
+          height={plotH / 2 - 1}
+          fill={q.accent ? 'var(--accent-soft)' : 'var(--bg-subtle)'}
+          stroke={q.accent ? 'var(--accent)' : 'var(--border)'}
+        />
+        <text class="d-quad" x={q.x + 18} y={q.y + 34} fill={q.accent ? 'var(--accent)' : 'var(--text)'}>
+          {q.label}
+        </text>
+        <foreignObject x={q.x + 18} y={q.y + 46} width={plotW / 2 - 36} height={plotH / 2 - 56}>
+          <div class="d-detail">{q.note}</div>
+        </foreignObject>
+      </g>
+    ))
+  }
+
+  {/* Y axis */}
+  <text class="d-axis" transform={`rotate(-90 22 ${midY})`} x="22" y={midY} text-anchor="middle">
+    DIFFERENTIATING TO THE PRACTICE
+  </text>
+  <text class="d-tick" x={PAD_L - 12} y={PAD_T + 16} text-anchor="end">High</text>
+  <text class="d-tick" x={PAD_L - 12} y={PAD_T + plotH - 6} text-anchor="end">Low</text>
+
+  {/* X axis */}
+  <text class="d-axis" x={midX} y={H - 14} text-anchor="middle">
+    MATURE MARKET SOLUTION EXISTS
+  </text>
+  <text class="d-tick" x={PAD_L + 4} y={H - PAD_B + 20}>No</text>
+  <text class="d-tick" x={PAD_L + plotW - 4} y={H - PAD_B + 20} text-anchor="end">Yes</text>
+
+  <text class="d-eyebrow" x={PAD_L} y="16">6 TOOLS EVALUATED · 2 BUILDS SHORTLISTED</text>
+</svg>
+
+<style>
+  .d-quad {
+    font-family: var(--font-serif);
+    font-size: 19px;
+    font-weight: 600;
+  }
+  .d-axis {
+    font-family: var(--font-sans);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 1.1px;
+    fill: var(--text-faint);
+  }
+  .d-tick {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    fill: var(--text-faint);
+  }
+  .d-eyebrow {
+    font-family: var(--font-sans);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    fill: var(--text-faint);
+  }
+  .d-detail {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    line-height: 1.42;
+    color: var(--text-muted);
+  }
+</style>

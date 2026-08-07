@@ -1,0 +1,139 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { site } from '../site';
+
+const projects = (await getCollection('projects'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.sortDate.localeCompare(a.data.sortDate));
+
+const featured = projects.filter((p) => p.data.featured);
+
+// The two halves of the positioning, each backed by evidence rather than claim.
+const pillars = [
+  {
+    title: 'I build with AI',
+    body: 'AI sits inside my own delivery loop — requirements, specs, test automation, context retrieval. On web channels for a multinational loyalty program, embedding it in how three pods actually worked moved launch velocity 1.5×.',
+  },
+  {
+    title: 'I get organizations building with it',
+    body: 'Personal fluency does not scale by itself. Turning it into staged maturity, sanctioned infrastructure, and a change plan is what moved 900+ product teams toward autonomous practice — and doubled feature delivery.',
+  },
+];
+---
+
+<Base
+  title={`${site.name} — ${site.role}`}
+  description={site.positioning}
+  bareTitle
+>
+  <section class="page hero">
+    <p class="eyebrow">{site.role} · {site.location}</p>
+    <h1>{site.positioning}</h1>
+    <p class="hero-intro">{site.intro}</p>
+    <p class="hero-links meta">
+      <a href="/work">See the work</a>
+      <span aria-hidden="true">·</span>
+      <a href={`mailto:${site.email}`}>{site.email}</a>
+    </p>
+  </section>
+
+  <section class="page pillars" aria-label="How I work">
+    {
+      pillars.map((p) => (
+        <div class="pillar">
+          <h2>{p.title}</h2>
+          <p>{p.body}</p>
+        </div>
+      ))
+    }
+  </section>
+
+  <section class="page featured">
+    <div class="section-head">
+      <h2 class="eyebrow">Selected work</h2>
+      <a href="/work" class="meta">All {projects.length} projects →</a>
+    </div>
+    <div class="cards">
+      {featured.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding-block: clamp(4rem, 11vh, 8rem) 0;
+  }
+
+  .hero h1 {
+    max-width: 20ch;
+    margin: 1.1rem 0 1.5rem;
+  }
+
+  .hero-intro {
+    max-width: var(--measure);
+    font-size: var(--step-1);
+    line-height: 1.5;
+    color: var(--text-muted);
+  }
+
+  .hero-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    margin-top: 2rem;
+  }
+
+  .hero-links span {
+    color: var(--text-faint);
+  }
+
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(19rem, 100%), 1fr));
+    gap: 2.5rem 4rem;
+    margin-top: clamp(4rem, 9vh, 6.5rem);
+    padding-top: 2.75rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .pillar h2 {
+    font-size: var(--step-1);
+    margin-bottom: 0.65rem;
+  }
+
+  .pillar p {
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .featured {
+    margin-top: clamp(4rem, 10vh, 7rem);
+  }
+
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-head a {
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(22rem, 100%), 1fr));
+    gap: 0 3.5rem;
+  }
+
+  @media (max-width: 34rem) {
+    .cards {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
