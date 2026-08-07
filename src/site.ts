@@ -10,6 +10,15 @@ export const site = {
   role: 'AI-Native Product Manager',
   location: 'New York, NY',
 
+  /**
+   * Search-engine visibility. Keep this `false` while draft notes remain —
+   * it adds a noindex tag and a blocking robots.txt, so you can deploy and
+   * share a live link without anything reaching Google.
+   *
+   * Flip to `true` when you're ready to be found. That's the launch switch.
+   */
+  indexable: false,
+
   /** The positioning line. Everything on the site should support this claim. */
   positioning:
     'Product manager who builds with AI and gets whole organizations building with it too.',

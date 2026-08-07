@@ -5,10 +5,12 @@
 // Playwright, Rovo.
 // Notes are kept to ~4 wrapped lines — the column is 118px of usable width,
 // and anything longer clips against the box.
+// Shaded stages are where the 1.5× actually landed: build throughput and
+// fix-and-reverify time. Not the thinking stages.
 const stages = [
-  { name: 'Clarify', tool: 'Claude', note: 'Requirements and specs resolved up front.', gain: true },
-  { name: 'Build', tool: 'GitHub Copilot', note: 'In-editor throughput across three pods.', gain: false },
-  { name: 'Verify', tool: 'Playwright', note: 'Automated regression coverage — the release gate.', gain: true },
+  { name: 'Clarify', tool: 'Claude', note: 'Requirements and specs resolved up front.', gain: false },
+  { name: 'Build', tool: 'GitHub Copilot', note: 'In-editor throughput across three pods.', gain: true },
+  { name: 'Verify', tool: 'Playwright', note: 'Regression coverage — the release gate.', gain: true },
   { name: 'Release', tool: '—', note: 'Twelve launches, one phase structure.', gain: false },
 ];
 
@@ -77,7 +79,7 @@ const height = TOP + BOX_H + 92;
   </text>
 
   <text class="d-caption" x="0" y={TOP + BOX_H + 74}>
-    Velocity gain concentrated in the shaded stages — the parts of delivery that were never writing code.
+    Gain concentrated in the shaded stages — build throughput, and the fix-and-reverify loop.
   </text>
   <text class="d-eyebrow" x="0" y="18">1.5× LAUNCH VELOCITY · 3 PODS · 72 PEOPLE</text>
 </svg>

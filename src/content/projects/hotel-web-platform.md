@@ -21,6 +21,8 @@ skills:
 metrics:
   - value: '$2.5M'
     label: 'Annual cost savings'
+  - value: '3×'
+    label: 'Faster property launches'
   - value: '8,000+'
     label: 'Hotels served'
   - value: '50,000+'
@@ -67,10 +69,13 @@ compliance stops being a review step.
 — address formats, imagery norms, language length, what a hotel even *is* in
 that market — fails quietly in the others.
 
-> **Draft note —** The single most persuasive artifact for this page is a
-> before/after on time-to-launch a property site: weeks before, what after.
-> That number would carry the whole case study, and it's the thing a hiring
-> manager will ask about. Delete once added.
+The clearest measure of whether that worked is time-to-launch. Standing up a
+property site took **about a month and a half** before the platform. After, it
+took **two weeks** — roughly three times faster, across 8,000 properties.
+
+That multiple is where the $2.5M comes from. It is not a licensing saving or a
+headcount cut; it is the same work moving through a queue three times faster,
+multiplied by a very large number of properties.
 
 ## Adoption
 

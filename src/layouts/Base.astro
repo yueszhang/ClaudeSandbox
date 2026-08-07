@@ -29,7 +29,9 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="sitemap" href="/sitemap-index.xml" />
+    {/* Launch switch lives in src/site.ts */}
+    {!site.indexable && <meta name="robots" content="noindex, nofollow" />}
+    {site.indexable && <link rel="sitemap" href="/sitemap-index.xml" />}
     <link
       rel="icon"
       href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' font-family='Georgia,serif'>JZ</text></svg>"

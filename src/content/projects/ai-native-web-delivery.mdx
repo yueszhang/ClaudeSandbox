@@ -67,24 +67,27 @@ how QA works, not a thing QA could try.
 
 Where each landed:
 
-- **Claude** — requirements clarification, spec drafting, and the analysis work
-  that used to consume the front half of every cycle
+- **Claude** — requirements clarification and spec drafting
 - **GitHub Copilot** — in-editor engineering throughput
-- **Playwright** — test automation, the highest-leverage single change, because
-  regression coverage is what actually gates a release date
+- **Playwright** — test automation, because regression coverage is what
+  actually gates a release date
 - **Rovo** — search and context retrieval across the sprawl of Atlassian
   artifacts that accumulate on a program this size
 
-The 1.5× came disproportionately from compressing the parts of delivery that
-were never writing code: clarifying what was being built, and proving it still
-worked.
+The 1.5× showed up in two specific places: **build throughput**, and **feature
+fix time** — how quickly a defect could be corrected and re-verified.
+
+Both are cycle-time problems rather than thinking problems, which is the part
+worth noticing. The constraint on this program was never a shortage of ideas
+about what to build. It was the loop between deciding something was wrong and
+proving it was right again. Compress that loop and the release calendar moves;
+leave it alone and better specs just queue up behind the same bottleneck.
+
+It also explains why embedding mattered more than choosing. Fix time is
+governed by whatever the slowest pod does under pressure, not by what the most
+enthusiastic engineer adopts.
 
 <Diagram name="ailoop" />
-
-> **Draft note —** Worth adding the per-stage breakdown if you have it — where
-> in the cycle the time actually came from. A reader who runs delivery will
-> want to know whether the gain was in specs, build, or test, and the honest
-> answer is more persuasive than the headline multiple. Delete once added.
 
 ## The launches
 

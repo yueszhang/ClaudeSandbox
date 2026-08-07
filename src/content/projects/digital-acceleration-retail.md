@@ -87,8 +87,3 @@ engineering team feeding the models — when the interviews contained exactly th
 hypotheses the segmentation work should have been testing. Two useful streams
 that would have been stronger as one.
 
-> **Draft note —** This engagement appears on your Google-targeted resume and
-> not the OpenAI one, and the program is named there. I have kept the program
-> unnamed here for consistency with the anonymized approach. If you want the
-> program credential visible — it is publicly known and it is a real signal —
-> say so and I'll name it. Delete once decided.
