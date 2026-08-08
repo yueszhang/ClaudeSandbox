@@ -93,26 +93,16 @@ const pursuits = [
 
   <section class="page block-section">
     <h2 class="eyebrow section-label">Away from work</h2>
-    <div class="pursuits-wrap">
-      <ul class="pursuits">
-        {
-          pursuits.map((p) => (
-            <li>
-              <span class="pursuit-name">{p.name}</span>
-              <span class="pursuit-level">{p.level}</span>
-            </li>
-          ))
-        }
-      </ul>
-      <p class="pursuits-note">
-        Reading that list back, I am either a beginner or an ex-something, and
-        rarely in between. I seem to be comfortable being bad at things in
-        public for a while. That is most of what adopting new tools asks of a
-        person, and the teams I have watched struggle with AI are rarely the
-        ones who could not learn it. They are the ones who could not stand being
-        visibly clumsy first.
-      </p>
-    </div>
+    <ul class="pursuits">
+      {
+        pursuits.map((p) => (
+          <li>
+            <span class="pursuit-name">{p.name}</span>
+            <span class="pursuit-level">{p.level}</span>
+          </li>
+        ))
+      }
+    </ul>
   </section>
 
   <section class="page block-section">
@@ -223,19 +213,14 @@ const pursuits = [
 
   /* --- Away from work --- */
 
-  .pursuits-wrap {
-    display: grid;
-    grid-template-columns: 14rem minmax(0, 1fr);
-    gap: 3.5rem;
-    align-items: start;
-  }
-
+  /* Spreads across the full width now that it stands on its own. */
   .pursuits {
     list-style: none;
     margin: 0;
     padding: 0;
     display: grid;
-    gap: 0.7rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(9rem, 100%), 1fr));
+    gap: 1.5rem 2rem;
   }
 
   .pursuits li {
@@ -255,12 +240,6 @@ const pursuits = [
     font-size: 0.75rem;
     letter-spacing: 0.03em;
     color: var(--text-faint);
-  }
-
-  .pursuits-note {
-    max-width: var(--measure);
-    color: var(--text-muted);
-    margin: 0;
   }
 
   /* --- Education --- */
@@ -443,15 +422,9 @@ const pursuits = [
   }
 
   @media (max-width: 62rem) {
-    .pursuits-wrap,
     .entry {
       grid-template-columns: 1fr;
       gap: 1.5rem;
-    }
-
-    .pursuits {
-      grid-template-columns: repeat(auto-fit, minmax(min(9rem, 100%), 1fr));
-      gap: 1rem 1.5rem;
     }
   }
 </style>
