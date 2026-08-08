@@ -17,6 +17,12 @@ const themes = [...new Set(projects.flatMap((p) => p.data.themes))].sort();
 const WORDS = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten'];
 const countWord = WORDS[projects.length] ?? String(projects.length);
 
+// Earliest year on record, so the headline stays true as work is added.
+const startYear = projects
+  .map((p) => p.data.sortDate)
+  .sort()[0]
+  ?.slice(0, 4);
+
 /** Projects belong to a role when company and role title both match. */
 const projectsForRole = (company: string, roleTitle: string) =>
   projects.filter((p) => p.data.company === company && p.data.role.startsWith(roleTitle.split(' — ')[0]));
@@ -28,11 +34,12 @@ const projectsForRole = (company: string, roleTitle: string) =>
 >
   <section class="page intro">
     <p class="eyebrow">Work</p>
-    <h1>{countWord} projects, each written to be argued with.</h1>
+    <h1>{countWord} projects, {startYear} to now</h1>
     <p class="lede">
-      Every case study says what the situation was, what I owned, how I made the
-      call, and what I would do differently. Clients are anonymized. The
-      reasoning is not.
+      Each write-up covers where things stood, what I owned, and what I would do
+      differently. I have left client names out because most of this is
+      consulting work. The approach, the numbers and the parts that went wrong
+      are all still there.
     </p>
   </section>
 
