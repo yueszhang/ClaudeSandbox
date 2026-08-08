@@ -80,4 +80,22 @@ const roles = defineCollection({
   }),
 });
 
-export const collections = { projects, roles };
+/**
+ * Education, kept as content rather than hardcoded so degrees, honors, and
+ * the narrative around them are editable the same way everything else is.
+ */
+const education = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/education' }),
+  schema: z.object({
+    school: z.string(),
+    credential: z.string(),
+    /** Program, major, or concentration. */
+    focus: z.string(),
+    location: z.string(),
+    year: z.string(),
+    sortDate: z.string(),
+    honors: z.array(z.string()).default([]),
+  }),
+});
+
+export const collections = { projects, roles, education };

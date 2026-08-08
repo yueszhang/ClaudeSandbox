@@ -26,6 +26,13 @@ export const site = {
   intro:
     'I ship product with AI in my own loop, then turn what works into something teams can adopt — tooling, guardrails, and the change management that makes it stick. Most recently across 900+ product teams at a global investment manager.',
 
+  /**
+   * Optional headshot for the About page. Drop an image in `src/assets/` and
+   * set this to e.g. '/portrait.jpg' after placing it in `public/`.
+   * Leave null and the bio simply runs full width.
+   */
+  portrait: null as string | null,
+
   email: 'YueSZhang@gmail.com',
   linkedin: 'https://linkedin.com/in/joey-y-zhang',
   linkedinLabel: 'linkedin.com/in/joey-y-zhang',

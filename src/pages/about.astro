@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { site } from '../site';
 
@@ -7,22 +7,12 @@ const roles = (await getCollection('roles')).sort((a, b) =>
   b.data.sortDate.localeCompare(a.data.sortDate)
 );
 
-const education = [
-  {
-    school: 'Columbia Business School',
-    credential: 'MBA — Media & Technology Program',
-    year: 'May 2025',
-    detail:
-      'GSAP Award recipient, tuition sponsored by Deloitte Digital. Columbia Build Lab incubatee.',
-  },
-  {
-    school: 'The George Washington University',
-    credential: 'BS — Finance & Economics',
-    year: 'May 2018',
-    detail:
-      'Cum Laude. Presidential Scholarship, Dean’s Honor List. Passed CFA Level I.',
-  },
-];
+// Education bodies are Markdown, so each needs rendering before it can be used.
+const education = await Promise.all(
+  (await getCollection('education'))
+    .sort((a, b) => b.data.sortDate.localeCompare(a.data.sortDate))
+    .map(async (entry) => ({ ...entry, Content: (await render(entry)).Content }))
+);
 
 const toolkit = [
   {
@@ -42,109 +32,165 @@ const toolkit = [
     items: 'SQL · Tableau · Google Marketing Platform · Adobe Experience Cloud (Analytics, AEM)',
   },
 ];
+
+const pursuits = [
+  { name: 'Marathon', level: 'Aspiring' },
+  { name: 'Snowboarding', level: 'Black diamond' },
+  { name: 'Breakdancing', level: 'Ex-competitive' },
+  { name: 'Rugby', level: 'Amateur' },
+  { name: 'Kitesurfing', level: 'Beginner' },
+];
 ---
 
 <Base
   title="About"
-  description={`${site.name} — ${site.role} in New York. Career, education, and the tools I actually use.`}
+  description={`${site.name} — ${site.role} in New York. Background, education, and how I got here.`}
 >
   <section class="page intro">
     <p class="eyebrow">About</p>
     <h1>I started in credit analysis and ended up building the tools instead.</h1>
   </section>
 
-  <div class="page body">
+  <section class="page bio">
     <div class="prose">
       <p>
-        I was an investment analyst covering a $750M aerospace and defense book.
-        The desk needed better portfolio analytics, I volunteered to run the
-        project, and that turned out to be more interesting than the trades.
-        I have been doing some version of it ever since.
+        I was an investment analyst covering a $750M aerospace and defense book
+        at Loews. The desk needed better portfolio analytics, I volunteered to
+        run the project, and I spent months sitting with traders and research
+        analysts turning what they said into requirements. It shipped to 120+
+        people. It was also, obviously in retrospect, more interesting to me
+        than the trades.
       </p>
       <p>
-        What followed was product management at Deloitte Digital — mostly travel
-        and hospitality, mostly systems with a lot of users and a lot of
-        history. A loyalty program replatform. An internal web design platform
-        serving 8,000 hotels across 139 countries. Conversion work for two
-        Fortune 500 retailers.
+        What followed was four years of product management at Deloitte Digital
+        — mostly travel and hospitality, mostly systems with a lot of users and
+        a lot of history. A loyalty program replatform that turned into a $1.2M
+        negotiation. An internal web design platform that took property site
+        launches from a month and a half down to two weeks, across 8,000 hotels
+        in 139 countries. Conversion work for two Fortune 500 retailers.
       </p>
       <p>
         Deloitte sponsored my MBA at Columbia on the strength of that work. I
-        spent the summer in between at Adobe, on the vendor side of enterprise
-        software for the first time, then came back to Deloitte with a narrower
-        brief: help large organizations actually use AI.
+        spent the summer between years at Adobe — the first time I had sat on
+        the vendor side of enterprise software after years of buying it — and
+        came back to Deloitte in 2025 with a narrower brief: help large
+        organizations actually use AI.
       </p>
       <p>
         That is the work now, and it runs on two tracks that need each other.
-        One is personal — AI in my own delivery loop, on real launches with real
-        deadlines. The other is organizational — turning what survives contact
-        with a delivery pod into infrastructure, guardrails, and change
-        management that 900+ teams can adopt. Neither works alone. Fluency that
-        does not scale stays a party trick, and enablement designed by people
-        who have not shipped with the tools produces platforms nobody uses.
+        One is personal: AI inside my own delivery loop, on real launches with
+        real deadlines and no allowance for methodology experiments. The other
+        is organizational: taking what survives contact with a delivery pod and
+        turning it into infrastructure, guardrails, and change management that
+        900+ teams can adopt.
       </p>
       <p>
-        Outside work I am an aspiring marathoner, a black diamond snowboarder,
-        an ex-competitive breakdancer, an amateur rugby player, and a decidedly
-        beginner kitesurfer.
+        Neither works alone, and I think that is the whole point. Personal
+        fluency that does not scale stays a party trick. Enablement designed by
+        people who have not shipped with the tools produces expensive platforms
+        nobody opens. The useful position is the one where you are doing both at
+        once, and each keeps the other honest.
       </p>
     </div>
+  </section>
 
-    <aside class="sidebar">
-      <section class="block">
-        <h2 class="eyebrow">Career</h2>
-        <ul class="stack">
-          {
-            roles.map((role) => (
-              <li>
-                <p class="item-title">{role.data.company}</p>
-                <p class="item-sub">{role.data.role}</p>
-                <p class="item-meta">{role.data.period}</p>
-              </li>
-            ))
-          }
-        </ul>
-      </section>
+  <section class="page block-section">
+    <h2 class="eyebrow section-label">Away from work</h2>
+    <div class="pursuits-wrap">
+      <ul class="pursuits">
+        {
+          pursuits.map((p) => (
+            <li>
+              <span class="pursuit-name">{p.name}</span>
+              <span class="pursuit-level">{p.level}</span>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="pursuits-note">
+        Reading that list back, the pattern is obvious: I am either a beginner
+        or an ex-something, and rarely in between. I seem to be unusually
+        comfortable being bad at things in public for a while — which, it turns
+        out, is most of what adopting new tools requires of a person. The teams
+        that struggle with AI are rarely the ones that can't learn it. They're
+        the ones that can't stand being visibly clumsy first.
+      </p>
+    </div>
+  </section>
 
-      <section class="block">
-        <h2 class="eyebrow">Education</h2>
-        <ul class="stack">
-          {
-            education.map((e) => (
-              <li>
-                <p class="item-title">{e.school}</p>
-                <p class="item-sub">{e.credential}</p>
-                <p class="item-meta">{e.year}</p>
-                <p class="item-detail">{e.detail}</p>
-              </li>
-            ))
-          }
-        </ul>
-      </section>
+  <section class="page block-section">
+    <h2 class="eyebrow section-label">Education</h2>
+    <div class="entries">
+      {
+        education.map((entry) => (
+          <article class="entry">
+            <div class="entry-meta">
+              <h3>{entry.data.school}</h3>
+              <p class="entry-credential">{entry.data.credential}</p>
+              <p class="entry-focus">{entry.data.focus}</p>
+              <p class="entry-when">
+                {entry.data.location} · {entry.data.year}
+              </p>
+              {entry.data.honors.length > 0 && (
+                <ul class="honors">
+                  {entry.data.honors.map((h) => (
+                    <li>{h}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+            <div class="entry-body prose">
+              <entry.Content />
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
 
-      <section class="block">
-        <h2 class="eyebrow">Toolkit</h2>
-        <ul class="stack">
-          {
-            toolkit.map((t) => (
-              <li>
-                <p class="item-sub">{t.group}</p>
-                <p class="item-detail">{t.items}</p>
-              </li>
-            ))
-          }
-        </ul>
-      </section>
+  <section class="page block-section">
+    <h2 class="eyebrow section-label">Career</h2>
+    <ol class="career">
+      {
+        roles.map((role) => (
+          <li>
+            <div class="career-head">
+              <p class="career-company">{role.data.company}</p>
+              <p class="career-period meta">{role.data.period}</p>
+            </div>
+            <p class="career-role">{role.data.role}</p>
+            <p class="career-summary">{role.data.summary}</p>
+          </li>
+        ))
+      }
+    </ol>
+    <p class="meta see-work"><a href="/work">See the work behind these roles →</a></p>
+  </section>
 
-      <section class="block">
-        <h2 class="eyebrow">Contact</h2>
-        <ul class="stack">
-          <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
-          <li><a href={site.linkedin} rel="me noopener">{site.linkedinLabel}</a></li>
-        </ul>
-      </section>
-    </aside>
-  </div>
+  <section class="page block-section">
+    <h2 class="eyebrow section-label">Toolkit</h2>
+    <dl class="toolkit">
+      {
+        toolkit.map((t) => (
+          <div class="tool-group">
+            <dt>{t.group}</dt>
+            <dd>{t.items}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  <section class="page block-section">
+    <h2 class="eyebrow section-label">Contact</h2>
+    <p class="contact-lede">
+      The fastest way to reach me is email. I read everything.
+    </p>
+    <ul class="contact">
+      <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+      <li><a href={site.linkedin} rel="me noopener">{site.linkedinLabel}</a></li>
+    </ul>
+  </section>
 </Base>
 
 <style>
@@ -158,85 +204,257 @@ const toolkit = [
     margin-top: 0.9rem;
   }
 
-  .body {
+  .bio {
+    margin-top: 2.5rem;
+  }
+
+  .bio .prose > p:first-of-type {
+    font-size: var(--step-1);
+    line-height: 1.5;
+    color: var(--text-muted);
+  }
+
+  .block-section {
+    margin-top: clamp(3.5rem, 9vh, 6rem);
+    padding-top: 2.25rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .section-label {
+    margin-bottom: 1.75rem;
+  }
+
+  /* --- Away from work --- */
+
+  .pursuits-wrap {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 15rem;
-    gap: 4rem;
-    margin-top: 3rem;
+    grid-template-columns: 14rem minmax(0, 1fr);
+    gap: 3.5rem;
     align-items: start;
   }
 
-  .body > * {
-    min-width: 0;
-  }
-
-  .sidebar {
-    display: grid;
-    gap: 2.25rem;
-  }
-
-  .block h2 {
-    padding-bottom: 0.6rem;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 1rem;
-  }
-
-  .stack {
+  .pursuits {
     list-style: none;
     margin: 0;
     padding: 0;
     display: grid;
-    gap: 1.15rem;
+    gap: 0.7rem;
   }
 
-  .stack p {
-    margin: 0;
+  .pursuits li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
   }
 
-  .stack a {
-    font-family: var(--font-sans);
-    font-size: var(--step--1);
-  }
-
-  .item-title {
+  .pursuit-name {
     font-family: var(--font-serif);
     font-size: var(--step-0);
     font-weight: 600;
-    line-height: 1.3;
   }
 
-  .item-sub {
+  .pursuit-level {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    letter-spacing: 0.03em;
+    color: var(--text-faint);
+  }
+
+  .pursuits-note {
+    max-width: var(--measure);
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  /* --- Education --- */
+
+  .entries {
+    display: grid;
+    gap: 3rem;
+  }
+
+  .entry {
+    display: grid;
+    grid-template-columns: 14rem minmax(0, 1fr);
+    gap: 3.5rem;
+    align-items: start;
+  }
+
+  .entry > * {
+    min-width: 0;
+  }
+
+  .entry-meta h3 {
+    font-size: var(--step-1);
+    margin: 0 0 0.4rem;
+  }
+
+  .entry-credential {
+    font-family: var(--font-sans);
+    font-size: var(--step--1);
+    font-weight: 600;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .entry-focus {
     font-family: var(--font-sans);
     font-size: var(--step--1);
     color: var(--text-muted);
-    font-weight: 600;
-    line-height: 1.4;
+    margin: 0.1rem 0 0;
   }
 
-  .item-meta {
+  .entry-when {
     font-family: var(--font-sans);
     font-size: 0.75rem;
     color: var(--text-faint);
-    margin-top: 0.15rem !important;
+    margin: 0.4rem 0 0;
   }
 
-  .item-detail {
+  .honors {
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .honors li {
     font-family: var(--font-sans);
     font-size: 0.78rem;
-    line-height: 1.5;
+    line-height: 1.4;
     color: var(--text-muted);
-    margin-top: 0.35rem !important;
+    padding-left: 0.85rem;
+    position: relative;
+  }
+
+  .honors li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.5em;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .entry-body :global(p:last-child) {
+    margin-bottom: 0;
+  }
+
+  /* --- Career --- */
+
+  .career {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 2rem;
+  }
+
+  .career-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1.5rem;
+    max-width: var(--measure);
+  }
+
+  .career-company {
+    font-family: var(--font-serif);
+    font-size: var(--step-1);
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .career-period {
+    margin: 0;
+    color: var(--text-faint);
+    white-space: nowrap;
+  }
+
+  .career-role {
+    font-family: var(--font-sans);
+    font-size: var(--step--1);
+    font-weight: 600;
+    color: var(--text-muted);
+    margin: 0.2rem 0 0.4rem;
+  }
+
+  .career-summary {
+    color: var(--text-muted);
+    margin: 0;
+    max-width: var(--measure);
+  }
+
+  .see-work {
+    margin-top: 2rem;
+  }
+
+  .see-work a {
+    text-decoration: none;
+  }
+
+  /* --- Toolkit --- */
+
+  .toolkit {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(17rem, 100%), 1fr));
+    gap: 1.75rem 3rem;
+    margin: 0;
+  }
+
+  .tool-group dt {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 0.4rem;
+  }
+
+  .tool-group dd {
+    font-family: var(--font-sans);
+    font-size: var(--step--1);
+    line-height: 1.55;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  /* --- Contact --- */
+
+  .contact-lede {
+    color: var(--text-muted);
+    max-width: var(--measure);
+    margin-bottom: 1rem;
+  }
+
+  .contact {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 2rem;
+  }
+
+  .contact a {
+    font-family: var(--font-sans);
+    font-size: var(--step-0);
   }
 
   @media (max-width: 62rem) {
-    .body {
+    .pursuits-wrap,
+    .entry {
       grid-template-columns: 1fr;
-      gap: 3rem;
+      gap: 1.5rem;
     }
-    .sidebar {
-      grid-template-columns: repeat(auto-fit, minmax(min(14rem, 100%), 1fr));
-      gap: 2.5rem;
-      max-width: none;
+
+    .pursuits {
+      grid-template-columns: repeat(auto-fit, minmax(min(9rem, 100%), 1fr));
+      gap: 1rem 1.5rem;
     }
   }
 </style>

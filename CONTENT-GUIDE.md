@@ -156,6 +156,40 @@ the same way.
 
 ---
 
+## Adding education
+
+`src/content/education/` — one file per credential, shown on the About page.
+The Markdown body is a short narrative; keep it to two or three paragraphs
+about what the degree actually did for you, not a course list.
+
+```yaml
+---
+school: 'Columbia Business School'
+credential: 'Master of Business Administration'
+focus: 'Media & Technology Program'      # Program, major, or concentration
+location: 'New York, NY'
+year: 'May 2025'
+sortDate: '2025-05'                      # Newest sorts first
+honors:
+  - 'GSAP Award — tuition sponsored by Deloitte Digital'
+  - 'Columbia Build Lab incubatee'
+---
+```
+
+Honors render as a bulleted list beside the narrative. Keep each one short —
+they're scanned, not read.
+
+---
+
+## Adding a headshot
+
+The About page supports an optional portrait. Put the image in `public/` and
+set `portrait` in `src/site.ts` to its path (e.g. `'/portrait.jpg'`). Leave it
+`null` and the bio simply runs full width, which is a perfectly good look — add
+one only if you have a photo you actually like.
+
+---
+
 ## When you're ready to publish
 
 - [ ] `npm run check:drafts` returns clean
