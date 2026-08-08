@@ -12,14 +12,15 @@ honors:
   - 'Passed CFA Level I'
 ---
 
-A finance and economics degree, and a straight line into credit analysis at
-Loews. The CFA Level I came alongside it — the part of finance training that
-sticks isn't the curriculum, it's the reflex of not accepting a number until
-you know how it was built.
+Finance and economics, then a straight line into credit analysis at Loews. I
+passed CFA Level I alongside it.
 
-That reflex turned out to be the most transferable thing I took from
-undergrad. Most product arguments are ultimately arguments about numbers:
-whether a metric measures what someone claims, whether a projection is
-defensible, whether a cost saving is real or an accounting artifact. Being able
-to check the arithmetic yourself is a quieter advantage than it sounds like,
-and it is the reason I am careful about the figures on this site.
+The part of finance training that stuck was not the curriculum. It was the
+habit of not accepting a number until you know how it was built. That turned
+out to be the most transferable thing I took from undergrad.
+
+Nearly every product argument I have been in came down to numbers. Whether a
+metric measures what someone claims. Whether a projection holds up. Whether a
+cost saving is real or an accounting artifact. Being able to check the
+arithmetic yourself is a quiet advantage, and it is why I am careful about the
+figures on this site.

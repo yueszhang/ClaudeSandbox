@@ -1,13 +1,13 @@
 ---
 title: 'Pricing New Service Lines at Adobe'
-tagline: 'Finding the services Adobe should have been selling, pricing them with customer data, and scoping two into $200K of real implementations.'
+tagline: 'Cataloguing and pricing services Adobe was not selling, then scoping two into $200K of implementations.'
 company: 'Adobe'
 role: 'Solutions Architect — MBA Intern'
 client: 'Adobe Professional Services'
 industry: 'Enterprise Software'
 period: 'June 2024 — August 2024'
 sortDate: '2024-06'
-summary: 'A summer on the vendor side after four years on the buyer side. Commercial product management: catalog what should exist, price it against real customer data, then prove it by scoping two implementations.'
+summary: 'A summer on the vendor side after four years buying enterprise software. Cataloguing and pricing new service lines, then scoping two of them into real implementations.'
 themes:
   - 'Vendor & Commercial'
   - 'Platform & Tooling'
@@ -24,54 +24,57 @@ metrics:
 featured: false
 ---
 
-Ten weeks, and the value was mostly in the change of vantage point. I had spent
-four years scoping and negotiating enterprise software from the client seat.
-This was the same work facing the other direction.
+I spent the summer between MBA years at Adobe Professional Services, working
+out which services Adobe should be selling that it was not. I catalogued and
+priced new service lines with executive stakeholders, then scoped two custom
+implementations worth $200K, integrating Adobe Experience Cloud into enterprise
+systems.
+
+Ten weeks. Most of the value to me was the change in seat. I had spent four
+years scoping and negotiating enterprise software as the buyer. This was the
+same work from the other side of the table.
 
 ## The situation
 
-Adobe Professional Services wanted to expand its implementation pipeline. The
-question was which service lines to add — what customers needed that wasn't
-being sold to them.
+Adobe wanted to grow its implementation pipeline. The open question was which
+service lines to add.
 
-## What I owned
-
-Ideating, cataloging, and pricing new service lines with executive
-stakeholders, using customer data to make the case. Then scoping and designing
-two custom implementations totaling **$200K**, integrating Adobe Experience
-Cloud into enterprise systems.
+New service lines get proposed constantly and most die, because they are argued
+from anecdote. A salesperson loses a deal, concludes a gap exists, and nothing
+tests that.
 
 ## Pricing against evidence
 
-The interesting constraint was that new service lines get proposed constantly
-and mostly die, because they're argued from anecdote — a salesperson lost a
-deal and concluded a gap exists.
+Grounding the catalogue in customer data changed the conversation with
+executives. The claim stopped being "customers seem to want this" and became a
+demonstrable pattern of demand that a service line would address.
 
-Grounding the catalog in customer data changed the conversation with executive
-stakeholders. Not "customers seem to want this" but a demonstrable pattern of
-demand that a service line would address.
+Scoping two of them into real implementations was the test. A service line you
+cannot turn into a priced, deliverable engagement is a slide. Scoping is where
+the optimistic ones fall apart.
 
-Scoping two of them into real implementations was the test. A service line that
-cannot be turned into a priced, deliverable engagement is a slide, and the
-scoping is where the optimistic ones fall apart.
+> **Draft note —** What were the service lines, and which two did you scope?
+> Adobe's services catalogue is public, so this is not sensitive. Naming them
+> turns an abstract commercial exercise into something a reader can evaluate.
 
 ## What the buyer-side experience contributed
 
-Having sat across the table, I knew where enterprise buyers get nervous:
-integration surface area, dependency on vendor professional services, and total
-cost after the customization nobody scoped upfront. Those anxieties are
-predictable, and pricing a service line without accounting for them produces
-offerings that look competitive and don't close.
+Having sat across the table, I knew where enterprise buyers get nervous.
+Integration surface area. Dependence on vendor professional services. Total
+cost after the customization nobody scoped up front.
+
+Those anxieties are predictable. A service line priced without accounting for
+them looks competitive and does not close.
 
 ## Outcomes
 
-- New service lines cataloged and priced with executive stakeholders
-- **2 custom implementations** scoped and designed, totaling **$200K**
+- New service lines catalogued and priced with executive stakeholders
+- **2 custom implementations** scoped and designed, worth **$200K**
 - Adobe Experience Cloud integrated into enterprise systems
 
 ## What I'd do differently
 
-I would have pushed harder to talk to customers directly rather than working
-primarily from data about them. The analysis was sound, but ten weeks is enough
-time for a handful of real conversations, and those would have tested the
-pricing assumptions in a way that historical data cannot.
+I worked mostly from data about customers rather than talking to them. The
+analysis held up, but ten weeks is enough time for a handful of real
+conversations, and those would have tested the pricing assumptions in a way
+historical data cannot.

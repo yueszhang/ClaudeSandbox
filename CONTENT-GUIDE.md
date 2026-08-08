@@ -94,9 +94,14 @@ close read:
    self-awareness, and its absence is conspicuous.
 
 Write about reasoning rather than activity. "I ran 25 discovery sessions" is
-activity. "Running them separately surfaced genuine conflicts as conflicts,
-rather than as ambiguities that resurface mid-build as change requests" is
-reasoning — and it's the thing a hiring manager can't get from your resume.
+activity. "I ran them separately and reconciled afterwards, so conflicts
+surfaced as decisions for leadership rather than as ambiguities that reappear
+mid-build" is reasoning. That is the thing a hiring manager cannot get from
+your resume.
+
+**How it should sound is a separate document.** See [VOICE.md](./VOICE.md) for
+the rules, the banned word list, and the sources behind them. Run
+`npm run check:voice` before you publish.
 
 ---
 

@@ -12,6 +12,7 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "check:drafts": "node scripts/check-drafts.mjs",
+    "check:voice": "node scripts/check-voice.mjs",
     "astro": "astro"
   },
   "dependencies": {

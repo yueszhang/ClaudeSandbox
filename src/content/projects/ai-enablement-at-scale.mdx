@@ -1,6 +1,6 @@
 ---
 title: 'Taking 900+ Product Teams to AI-Native'
-tagline: 'An enterprise-wide AI adoption program — the infrastructure, the change plan, and the stage gates that moved teams from pilots to autonomous practice.'
+tagline: 'An enterprise AI adoption program at a global investment manager. Feature delivery doubled.'
 company: 'Deloitte Digital'
 role: 'AI Strategy & Enablement Lead'
 client: 'A leading global investment management firm'
@@ -8,7 +8,7 @@ industry: 'Investment Management'
 period: 'August 2025 — Present'
 sortDate: '2025-08'
 teamSize: '900+ product teams in scope'
-summary: 'Most enterprise AI programs stall at the pilot. This one had to reach autonomous maturity across 900+ product teams, which meant the hard part was never the models — it was infrastructure readiness and the change plan that made adoption rational for the people being asked to change.'
+summary: 'AI adoption across 900+ product teams at a global investment manager. Feature delivery doubled. The hard parts were infrastructure teams could reach, and giving them a reason to change while under delivery pressure.'
 themes:
   - 'AI Enablement'
   - 'Platform & Tooling'
@@ -31,109 +31,115 @@ featured: true
 
 import Diagram from '../../components/Diagram.astro';
 
-Most enterprise AI programs die in the same place. A pilot goes well, a
-leadership deck gets made, and then nothing reaches the teams who would have to
-change how they work. The pilot was never the hard part.
+I lead AI adoption across 900+ product teams at a global investment manager.
+Feature delivery has doubled since we activated the change plan.
 
-This engagement started from the other end: assume the destination is
-*autonomous maturity* — teams choosing AI-assisted approaches without being
-asked, on work that matters — and then work backwards to what has to be true
-for 900+ product teams to get there.
+The target was autonomous maturity. Teams picking AI-assisted approaches on
+their own, on work that matters, without a central team asking them to. Two
+things had to move together to get there. Teams needed sanctioned access to
+models and tooling. They also needed a reason to change how they worked while
+already under delivery pressure.
+
+Solve only the first and you buy an expensive platform nobody opens. Solve only
+the second and adoption routes around governance, which in a regulated firm is
+worse than no adoption.
 
 ## The situation
 
-A global investment management firm with 900+ product teams. Enough scale that
-no central team could hand-hold adoption, and enough regulatory weight that
-"just try things" was not an available strategy.
+900+ product teams across enough business lines that no central function could
+hand-hold them. The firm is regulated, so "try things and see what happens" was
+never on the table.
 
-Two problems had to be solved at once, and solving either alone would have
-failed:
+I came in after the pilot phase. Several teams had done promising work with AI
+tooling. None of it had reached anyone else.
 
-- **Infrastructure readiness.** Teams cannot adopt what they cannot access.
-  Without a sanctioned path to models, tools, and agent-ready code, adoption
-  routes around governance or doesn't happen.
-- **Behavior.** Access does not produce usage. Teams under delivery pressure do
-  not adopt new methods because a strategy document told them to.
+> **Draft note —** What was the state when you arrived? How many teams were
+> already using AI in some form, sanctioned or otherwise? A starting number
+> makes the 2× mean something. Without it a reader has to take the whole arc
+> on trust.
 
 ## What I owned
 
-AI strategy and enablement across the full 900+ team population — the adoption
-model, the enablement stack evaluation, and the change program that connected
-them.
+AI strategy and enablement for the full 900+ team population. In practice that
+was three workstreams:
+
+- The maturity model and its stage gates
+- Evaluating and sequencing the enablement stack
+- The change program that connected the two
 
 ## The maturity model
 
-Adoption isn't binary, and treating it that way is why programs report green
-while nothing changes. We defined staged maturity with explicit gates between
-stages, so a team's level was an observable fact rather than a self-assessment.
-
-Stage gates did two things. They gave teams a concrete next step instead of an
-abstract mandate, and they gave leadership a real read on distribution —
-how many teams sat at each stage, and which ones were stuck.
+We defined four stages with an explicit gate between each one.
 
 <Diagram name="maturity" />
+
+The gates did the work. A team's stage had to be observable from outside rather
+than self-reported. Self-assessment is how programs report green while nothing
+changes on the ground.
+
+Gates also gave teams a concrete next action. "Adopt AI" is not a task. "Get
+your repository to the point where an agent can work in it" is.
+
+> **Draft note —** What did each gate require in practice? Was it a checklist,
+> a review, an automated signal from the gateway? This is the most reusable
+> part of the work and right now the page describes it in the abstract. Even
+> one worked example of a team passing a gate would help.
 
 ## The enablement stack
 
 I identified and vetted the infrastructure that had to exist before adoption
-was even possible:
+was possible:
 
-- **An MCP, agent, and skills marketplace** — so capability is shared and
-  discoverable rather than rebuilt per team
-- **Bedrock environments** — sanctioned, governed model access
-- **Agent-ready codebases** — repositories structured so agents can work in
-  them productively
-- **One-click installers** — because setup friction is where adoption actually
-  dies
-- **LLM/SLM gateways** — routing, cost control, and observability
-- **Responsible AI training** — the non-negotiable in a regulated industry
+- **MCP, agent and skills marketplace** — capability gets shared rather than
+  rebuilt by each team
+- **Bedrock environments** for sanctioned, governed model access
+- **Agent-ready codebases**, structured so agents can work in them productively
+- **One-click installers**
+- **LLM/SLM gateways** for routing, cost control and usage visibility
+- **Responsible AI training**, non-negotiable in a regulated firm
 
-The unifying principle: every item removes a reason a motivated team would
-otherwise fail to adopt. Enablement is mostly the removal of excuses, and the
-one-click installer matters more than it sounds like it should.
+The one-click installer mattered more than the model choice. Setup friction was
+where teams stalled, and a team that loses an afternoon to environment
+configuration does not come back next sprint.
+
+> **Draft note —** Which of these shipped, and in what order? A sequenced
+> rollout is a stronger story than a list, because sequencing is where the
+> judgement shows. If some are still pending, say so. Honest roadmaps read
+> better than implied completeness.
 
 ## The change plan
 
-Infrastructure without change management produces expensive unused platforms.
-The plan ran on three moves:
+Three moves, running in parallel.
 
-**Identify champions.** Existing practitioners already doing the work, made
-visible and given air cover. Peer proof outperforms mandates — a team believes
-the pod next to them far more than it believes a central function.
+**Champions.** We found practitioners already doing the work and gave them
+visibility and air cover. Teams believe the pod next to them. They do not
+believe a central function.
 
-**Build thought leadership.** Internal, concrete, and specific to this firm's
-stack and constraints. Generic AI content does not survive contact with a
-regulated enterprise.
+**Internal thought leadership.** Specific to this firm's stack and constraints.
+Generic AI content does not survive contact with a regulated enterprise,
+because the first question is always "can we even do that here."
 
-**Align executives in workshops.** 30+ sessions with executive leaders and
-product groups. These were not presentations. Product group leaders had to
-leave owning a piece of the plan, because a change program that only lives in
-the central team is not a change program.
+**Executive workshops.** 30+ sessions with executive leaders and product
+groups. These were working sessions, not presentations. Product group leaders
+left owning part of the plan. A change program that lives only in the central
+team is a document.
 
 ## Outcomes
 
-- Adoption driven toward autonomous maturity across **900+ product teams**
-- **Doubled feature delivery** following change plan activation
-- **30+ workshops** aligning executive leaders and product groups
-- An enablement stack vetted and sequenced for enterprise-wide rollout
-
-The 2× is worth stating precisely, because "doubled delivery" is the kind of
-claim that usually dissolves under questioning. It means teams shipped **twice
-the launches in a comparable window, with comparable resources**. Not a larger
-budget, not more people, not a longer runway — the same teams getting more
-through.
-
-That is the only version of the number that says anything about the program.
-Doubling output by doubling headcount is not an enablement result.
+- Adoption moving toward autonomous maturity across **900+ product teams**
+- **Feature delivery doubled**: twice the launches in a comparable window, with
+  comparable resources. Not more people and not a longer runway
+- **30+ workshops** with executive leaders and product groups
+- Enablement stack vetted and sequenced for enterprise rollout
 
 ## What I'd do differently
 
-I would instrument adoption earlier. We had strong signal on the teams engaged
-with the program and much weaker signal on the silent majority — and at 900
-teams, the silent majority *is* the program. Usage telemetry from the gateway
-should have been a day-one requirement rather than something we wanted once the
-stack was live.
+I should have instrumented adoption on day one. We had good signal on teams
+engaged with the program and almost none on the rest. At 900 teams, the teams
+you are not hearing from are the program. Usage telemetry from the gateway
+should have been a launch requirement rather than something we wanted once the
+stack existed.
 
-I would also spend less time on tool evaluation breadth and more on depth in
-the top two or three. Teams did not need six options. They needed one obvious
-default with a good on-ramp.
+I also spent too long on evaluation breadth. Teams did not want six options.
+They wanted one default with a good on-ramp, and the months spent comparing
+tools would have been better spent making the first choice easy to start with.

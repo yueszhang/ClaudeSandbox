@@ -13,13 +13,13 @@ const { name } = Astro.props;
 // Captions live here so a case study only has to name a diagram.
 const captions: Record<string, string> = {
   maturity:
-    'Staged maturity with explicit gates. Gates make a team’s stage observable rather than self-reported — which is the difference between a program that reports green and one that moves.',
+    'Four stages with a gate between each. Gates make a team’s stage observable from outside rather than self-reported, which is what stops a program reporting green while nothing changes.',
   ailoop:
-    'AI tooling mapped to the delivery lifecycle. The 1.5× landed in build throughput and in fix-and-reverify time — cycle-time stages, not thinking stages.',
+    'AI tooling mapped to the delivery lifecycle. The 1.5× landed in build throughput and fix-and-reverify time.',
   buildbuy:
-    'Build only where the capability is the differentiation. Everywhere else the market solution wins, and building it is a tax you pay forever.',
+    'Build only where the capability is the differentiation. Everywhere else the market solution wins, and building means paying maintenance forever.',
   requirements:
-    'The core/future-state split is what converts requirements into negotiating leverage — a hard floor to compare vendors against, and a roadmap you refuse to pay a premium for.',
+    'Splitting core from future-state turns requirements into leverage. Core is a hard floor for comparing vendors. Future-state is a roadmap you refuse to pay a premium for.',
 };
 ---
 

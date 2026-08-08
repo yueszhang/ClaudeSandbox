@@ -17,6 +17,7 @@ npm run dev        # http://localhost:4321
 | `npm run build` | Type-checks, then builds to `dist/` |
 | `npm run preview` | Serves the built site locally |
 | `npm run check:drafts` | Lists every unresolved draft note |
+| `npm run check:voice` | Flags banned words and constructions (see VOICE.md) |
 
 Requires Node 22.12 or newer.
 
@@ -34,8 +35,12 @@ src/
   site.ts            Name, positioning, contact details, nav
 ```
 
-Adding or editing work is covered in **[CONTENT-GUIDE.md](./CONTENT-GUIDE.md)** —
-read that before writing a case study, especially the anonymization rules.
+Two documents govern the content:
+
+- **[CONTENT-GUIDE.md](./CONTENT-GUIDE.md)** — how to add a case study, and the
+  anonymization rules. Read this first.
+- **[VOICE.md](./VOICE.md)** — how the writing should sound, the banned word
+  list, and the source documents behind both. Enforced by `npm run check:voice`.
 
 ## Before you publish
 

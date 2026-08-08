@@ -1,6 +1,6 @@
 ---
 title: 'Digital Acceleration for Two F500 Retailers'
-tagline: '70+ user interviews, an eight-engineer team, and AI-driven audience segmentation — a 5% checkout rate increase.'
+tagline: '70+ user interviews and an eight-engineer team. Checkout rate up 5%.'
 company: 'Deloitte Digital'
 role: 'Product Manager'
 client: 'Two Fortune 500 retail companies'
@@ -8,7 +8,7 @@ industry: 'Retail'
 period: 'September 2020 — January 2024'
 sortDate: '2022-06'
 teamSize: '8 engineers'
-summary: 'Conversion work grounded in 70+ user interviews rather than best-practice checklists — plus an early production case for AI in audience segmentation and data-driven attribution.'
+summary: 'Conversion work for two Fortune 500 retailers, grounded in 70+ interviews rather than best-practice checklists. Also an early production case for AI in audience segmentation.'
 themes:
   - 'Product Management'
   - 'Research & Discovery'
@@ -28,49 +28,52 @@ metrics:
 featured: false
 ---
 
-Conversion work attracts best-practice checklists — reduce form fields, add
-trust badges, shorten the funnel. Sometimes those work. They are also what
-everyone has already done, which is why the remaining problems tend to be
-specific to the business rather than generic.
-
-## The situation
-
-Two Fortune 500 retailers in a partner-led digital acceleration program, each
-working on their marketing platform and checkout conversion.
+I ran product for two Fortune 500 retailers in a partner-led digital
+acceleration program. Checkout rate went up 5%. I led eight engineers and
+conducted 70+ user interviews.
 
 ## What I owned
 
 Feature prioritization and backlog grooming for the marketing platform, the
-research program behind it, and a team of eight engineers.
+research program behind it, and the engineering team delivering it.
 
 ## Seventy interviews
 
-The number matters less than what it bought: enough conversations to
-distinguish a real pattern from a loud complaint.
+The number matters less than what it bought: enough conversations to tell a
+pattern from a loud complaint.
 
-At small research volumes, whoever is most articulate sets the roadmap. At 70+,
-the frequency distribution becomes visible — and the pain points that actually
-suppress checkout are usually not the ones customers volunteer first. They show
-up as hesitation and abandonment rather than as stated complaints.
+At low research volumes the roadmap gets set by whoever is most articulate. At
+70+ you can see the frequency distribution. The things that suppress checkout
+tend not to be what customers volunteer first. They show up as hesitation and
+abandonment rather than as stated complaints.
 
-That research drove the prioritization, which is the whole point. A groomed
-backlog without a research basis is just an ordered list of opinions.
+That research set the prioritization, which was the point. A groomed backlog
+with no research behind it is an ordered list of opinions.
+
+> **Draft note —** What were the top two or three pain points you found? This
+> is the section where you can show research judgement, and right now it argues
+> for the method without reporting a single finding. Even one specific
+> friction point you fixed would carry it.
 
 ## AI in segmentation and attribution
 
-The engineering team incorporated AI into audience segmentation and activated
-data-driven attribution models.
+The engineering team put AI into audience segmentation and activated
+data-driven attribution.
 
-This was well before AI was the default answer to anything, and the reason it
-worked is that both problems are genuinely statistical. Segmentation is
-clustering. Attribution is credit assignment across a path. Neither needed a
-narrative about AI transformation — they needed better models than the
-rule-based segments and last-click attribution they replaced.
+This was before AI became the default answer to everything, and it worked
+because both problems are statistical. Segmentation is clustering. Attribution
+is credit assignment across a path. Neither needed a transformation narrative.
+They needed better models than the rule-based segments and last-click
+attribution they replaced.
 
-Data-driven attribution in particular changes what the rest of the funnel work
-is optimizing toward. Last-click systematically overcredits the bottom of the
-funnel, so a team optimizing against it will keep tuning the last step and
-underinvest everywhere else.
+Attribution mattered more than it looks. Last-click systematically overcredits
+the bottom of the funnel, so a team optimizing against it keeps tuning the last
+step and underinvests everywhere else.
+
+> **Draft note —** How did the segmentation model differ from the rule-based
+> segments it replaced, and did it change what the marketing team did? An AI
+> project from 2022 that changed someone's behaviour is worth more here than
+> the technique itself.
 
 ## Outcomes
 
@@ -81,9 +84,7 @@ underinvest everywhere else.
 
 ## What I'd do differently
 
-I would have connected the research and the modeling work more tightly. They
-ran as parallel tracks — qualitative research feeding the backlog, the
-engineering team feeding the models — when the interviews contained exactly the
-hypotheses the segmentation work should have been testing. Two useful streams
-that would have been stronger as one.
-
+The research and the modelling ran as parallel tracks. Interviews fed the
+backlog, the engineering team fed the models, and the two rarely met. The
+interviews contained exactly the hypotheses the segmentation work should have
+been testing. Two useful streams that would have been better as one.

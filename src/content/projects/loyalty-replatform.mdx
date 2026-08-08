@@ -1,13 +1,13 @@
 ---
 title: 'Replatforming a Global Loyalty Program'
-tagline: '400+ requirements, five vendors, and a $1.2M negotiation — moving an award-winning travel loyalty program onto SaaS infrastructure.'
+tagline: '400+ requirements and five vendor negotiations. $1.2M in savings and a clean go-live.'
 company: 'Deloitte Digital'
 role: 'Product Manager'
 client: 'A global, award-winning travel loyalty program'
 industry: 'Travel & Hospitality'
 period: 'September 2020 — January 2024'
 sortDate: '2021-06'
-summary: 'A replatform is a requirements problem wearing a technology costume. The $1.2M came from knowing exactly what we needed before the vendors told us what we wanted.'
+summary: 'Moving an award-winning travel loyalty program onto SaaS infrastructure. The $1.2M came from knowing exactly what we needed before five vendors told us what we wanted.'
 themes:
   - 'Product Management'
   - 'Vendor & Commercial'
@@ -33,87 +33,97 @@ featured: true
 
 import Diagram from '../../components/Diagram.astro';
 
-Replatforming an award-winning program is a specific kind of hard. Nothing is
-visibly broken, everyone can name what they'd lose, and the case for change has
-to be made against a thing that is currently winning awards.
+I owned the product roadmap and requirements for moving a global travel loyalty
+program onto a SaaS platform. Five vendors, 400+ requirements, $1.2M in
+negotiated savings, and a go-live that held.
+
+The savings came from the requirements work, not from the negotiation itself.
+By the time we were talking price, we could describe what we needed more
+precisely than the vendors could describe what they sold.
 
 ## The situation
 
-A global travel loyalty program on infrastructure it had outgrown. The
-replatform target was a SaaS-based provider — which meant the real question was
-not *whether* to move but what could not be compromised in the move.
+The program had outgrown its infrastructure. It had also won awards, which made
+the case for change harder than a broken system would have. Nobody was
+complaining. Everyone could name something they would lose.
 
 ## What I owned
 
-The product roadmap: prioritizing 20+ next-generation features including AI and
-gamification capabilities, and defining 400+ core and future-state requirements
-through 25+ discovery sessions with C-suite executives, designers, developers,
-and end-users. Then leading customization and pricing negotiations across five
-loyalty vendors.
+The product roadmap, including 20+ next-generation features covering AI and
+gamification. I defined 400+ core and future-state requirements across 25+
+discovery sessions with C-suite executives, designers, developers and end
+users. I then led customization and pricing negotiations with five loyalty
+vendors.
 
 ## Requirements as leverage
 
-Four hundred requirements sounds like documentation overhead. It was the
-negotiating position.
+400 requirements sounds like documentation overhead. It was the negotiating
+position.
 
-Vendor negotiations go badly when the buyer's requirements are vague, because
-vague requirements get filled in by the vendor's roadmap and priced as
-customization. Every requirement we could state precisely — sourced from an
-actual discovery session with an actual stakeholder — was a thing that could be
-scoped, compared across five vendors, and priced before anyone was committed.
-
-The split between *core* and *future-state* did the heavy lifting. Core
-requirements were the floor: fail these and the vendor is disqualified.
-Future-state requirements were the roadmap the platform had to not foreclose —
-including the AI and gamification features that were still ahead of us.
-
-That distinction is what let us negotiate hard on core capability without
-paying premium prices for future-state features we would rather build ourselves
-later.
+Vague requirements get filled in by the vendor's roadmap. Then they get priced
+as customization. Every requirement we could state precisely was something we
+could scope, compare across five vendors, and price before committing to
+anyone.
 
 <Diagram name="requirements" />
 
+Splitting core from future-state did most of the work. Core requirements were
+the floor: miss one and the vendor was out. Future-state requirements were
+things the platform had to leave open rather than deliver on day one.
+
+That split let us push hard on core capability without paying a premium for
+future-state features we would rather build ourselves later.
+
+> **Draft note —** Which vendor won, and what kind of platform was it? You can
+> stay client-anonymous while still saying "a loyalty-specialist SaaS provider
+> rather than a general CRM," which is the sort of detail that shows you
+> understood the market. Also worth adding: how much of the $1.2M came from
+> scope removal versus price?
+
+## What the future state contained
+
+The gamification track covered points awards, sweepstakes, competition between
+friends, and badging. Four mechanics that look alike on a slide and are not
+alike underneath.
+
+Points awards are an accounting problem. Liability, expiry, reconciliation.
+Sweepstakes are a compliance problem with rules that vary by jurisdiction.
+Competing with friends needs a social graph, which is the only one of the four
+that requires the platform to model a relationship between two members. Most
+loyalty platforms do not. Badging is cheapest to build and easiest to get
+wrong, because a badge nobody wants costs you credibility.
+
+Naming them changed the vendor conversation. Every vendor says they support
+gamification. Asking whether the data model has a member-to-member relationship
+produces an answer that differentiates, and it surfaces customization cost
+before signature rather than after.
+
+> **Draft note —** The resume mentions AI features on this roadmap alongside
+> gamification. What were they? Putting AI on an enterprise loyalty roadmap in
+> 2021 is a strong signal for the roles you are targeting, and right now the
+> page mentions it once and moves on.
+
 ## Discovery across misaligned incentives
 
-Twenty-five discovery sessions across C-suite, design, engineering, and end
-users. These groups did not want the same things, and pretending otherwise
-produces requirements that satisfy nobody.
+25 discovery sessions with C-suite, design, engineering and end users. These
+groups wanted different things.
 
-Running them separately and reconciling afterward surfaced the genuine
-conflicts as conflicts — decisions for leadership to make explicitly, rather
-than ambiguities that would resurface mid-build as change requests.
+I ran them separately and reconciled afterwards. That surfaced genuine
+conflicts as conflicts, so leadership could decide them explicitly. Run them
+together and the conflicts become ambiguities in the requirements, which
+reappear mid-build as change requests.
 
 ## Outcomes
 
-- **$1.2M in cost savings** through customization and pricing negotiations
-  across 5 vendors
-- **Successful go-live** on the SaaS platform
-- **400+ requirements** defined across core and future state
-- **20+ next-generation features** prioritized on the roadmap
+- **$1.2M in savings** across customization and pricing negotiation with 5
+  vendors
+- Successful go-live on the SaaS platform
+- **400+ requirements** across core and future state
+- **20+ next-generation features** prioritized
 
 ## What I'd do differently
 
-I would have cut the requirement count. Four hundred is defensible for a program
-this size, but not all four hundred earned their weight, and the long tail cost
-real review time from senior stakeholders whose attention was the scarcest
-resource on the program. A tighter core with an explicit "we will decide this
-during build" bucket would have moved faster without losing much.
-
-## What the future state actually contained
-
-The future-state bucket was not abstract. The gamification track alone covered
-points awards, sweepstakes, competition between friends, and badging — four
-mechanics that look similar on a slide and are not similar at all underneath.
-
-Points awards are an accounting problem: liability, expiry, and reconciliation.
-Sweepstakes are a compliance problem, with rules that differ by jurisdiction.
-Competing with friends is a social graph — the only one of the four that needs
-a concept of a relationship between members, which most loyalty platforms do
-not have. Badging is the cheapest to build and the easiest to get wrong,
-because a badge nobody wants is worse than no badge.
-
-Naming them mattered during selection. "Supports gamification" is something
-every vendor says. Asking whether the platform models a member-to-member
-relationship, or how it handles points liability across jurisdictions, produces
-answers that actually differentiate — and it surfaces the customization costs
-before you sign rather than after.
+400 was too many. It is defensible for a program this size, but the long tail
+consumed review time from senior stakeholders, and their attention was the
+scarcest resource on the project. A tighter core with an explicit "decide
+during build" bucket would have moved faster and cost us very little.
