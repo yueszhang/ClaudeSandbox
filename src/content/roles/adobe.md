@@ -7,11 +7,11 @@ sortDate: '2024-06'
 summary: 'The summer between Columbia years. Building and pricing new professional services offerings, then scoping two enterprise implementations.'
 ---
 
-A summer on the vendor side of the table after four years on the buyer's side.
+A summer on the vendor side of the table after four years on the buyer's.
 
-The work was commercial product management. Work out which services Adobe
-should sell that it was not, catalogue them, price them, and prove the demand
-with customer data. Then scope two of them into real implementations.
+The work was commercial product management. Figure out which services Adobe
+should sell and was not, catalogue them, price them, prove the demand with
+customer data, then scope two into real implementations.
 
-Useful mostly for the change in vantage point. Doing the same work facing the
+Useful mostly for the change of vantage point. Doing the same job facing the
 other direction changed how I run vendor selection now.

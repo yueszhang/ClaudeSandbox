@@ -21,6 +21,22 @@ seems arbitrary, the source explains it.
 | Strunk & White, *The Elements of Style* | Omit needless words. Prefer the specific to the general. |
 | Ryan Singer, *Shape Up* (Basecamp, 2019) | How a working product person actually writes about product decisions. |
 | *The Economist Style Guide* | Short words, active voice, no jargon where English will do. |
+| Humanized Copy, *The It's-Not-Just-X-It's-Y Tell* | Negative parallelism is the strongest AI signal. LLMs use it once a paragraph; people use it once an essay. |
+| PR Daily, *4 reasons your writing accidentally sounds AI-generated* | Em-dashes are cosmetic. The rhythm underneath them is the actual tell. |
+| Product-portfolio guidance (Aakash Gupta, Product School, CareerFoundry) | Portfolios fail by showing polished outcomes instead of the messy process hiring managers want. |
+
+## The two findings that matter most
+
+**Rhythm, not vocabulary.** The first attempt at fixing this site swapped words
+and kept the sentence architecture, so it still read as machine-written. Every
+paragraph was the same shape: setup, turn, landing. Real writing is lumpy. One
+paragraph runs seven sentences, the next runs one, and neither is trying to
+land anything.
+
+**Mess is the credential.** A case study with no confusion in it reads as
+invented. Say when something took longer than it should have. Say when you were
+wrong for two months. Hiring managers read for what you are hiding, and a
+seamless narrative is the thing that looks hidden.
 
 ---
 
@@ -73,6 +89,28 @@ Banned openers: *The part that mattered was…*, *What's worth noticing…*, *He
 the thing…*, *It turns out…*, *The pattern behind both…*
 
 ---
+
+## Rhythm rules
+
+These are the ones that actually decide whether a page sounds human.
+
+**Vary paragraph length on purpose.** If three paragraphs in a row are four
+sentences each, the page reads as generated regardless of the words. Put a
+one-sentence paragraph next to a seven-sentence one.
+
+**Do not land every paragraph.** Most paragraphs should end on an ordinary
+piece of information, not on the point. If every paragraph closes with a
+turn, the reader stops believing any of them.
+
+**Never write two sentences with the same shape back to back.** "Solve only the
+first and you get X. Solve only the second and you get Y." That is the tell.
+Break it: say one, then say the other differently, or cut one.
+
+**Hedge where you are actually unsure.** "Roughly", "I think", "my read was",
+"about". Certainty on every claim is a machine trait. People qualify things.
+
+**Read it aloud.** This is the test that still works. If you run out of breath
+or hear a metronome, rewrite it.
 
 ## Banned constructions
 

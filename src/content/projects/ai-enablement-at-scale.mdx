@@ -1,6 +1,6 @@
 ---
-title: 'Taking 900+ Product Teams to AI-Native'
-tagline: 'An enterprise AI adoption program at a global investment manager. Feature delivery doubled.'
+title: 'AI adoption across 900 product teams'
+tagline: 'Enablement work at a global investment manager. Feature delivery has roughly doubled.'
 company: 'Deloitte Digital'
 role: 'AI Strategy & Enablement Lead'
 client: 'A leading global investment management firm'
@@ -8,7 +8,7 @@ industry: 'Investment Management'
 period: 'August 2025 — Present'
 sortDate: '2025-08'
 teamSize: '900+ product teams in scope'
-summary: 'AI adoption across 900+ product teams at a global investment manager. Feature delivery doubled. The hard parts were infrastructure teams could reach, and giving them a reason to change while under delivery pressure.'
+summary: 'Enablement work at a global investment manager, covering 900-odd product teams. Feature delivery has roughly doubled since the change plan turned on.'
 themes:
   - 'AI Enablement'
   - 'Platform & Tooling'
@@ -31,115 +31,112 @@ featured: true
 
 import Diagram from '../../components/Diagram.astro';
 
-I lead AI adoption across 900+ product teams at a global investment manager.
-Feature delivery has doubled since we activated the change plan.
+I lead AI enablement for a global investment manager. Around 900 product teams
+sit in scope. Feature delivery has roughly doubled since we switched the change
+plan on.
 
-The target was autonomous maturity. Teams picking AI-assisted approaches on
-their own, on work that matters, without a central team asking them to. Two
-things had to move together to get there. Teams needed sanctioned access to
-models and tooling. They also needed a reason to change how they worked while
-already under delivery pressure.
+The goal we set was that teams would reach for AI tooling without anyone
+telling them to. That turned out to be two problems wearing one hat. Teams
+needed access they were allowed to use, which is infrastructure. They also
+needed a reason to change how they worked mid-sprint, which isn't.
 
-Solve only the first and you buy an expensive platform nobody opens. Solve only
-the second and adoption routes around governance, which in a regulated firm is
-worse than no adoption.
+We spent the first stretch mostly on the infrastructure side. My read now is
+that the sequencing was about right and I badly underestimated how little
+access moves on its own.
 
-## The situation
+## Where things stood
 
-900+ product teams across enough business lines that no central function could
-hand-hold them. The firm is regulated, so "try things and see what happens" was
-never on the table.
+I came in after the pilots. Several teams had done good work with AI tooling
+and none of it had travelled. That is the normal state of an enterprise AI
+program and it is worth being blunt about it, because the pilot is the part
+everyone can already do.
 
-I came in after the pilot phase. Several teams had done promising work with AI
-tooling. None of it had reached anyone else.
+The firm is regulated. "Try things and see what happens" was never available,
+which shaped more of the design than any technology choice did.
 
-> **Draft note —** What was the state when you arrived? How many teams were
-> already using AI in some form, sanctioned or otherwise? A starting number
-> makes the 2× mean something. Without it a reader has to take the whole arc
-> on trust.
+> **Draft note —** What was the starting state? How many teams were using AI in
+> some form when you arrived, sanctioned or not? A starting number makes the 2×
+> mean something. Without one the whole arc runs on trust.
 
 ## What I owned
 
-AI strategy and enablement for the full 900+ team population. In practice that
-was three workstreams:
-
-- The maturity model and its stage gates
-- Evaluating and sequencing the enablement stack
-- The change program that connected the two
+AI strategy and enablement for the full 900-team population. Three workstreams:
+the maturity model and its gates, the enablement stack, and the change program
+that connected them.
 
 ## The maturity model
 
-We defined four stages with an explicit gate between each one.
+Four stages, with a gate between each one. The stages themselves were not the
+clever part and I would guess most enablement programs land somewhere similar.
 
 <Diagram name="maturity" />
 
-The gates did the work. A team's stage had to be observable from outside rather
-than self-reported. Self-assessment is how programs report green while nothing
-changes on the ground.
+The gates were the part that worked. A team's stage had to be visible from
+outside rather than claimed, because self-assessment is how these programs end
+up reporting green while nothing moves.
 
-Gates also gave teams a concrete next action. "Adopt AI" is not a task. "Get
-your repository to the point where an agent can work in it" is.
+They also gave teams something to do. "Adopt AI" is not a task. "Get your repo
+into a state where an agent can work in it" is a task, and a team can finish it
+on a Thursday.
 
-> **Draft note —** What did each gate require in practice? Was it a checklist,
-> a review, an automated signal from the gateway? This is the most reusable
-> part of the work and right now the page describes it in the abstract. Even
-> one worked example of a team passing a gate would help.
+> **Draft note —** What did each gate require in practice? A checklist, a
+> review, an automated signal off the gateway? This is the most reusable thing
+> here and the page currently describes it in the abstract. One worked example
+> of a team clearing a gate would be worth more than the model diagram.
 
 ## The enablement stack
 
-I identified and vetted the infrastructure that had to exist before adoption
-was possible:
+I vetted the infrastructure that had to exist before any of this was possible:
 
-- **MCP, agent and skills marketplace** — capability gets shared rather than
-  rebuilt by each team
-- **Bedrock environments** for sanctioned, governed model access
-- **Agent-ready codebases**, structured so agents can work in them productively
+- **MCP, agent and skills marketplace**, so capability gets shared instead of
+  rebuilt team by team
+- **Bedrock environments** for sanctioned model access
+- **Agent-ready codebases**
 - **One-click installers**
 - **LLM/SLM gateways** for routing, cost control and usage visibility
-- **Responsible AI training**, non-negotiable in a regulated firm
+- **Responsible AI training**, which in a regulated firm is not optional
 
-The one-click installer mattered more than the model choice. Setup friction was
-where teams stalled, and a team that loses an afternoon to environment
-configuration does not come back next sprint.
+The installer mattered more than the model choice, which surprised me at the
+time. Setup friction was where teams stalled. A team that burns an afternoon on
+environment configuration does not come back to it next sprint, and I watched
+that happen enough times to stop treating it as a minor item.
 
-> **Draft note —** Which of these shipped, and in what order? A sequenced
-> rollout is a stronger story than a list, because sequencing is where the
-> judgement shows. If some are still pending, say so. Honest roadmaps read
-> better than implied completeness.
+> **Draft note —** Which of these shipped, and in what order? Sequencing is
+> where the judgement shows, and a list flattens it. If some are still pending,
+> say so. An honest roadmap reads better than implied completeness.
 
 ## The change plan
 
-Three moves, running in parallel.
+Three things running at once, and none of them worked in isolation.
 
-**Champions.** We found practitioners already doing the work and gave them
-visibility and air cover. Teams believe the pod next to them. They do not
-believe a central function.
+We found practitioners already doing the work and gave them visibility and some
+cover. Teams believe the pod next to them. They do not believe a central
+function, and I say that as the central function.
 
-**Internal thought leadership.** Specific to this firm's stack and constraints.
-Generic AI content does not survive contact with a regulated enterprise,
-because the first question is always "can we even do that here."
+We wrote internal material specific to this firm's stack and constraints.
+Generic AI content dies on contact with a regulated enterprise, because the
+first question in the room is always whether any of it is allowed here.
 
-**Executive workshops.** 30+ sessions with executive leaders and product
-groups. These were working sessions, not presentations. Product group leaders
-left owning part of the plan. A change program that lives only in the central
-team is a document.
+And I ran 30-odd workshops with executive leaders and product groups. Working
+sessions rather than presentations, with the aim that product group leaders
+left owning a piece of the plan. A change program that lives only in the
+central team is a document.
 
 ## Outcomes
 
 - Adoption moving toward autonomous maturity across **900+ product teams**
-- **Feature delivery doubled**: twice the launches in a comparable window, with
-  comparable resources. Not more people and not a longer runway
+- **Feature delivery doubled**: twice the launches in a comparable window, on
+  comparable resources
 - **30+ workshops** with executive leaders and product groups
-- Enablement stack vetted and sequenced for enterprise rollout
+- Enablement stack vetted and sequenced for rollout
 
 ## What I'd do differently
 
-I should have instrumented adoption on day one. We had good signal on teams
-engaged with the program and almost none on the rest. At 900 teams, the teams
-you are not hearing from are the program. Usage telemetry from the gateway
-should have been a launch requirement rather than something we wanted once the
-stack existed.
+Instrumentation should have been a day-one requirement. We had good signal on
+the teams engaged with the program and close to none on everyone else, which at
+900 teams is the majority of the thing I was supposedly managing. Usage
+telemetry off the gateway would have cost very little to set up at the start
+and we did not get it until the stack was already live.
 
-I also spent too long on evaluation breadth. Teams did not want six options.
-They wanted one default with a good on-ramp, and the months spent comparing
-tools would have been better spent making the first choice easy to start with.
+I also spent too long comparing tools. Teams wanted one default with a decent
+on-ramp. The comparison work was thorough and I think most of it was wasted.
