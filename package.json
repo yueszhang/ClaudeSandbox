@@ -4,12 +4,13 @@
   "version": "1.0.0",
   "private": true,
   "engines": {
-    "node": ">=22.12.0"
+    "node": "22.x"
   },
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro check && astro build",
+    "build": "astro build",
+    "typecheck": "astro check",
     "preview": "astro preview",
     "check:drafts": "node scripts/check-drafts.mjs",
     "check:voice": "node scripts/check-voice.mjs",
