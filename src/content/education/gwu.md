@@ -12,15 +12,15 @@ honors:
   - 'Passed CFA Level I'
 ---
 
-Finance and economics, then a fairly straight line into credit analysis at
-Loews. CFA Level I alongside it.
+Finance and economics, then a straight line into credit analysis at Loews. I
+passed CFA Level I alongside it.
 
-The part that stuck was not the curriculum. It was the habit of not accepting a
-number until you know how it was built, which turned out to be the most
-transferable thing I took out of undergrad.
+The part of finance training that stuck was not the curriculum. It was the
+habit of not accepting a number until you know how it was built. That turned
+out to be the most transferable thing I took from undergrad.
 
 Nearly every product argument I have been in came down to numbers. Whether a
-metric measures what someone says it does. Whether a projection holds. Whether
-a cost saving is real or an accounting artifact. Being able to check the
+metric measures what someone claims. Whether a projection holds up. Whether a
+cost saving is real or an accounting artifact. Being able to check the
 arithmetic yourself is a quiet advantage, and it is why I am careful about the
 figures on this site.

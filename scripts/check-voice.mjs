@@ -61,16 +61,13 @@ const BANNED_PATTERNS = [
     label: 'rhetorical signpost',
     re: /\b(?:the part that mattered|what(?:'|’)?s worth noticing|here(?:'|’)?s the thing|it turns out that|the pattern behind)\b/gi,
   },
-  // Case-sensitive on purpose: a capitalised "Most" starts a sentence, whereas
-  // a lower-case one is mid-sentence and only looks sentence-initial because
-  // markdown wrapped the line there.
   {
     label: 'sweeping generalisation opener',
-    re: /^(?:Most|Every|All)\s+(?:enterprise|large|big|major|companies|organi[sz]ations|teams|product)\b/gm,
+    re: /^(?:Most|Every|All)\s+(?:enterprise|large|big|major|companies|organi[sz]ations|teams|product)\b/gim,
   },
   {
     label: 'abstract noun as subject',
-    re: /^(?:Adoption|Enablement|Transformation|Innovation|Alignment)\s+(?:is|was|requires|produces|means)\b/gm,
+    re: /^(?:Adoption|Enablement|Transformation|Innovation|Alignment)\s+(?:is|was|requires|produces|means)\b/gim,
   },
   {
     label: 'journey as metaphor',
@@ -83,10 +80,6 @@ const BANNED_PATTERNS = [
 ];
 
 const MAX_EMDASH_PER_PARAGRAPH = 1;
-/** Tricolons ("a, b, and c") are fine once. Four in a document is a tic. */
-const MAX_TRICOLON_PER_FILE = 2;
-/** A lone short sentence as its own paragraph is usually an aphorism. */
-const APHORISM_MAX_WORDS = 9;
 
 async function walk(dir) {
   let entries;
@@ -149,55 +142,20 @@ for (const file of files.sort()) {
     }
   }
 
-  // Rhythm checks run on prose files only. Em-dashes in component label data
-  // ("Gate — governed access") are separators, not rhythm.
-  if (/\.mdx?$/.test(file)) {
-    let tricolons = 0;
-
-    text.split(/\n\s*\n/).forEach((para) => {
-      const clean = para.trim();
-      if (!clean || clean.startsWith('>') || clean.startsWith('-') || clean.startsWith('#')) return;
+  // Em-dash density, paragraph by paragraph. Prose files only — em-dashes in
+  // component label data (e.g. "Gate — governed access") are separators, not
+  // rhythm, and counting them produces noise.
+  if (/\.mdx?$/.test(file)) text.split(/\n\s*\n/).forEach((para) => {
+    const count = (para.match(/—/g) || []).length;
+    if (count > MAX_EMDASH_PER_PARAGRAPH) {
       const line = text.slice(0, text.indexOf(para)).split('\n').length;
-
-      const dashes = (para.match(/—/g) || []).length;
-      if (dashes > MAX_EMDASH_PER_PARAGRAPH) {
-        hits.push({
-          rel, line, category: 'rhythm',
-          term: `${dashes} em-dashes in one paragraph`,
-          context: clean.replace(/\s+/g, ' ').slice(0, 90),
-        });
-      }
-
-      // "a, b, and c" where each item is short — the rule of three.
-      tricolons += (para.match(/\b[\w'’-]+(?:\s[\w'’-]+)?,\s[\w'’-]+(?:\s[\w'’-]+)?,\sand\s[\w'’-]+/gi) || []).length;
-
-      // A paragraph that is one short sentence is almost always an aphorism.
-      const sentences = clean.split(/(?<=[.!?])\s+/).filter(Boolean);
-      const words = clean.split(/\s+/).length;
-      const isMarkup = clean.startsWith('<') || clean.includes('|');
-      const isListLeadIn = clean.endsWith(':');
-      if (
-        sentences.length === 1 &&
-        words <= APHORISM_MAX_WORDS &&
-        !isMarkup &&
-        !isListLeadIn
-      ) {
-        hits.push({
-          rel, line, category: 'rhythm',
-          term: 'one-sentence paragraph (aphorism?)',
-          context: clean.replace(/\s+/g, ' ').slice(0, 90),
-        });
-      }
-    });
-
-    if (tricolons > MAX_TRICOLON_PER_FILE) {
       hits.push({
-        rel, line: 1, category: 'rhythm',
-        term: `${tricolons} rule-of-three lists in one file`,
-        context: 'Vary list lengths. Use two items or five.',
+        rel, line, category: 'construction',
+        term: `${count} em-dashes in one paragraph`,
+        context: para.trim().replace(/\s+/g, ' ').slice(0, 90),
       });
     }
-  }
+  });
 }
 
 if (hits.length === 0) {

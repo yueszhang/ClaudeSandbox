@@ -1,13 +1,13 @@
 ---
-title: 'Portfolio analytics at Loews'
-tagline: 'My first product, built for the traders I sat next to. 120+ users, and a career change.'
+title: 'Portfolio Analytics for a $750M Book'
+tagline: 'My first product, built for the traders I sat next to. Adopted by 120+ people, and the reason I stopped being an analyst.'
 company: 'Loews Corporation'
 role: 'Investment Analyst'
 client: 'Loews Corporation investment team'
 industry: 'Investment Management'
 period: 'March 2019 — September 2020'
 sortDate: '2019-06'
-summary: 'Portfolio analytics software adopted by 120+ portfolio managers, traders and research analysts. Built for people I sat next to, which is why it got used.'
+summary: 'Portfolio analytics software adopted by 120+ portfolio managers, traders and research analysts. Built for users I sat next to, which is why it got used.'
 themes:
   - 'Platform & Tooling'
   - 'Research & Discovery'
@@ -24,55 +24,55 @@ metrics:
 featured: false
 ---
 
-I launched portfolio analytics software to 120-plus portfolio managers, traders
-and research analysts at Loews. I turned stakeholder interviews into user
-stories and requirements and stayed with it through adoption.
+I launched portfolio analytics software to 120+ portfolio managers, traders and
+research analysts at Loews. I translated stakeholder interviews into user
+stories and requirements, then saw it through to adoption.
 
 I was an investment analyst at the time, covering a $750M aerospace and defense
-book. The analytics we had were not good enough and I volunteered to fix it,
-which is a less impressive origin than it sounds. Nobody else wanted the job.
+book. The analytics we had were not good enough and I volunteered to fix it.
 
-## Why it got used
+## Why it got adopted
 
-I sat next to the users. Every day, for a year and a half.
+I sat next to the users. Every day.
 
-That is not a methodology and it explains the outcome better than anything else
-I could put here. When you use the tool yourself, and the people it fails are
-people you will see at lunch, the feedback loop is immediate and slightly
-uncomfortable. Most internal tools fail on adoption and most of that failure is
-distance between whoever built it and whoever has to use it.
+That is not a methodology, and it explains the outcome better than anything
+else I could claim. When you use the tool yourself, and the people it fails are
+people you will see at lunch, the feedback loop is immediate. Most internal
+tools fail on adoption, and most of that failure is distance between the person
+building and the person using.
 
-The domain knowledge mattered too. When a trader described what they wanted I
-understood the workflow underneath, so the requirements caught the intent
-rather than transcribing a feature request. Turning what stakeholders say into
-user stories is mostly interpretation, and you cannot interpret a domain you do
-not know.
+Domain knowledge mattered too. When a trader described what they needed, I
+understood the workflow underneath it, so the requirements captured intent
+rather than a transcript of a feature request. Turning stakeholder language
+into user stories is mostly interpretation, and you cannot interpret a domain
+you do not know.
 
 > **Draft note —** What did the software do? Position and exposure views,
 > relative value screening, risk reporting? The page argues about why it got
-> adopted without saying what it was, which is conspicuous on the one project
-> here that started your career change.
+> adopted without saying what it was, and that gap is conspicuous on the one
+> project here that started your career change.
 
-## The day job
+## The analyst work
 
-Running alongside all of this: recommending new issues and relative value
+Running alongside: recommending newly issued securities and relative value
 trades, and briefing portfolio managers on sentiment, industry headwinds and
-market structure.
+market trends.
 
-That training still shows up. Most product arguments I have been in came down
-to a claim about numbers, and being able to check the arithmetic yourself is a
-quiet advantage.
+That training still shows up. Most product arguments come down to a claim about
+numbers. Whether a metric measures what someone says it does, whether a
+projection holds, whether a saving is real or an accounting artifact. Being
+able to check the arithmetic yourself is a quiet advantage.
 
 ## Outcomes
 
 - Portfolio analytics launched to **120+** users
-- Requirements and user stories from stakeholder interviews
+- Requirements and user stories translated from stakeholder interviews
 - Coverage of a **$750M** aerospace and defense portfolio
 - A career change
 
 ## What I'd do differently
 
 I never wrote down what I was learning about the users. It lived in my head
-because I was embedded with them, which worked fine for me and transferred to
-nobody. The first thing I would want if I handed that product over is the thing
-I never produced.
+because I was embedded with them. That worked for me and transferred to nobody.
+The first thing I would want if I handed that product to someone else is the
+thing I never produced.

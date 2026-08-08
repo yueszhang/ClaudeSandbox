@@ -21,10 +21,10 @@ export const site = {
 
   /** The positioning line. Everything on the site should support this claim. */
   positioning:
-    'I build product with AI, and help large organizations do the same.',
+    'Product manager who builds with AI, and gets organizations building with it too.',
 
   intro:
-    'I keep AI inside my own delivery loop, on launches with real deadlines. What survives that, I turn into something other teams can pick up: tooling, guardrails, and the change work that makes any of it stick. Currently across about 900 product teams at a global investment manager.',
+    'I ship product with AI inside my own delivery loop. Then I turn what works into something teams can adopt: tooling, guardrails, and the change management that makes it stick. Most recently across 900+ product teams at a global investment manager.',
 
   /**
    * Optional headshot for the About page. Drop an image in `src/assets/` and
