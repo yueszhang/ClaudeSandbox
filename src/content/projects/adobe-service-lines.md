@@ -1,13 +1,13 @@
 ---
-title: 'Pricing New Service Lines at Adobe'
-tagline: 'Cataloguing and pricing services Adobe was not selling, then scoping two into $200K of implementations.'
+title: 'Service Portfolio Redesign at Adobe'
+tagline: 'Restructured a consulting service catalog so sales could scope engagements without waiting on a specialist team.'
 company: 'Adobe'
 role: 'Solutions Architect — MBA Intern'
 client: 'Adobe Professional Services'
 industry: 'Enterprise Software'
 period: 'June 2024 — August 2024'
 sortDate: '2024-06'
-summary: 'A summer on the vendor side after four years buying enterprise software. Cataloguing and pricing new service lines, then scoping two of them into real implementations.'
+summary: 'MBA internship. Cataloged 150+ delivery activities, defined six new service lines, and built the scoping tool tab that let sales scope engagements without depending on a bottlenecked architecture team.'
 themes:
   - 'Vendor & Commercial'
   - 'Platform & Tooling'
@@ -15,66 +15,79 @@ skills:
   - 'Service design & pricing'
   - 'Solutions architecture'
   - 'Executive stakeholder management'
-  - 'Enterprise integration scoping'
+  - 'Internal tooling'
 metrics:
-  - value: '$200K'
-    label: 'Implementations scoped'
-  - value: '2'
-    label: 'Custom implementations designed'
+  - value: '170+'
+    label: 'Activities & offer families defined by launch'
+  - value: '6'
+    label: 'Business & strategy service lines'
+  - value: '5+'
+    label: 'Workshops run'
 featured: false
 ---
 
-I spent the summer between MBA years at Adobe Professional Services, working
-out which services Adobe should be selling that it wasn't. I cataloged and
-priced new service lines with executive stakeholders, then scoped two custom
-implementations worth $200K, integrating Adobe Experience Cloud into enterprise
-systems.
+Adobe's sales teams couldn't scope an engagement without going through a
+specialist architecture team, and that team was a bottleneck. The scoping tool
+they used was also missing an entire training service category, and there was
+no self-serve path around either problem.
 
-Ten weeks. Most of the value to me was the change in seat. I had spent four
-years scoping and negotiating enterprise software as the buyer. This was the
-same work from the other side of the table.
+I spent the summer restructuring the service catalog and building the scoping
+tool tab that delivered it.
 
-## The situation
+## What I did
 
-Adobe wanted to grow its implementation pipeline. The open question was which
-service lines to add.
+Cataloged **150+ delivery activities** from existing blueprints, stakeholder
+interviews and whatever documentation existed. By launch that had grown to
+**170+ activities and offer families**, mapped onto a service-line × offer
+matrix.
 
-New service lines get proposed constantly and most die, because they're argued
-from anecdote. A salesperson loses a deal, concludes a gap exists, and nothing
-tests that.
+Alongside the catalog I ideated, defined and presented **six new business and
+strategy service lines** to leadership.
 
-## Pricing against evidence
+The sequence was: catalog it, build an MVP, validate with delivery leads,
+release with filters, then train the organization on it. **5+ workshops**, and
+**5+ existing blueprints** folded in rather than reinvented. Three release
+cycles planned across a six-month roadmap, and I ran UAT and logged **10+ bugs**
+against my own build.
 
-Grounding the catalog in customer data changed the conversation with
-executives. The claim stopped being "customers seem to want this" and became a
-demonstrable pattern of demand that a service line would address.
+## Why cataloging was the hard part
 
-Scoping two of them into real implementations was the test. A service line you
-can't turn into a priced, deliverable engagement is a slide. Scoping is where
-the optimistic ones fall apart.
+Six new service lines is the headline and the catalog was the actual work.
 
-> **Draft note —** What were the service lines, and which two did you scope?
-> Adobe's services catalog is public, so this isn't sensitive. Naming them
-> turns an abstract commercial exercise into something a reader can evaluate.
+An activity list is only useful if the granularity is consistent. Left alone,
+one team describes its work in three activities and another describes
+comparable work in thirty, and any matrix built on top produces nonsense
+estimates. Most of the effort went into normalizing that before anything could
+be mapped.
 
-## What the buyer-side experience contributed
+The validation plan mattered for the same reason. Named review sessions with
+delivery, training and business consulting leads, because the people who
+deliver the work are the only ones who can tell you an activity is missing or
+double-counted.
 
-Having sat across the table, I knew where enterprise buyers get nervous.
-Integration surface area. Dependence on vendor professional services. Total
-cost after the customization nobody scoped up front.
+> **Draft note —** Which six service lines were they, and which two did the
+> validation sessions change? Adobe's services catalog is public so none of
+> this is sensitive, and naming them turns an abstract exercise into something
+> a reader can evaluate.
 
-Those anxieties are predictable. A service line priced without accounting for
-them looks competitive and doesn't close.
+## Also that summer
 
-## Outcomes
-
-- New service lines cataloged and priced with executive stakeholders
-- **2 custom implementations** scoped and designed, worth **$200K**
-- Adobe Experience Cloud integrated into enterprise systems
+I won an MBA case competition and presented to senior leadership.
 
 ## What I'd do differently
 
-I worked mostly from data about customers rather than talking to them. The
-analysis held up, but ten weeks is enough time for a handful of real
-conversations, and those would have tested the pricing assumptions in a way
-historical data can't.
+I worked mostly from blueprints and internal interviews rather than talking to
+customers. Ten weeks is enough for a handful of real conversations, and those
+would have tested the service-line hypotheses in a way internal documentation
+can't.
+
+> **Draft note — the $200K.** Your resume says you "scoped and designed 2
+> custom implementations totaling $200K." Nothing in your own final
+> presentation, the catalog deck, or the 18-sheet working file supports it. It
+> may be separate work from the same internship that isn't captured in those
+> files. Where does it come from? I've left it off rather than publish it.
+
+> **Draft note — the customer-data claim.** Your resume says the catalog was
+> built by drawing on customer data. The approach documented across all three
+> Adobe sources is blueprint and interview-driven. If there was a data
+> component, what was it?

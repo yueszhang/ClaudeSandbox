@@ -1,18 +1,18 @@
 ---
-// AI adoption maturity — four stages with an explicit gate between each.
-// The gates are the substance of the figure: they make a team's stage an
-// observable fact rather than a self-assessment.
+// The four maturity levels as actually defined on the program. An earlier
+// version of this figure used invented stage names; these are the real ones.
+// Level descriptions are paraphrased, never lifted from the source deck.
 const stages = [
-  { n: '01', name: 'Exploring', detail: 'Individual curiosity. Unsanctioned tools, no shared practice, no visibility.' },
-  { n: '02', name: 'Assisted', detail: 'Governed access in place. AI applied to discrete tasks inside the existing workflow.' },
-  { n: '03', name: 'Integrated', detail: 'The default path runs through the tooling. Team-level practice rather than individual habit.' },
-  { n: '04', name: 'Autonomous', detail: 'Teams select AI-assisted approaches unprompted, on work that matters.' },
+  { n: '01', name: 'Activating', detail: 'Access granted and the basics in place. Practice is individual rather than shared.' },
+  { n: '02', name: 'Augmented', detail: 'AI applied to real delivery work inside the existing workflow. The 2026 target level.' },
+  { n: '03', name: 'Accelerated', detail: 'The default path runs through the tooling. Team-level practice, measurable throughput.' },
+  { n: '04', name: 'Autonomized', detail: 'Agents own defined stages of delivery, with humans on the approval gates.' },
 ];
 
 // Kept to a similar length so none collides with the dashed rule at x=480.
 const gates = [
   'Gate — governed access, responsible AI training',
-  'Gate — workflow instrumented, usage observable',
+  'Gate — agent-ready codebase, usage observable',
   'Gate — outcomes attributable, practice self-sustaining',
 ];
 
@@ -26,8 +26,9 @@ const rowY = (i: number) => TOP + i * (ROW_H + GATE_H);
 
 <svg viewBox={`0 0 ${W} ${height}`} role="img" aria-labelledby="maturity-title">
   <title id="maturity-title">
-    A four-stage AI adoption maturity model — Exploring, Assisted, Integrated,
-    Autonomous — separated by three gates that must be met to advance.
+    A four-level AI adoption maturity model — Activating, Augmented,
+    Accelerated, Autonomized — separated by three gates that must be met to
+    advance.
   </title>
 
   {

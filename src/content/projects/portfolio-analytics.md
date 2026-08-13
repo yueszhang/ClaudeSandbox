@@ -66,6 +66,12 @@ which is usually where internal tooling should start.
 > you led? "Led a team of engineers" is doing real work on this page and a
 > number would make it concrete.
 
+> **Draft note — sourcing on the Loews figures.** Neither "120+ users" nor the
+> "$750M aerospace and defense portfolio" appears in any local source. LinkedIn
+> confirms only credit research covering aerospace and defense. You've settled
+> $750M over $500M and that stands, but both numbers rest on your resume alone.
+> Worth knowing which ones you'd want to be pressed on.
+
 ## The analyst work
 
 Running alongside: recommending newly issued securities and relative value

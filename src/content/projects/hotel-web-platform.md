@@ -1,14 +1,14 @@
 ---
-title: 'A Web Design Platform for 8,000 Hotels'
-tagline: 'Self-service website creation across 139 countries. Launch time fell from six weeks to two, saving $2.5M a year.'
+title: 'Content Tooling at Scale'
+tagline: 'A content intake tool for 8,000+ properties, and the discovery program that mapped what to build next.'
 company: 'Deloitte Digital'
 role: 'Product Manager'
 client: 'A leading travel and hospitality company'
 industry: 'Travel & Hospitality'
 period: 'September 2020 — January 2024'
 sortDate: '2021-01'
-teamSize: '10 developers · 2 designers · 2 testers'
-summary: 'Internal tooling that took property website creation from a month and a half down to two weeks, across 8,000 hotels and 50,000 users in 139 countries.'
+teamSize: 'Engineering, design and QA'
+summary: 'Product lead on a content intake tool serving 8,000+ properties and 50,000+ users, then discovery lead on a broader content-at-scale assessment: 30 sessions, 80 stakeholders, 200+ pain points.'
 themes:
   - 'Product Management'
   - 'Platform & Tooling'
@@ -19,85 +19,97 @@ skills:
   - 'Stakeholder workshops'
   - 'Localization at scale'
 metrics:
-  - value: '$2.5M'
-    label: 'Annual cost savings'
-  - value: '3×'
-    label: 'Faster property launches'
   - value: '8,000+'
-    label: 'Hotels served'
-  - value: '139'
-    label: 'Countries'
+    label: 'Properties served'
+  - value: '80'
+    label: 'Stakeholders interviewed in discovery'
+  - value: '200+'
+    label: 'Pain points captured'
+  - value: '30'
+    label: 'Discovery sessions, 36+ hours'
 featured: true
 ---
 
-I designed, built and launched an internal platform that let 8,000+ hotels
-create their own websites. Time to launch a property site went from about a
-month and a half to two weeks. The company saved $2.5M a year.
+Two efforts about a year apart, for the same client.
 
-I led a team of 10 developers, 2 designers and 2 testers through go-live and
-the releases after it.
+First I was product lead on a content intake tool, streamlining how content got
+created and submitted for **8,000+ properties** and **50,000+ end users**. We
+took it to MVP and then ran post-production prioritization against how people
+used it in practice.
 
-## The situation
+Later I came back as discovery lead on a much broader question: what would it
+take to run content operations across the whole estate, not just intake.
 
-Every property needed a web presence. Creating one required specialists, and
-there were 8,000 properties and 50,000+ potential users across 139 countries.
-The queue was the problem, and the queue was the cost.
+## The discovery
 
-## The design constraint
+**30 sessions, 36+ hours, 80 stakeholders, 200+ pain points.**
 
-Two failure modes sat on either side of this, and both are fatal.
+That last number is the one I'd defend hardest. Two hundred pain points is not
+a research finding, it's raw material — the work was ranking them into an
+opportunity set across asset management, user access and provisioning,
+taxonomy, and workflow automation.
 
-Give property managers too much freedom and you get 8,000 off-brand websites,
-which is worse than the bottleneck you removed. Give them too little and they
-can't show what makes their hotel different, so they work around the tool and
-you have built shelfware.
+The population mattered as much as the volume. We interviewed corporate teams
+and independent operators, and they do not have the same problems. Corporate
+wants consistency and governance. An independent operator wants to not have to
+ask corporate for anything. A tool designed only from the corporate side of
+that split produces something operators route around, which is what had already
+happened.
 
-We put the brand constraints into the system rather than into a guidelines PDF.
-When the compliant path is also the fastest path, compliance stops being a
-review step.
+> **Draft note —** What were the top three opportunities in the ranked set?
+> The discovery numbers are the strongest evidence in your whole portfolio and
+> the page currently reports the method without reporting the answer.
 
-139 countries made this sharper. A tool that assumes one market's conventions
-fails quietly in the others. Address formats, image norms, how much space a
-translated string needs, and what counts as a hotel in that market all vary.
+## The build
 
-> **Draft note —** What could a property manager do in the tool? Pick from
-> templates, edit copy, upload photos, change layout? Right now the page argues
-> about the design constraint without showing what got built, and that's the
-> first question anyone will ask.
+The intake tool came first and had a narrower brief: make submitting content
+possible without a specialist in the loop.
 
-## Time to launch
+Two failure modes sat on either side. Too much freedom and you get thousands of
+off-brand properties, which is worse than the bottleneck you removed. Too
+little and a property can't show what makes it different, so people work around
+the tool and you've shipped shelfware.
 
-Six weeks down to two, across 8,000 properties, is where the $2.5M comes from.
-It isn't a license saving or a headcount cut. It's the same work moving
-through the queue three times faster.
+We put the brand constraints into the system rather than into a guidelines PDF
+nobody opens. When the compliant path is also the fastest path, compliance
+stops being a review step.
 
-> **Draft note —** Do you have an adoption figure? Percentage of properties
-> using the tool a year in, or number of sites created? Savings assume usage,
-> and an adoption number is what makes the $2.5M credible rather than
-> theoretical.
+> **Draft note —** What could a property manager do in the tool? Pick
+> templates, edit copy, upload assets? The page argues about the design
+> constraint without showing what got built, and that's the first question
+> anyone will ask.
 
-## Adoption
+## Numbers I've taken off this page
 
-The 4% lift in retention and conversion came after launch, from releases that
-responded to how people used the thing.
+Three figures from my resume don't appear in any source I have, so I've pulled
+them rather than publish claims I can't back.
 
-Shipping was the halfway point. Internal tools have no marketing function to
-make up for a bad first experience, and a tool nobody adopts saves nothing.
+> **Draft note — three unsupported figures.**
+>
+> - **"$2.5M in annual cost savings."** Not in any source. Where does it come
+>   from, and is it a modelled saving or a measured one?
+> - **"139 countries."** Not in any source.
+> - **"+4% user retention and conversion."** Not in any source, and retention
+>   and conversion is an odd pairing for an internal content tool. Worth
+>   checking whether that metric migrated from a different project.
+>
+> Each may be entirely real and just undocumented here. Give me a source or a
+> recollection you'd defend out loud and they go back.
 
-I ran workshops with C-suite, engineering and design stakeholders throughout,
-demonstrating progress and holding alignment. On a multi-year internal
-platform, visible progress is what keeps the funding attached.
+> **Draft note — team composition.** Three versions exist: 10 developers + 2
+> designers + 2 testers (resume), 10 engineers + 2 designers (later
+> self-assessment), 8 engineers + 2 testers (earliest). Which is right?
 
-## Outcomes
-
-- **$2.5M in annual savings**
-- Property site launches **3× faster**, from ~6 weeks to 2
-- **8,000+ hotels** and **50,000+ users** across **139 countries**
-- **+4% retention and conversion** from post-launch releases
+> **Draft note — one page or two?** The build and the discovery are separated
+> by about a year and had different scopes. Presenting them as one continuous
+> project is a timeline problem. Want them split?
 
 ## What I'd do differently
 
-I should have shipped to a handful of properties much earlier. Designing for
-139 countries from the start was right in principle and meant a long stretch
-before real users touched anything. The localization assumptions we got wrong
-were ones a pilot in three markets would have caught in weeks.
+On the build, I should have shipped to a handful of properties much earlier.
+Designing for the full estate from the start was right in principle and meant a
+long stretch before real users touched anything.
+
+On the discovery, the opposite problem. Two hundred pain points is a lot of
+evidence and I spent longer organizing it than I needed to before showing
+anyone the shape of the answer.

@@ -1,14 +1,14 @@
 ---
-title: 'Running Web Delivery With AI in the Loop'
-tagline: 'Three pods, 72 people, 12 launches. Embedding AI tooling in the workflow moved launch velocity 1.5×.'
+title: 'Web Channels for a Hotel Loyalty Program'
+tagline: 'Running multiple development pods through a launch calendar, with AI tooling embedded in how the pods work.'
 company: 'Deloitte Digital'
 role: 'AI-Native Product Lead — Web Channels'
 client: 'A major multinational hotel loyalty program'
 industry: 'Travel & Hospitality'
 period: 'August 2025 — Present'
 sortDate: '2025-08-02'
-teamSize: '3 pods · 72 people'
-summary: 'Web channels for a multinational hotel loyalty program. Same pods, same delivery pressure, 1.5× launch velocity after AI tooling went into the workflow rather than alongside it.'
+teamSize: 'Multiple development pods'
+summary: 'Program and product lead for the web channels of a major multinational hotel loyalty program. Sign-in centralization across five releases, partner-agnostic enrollment, and an emergency partner deprecation turned around in two days.'
 themes:
   - 'AI-Native Delivery'
   - 'Product Management'
@@ -19,40 +19,54 @@ skills:
   - 'Release planning'
   - 'Stakeholder & funding management'
 metrics:
-  - value: '1.5×'
-    label: 'Launch velocity after AI embedding'
-  - value: '12'
-    label: 'Launches led'
-  - value: '72'
-    label: 'People across 3 pods'
-  - value: '+4%'
-    label: 'Account enrollment uptick'
+  - value: '5'
+    label: 'Releases to centralize sign-in'
+  - value: '180–220'
+    label: 'Story points, sign-in centralization'
+  - value: '2 days'
+    label: 'Emergency partner deprecation, end to end'
 diagram: 'ailoop'
 featured: true
 ---
 
 import Diagram from '../../components/Diagram.astro';
 
-I run web channel delivery for a multinational hotel loyalty program. Three
-development pods, 72 people across product, engineering, QA and design, 12
-launches so far. Launch velocity is 1.5× where it started.
+I'm the program and product lead for the web channels of a major multinational
+hotel loyalty program. Multiple development pods spanning product, engineering,
+QA and design, running against a multi-launch calendar that includes two global
+promotions.
 
-The velocity came from putting AI tooling inside the workflow instead of
-offering it alongside. That distinction is most of what I've learned on this
-engagement.
+The work I'd point to is sign-in. We migrated a modal login to a flyout
+pattern, phased across five releases at roughly 180 to 220 story points. Login
+is the least glamorous surface on a loyalty site and the one every other
+journey depends on, so it gets deferred until it can't be.
 
-## The situation
+## The constraint
 
-The launch calendar didn't slow down for a methodology change. Twelve releases
-went out while the way of working changed underneath them. Anything that
-required pausing delivery wasn't an option, which ruled out most of what a
-transformation program would normally do.
+The launch calendar didn't slow down for a methodology change. Releases went out
+while the way of working changed underneath them, which ruled out most of what
+a transformation program would normally do. No pilot cohort, no parallel track,
+no month of enablement before real work resumed.
 
 ## What I owned
 
-Delivery across all three pods. Unblocking teams, clarifying requirements and
-designs, and securing funding through quarterly SteerCo planning. AI tooling
-adoption inside the pods sat with me as well.
+Delivery across the pods. Unblocking teams, clarifying requirements and designs,
+and holding cross-functional alignment through quarterly planning. AI tooling
+adoption inside the pods sat with me too.
+
+## The two-day deprecation
+
+The story I'd tell in an interview is smaller than the sign-in work and says
+more about the job.
+
+Two partner brands had to come off the site, urgently. That turned out to be 45
+references across 8 pages, touching three cross-discipline teams. We turned it
+around in two days.
+
+Nothing about that is technically hard. It's hard because 45 references is the
+kind of number nobody knows until someone goes and counts, and because three
+teams on a two-day clock will each assume another one owns the ambiguous cases.
+Most of the work was finding all 45 and deciding who had which.
 
 ## Embedding AI in the workflow
 
@@ -74,58 +88,79 @@ Where each landed:
 
 <Diagram name="ailoop" />
 
-The 1.5× showed up in build throughput and in feature fix time. Fix time is how
-long it takes to correct a defect and prove it fixed.
+Where it helped most was cycle time rather than throughput of ideas. This
+program never lacked things to build. It lost time in the loop between finding
+something wrong and confirming it was right again, and that loop is set by
+whatever the slowest pod does under pressure rather than by what the most
+enthusiastic engineer adopts. Which is the argument for embedding over
+offering.
 
-Both are cycle-time problems. This program never lacked ideas about what to
-build. It lost time in the loop between finding something wrong and confirming
-it was right again. Compress that loop and the release calendar moves. Leave it
-and better specs queue behind the same bottleneck.
+> **Draft note — the 1.5× claim, high priority.** Your resume says embedding AI
+> tooling increased launch velocity 1.5×. No source I have supports it, so I've
+> taken it off the page rather than publish a number you might not be able to
+> source. If you measured it, tell me how — before-and-after of what, over what
+> window — and it goes straight back. It's a strong claim and worth having if
+> it's defensible.
 
-That also explains why embedding beat choosing. Fix time is set by what the
-slowest pod does under pressure, not by what the most enthusiastic engineer
-adopts.
+## The launch calendar
 
-> **Draft note —** Two things would sharpen this section. First, roughly what
-> was fix time before and after? Second, did all three pods move at the same
-> rate, or did one lag? A pod that lagged is the more interesting story,
-> because it says what embedding costs.
+Global promotions, partner and employee rate validations, and the flyout
+navigation work, run through a consistent phase structure.
 
-## The launches
+That structure existed because programs this size fail at handoffs rather than
+at execution. Every pod knowing what "ready" meant at each boundary was worth
+more than any individual process improvement.
 
-Twelve, run through a consistent three-phase approach: global promotions,
-partner and employee rate validations, AI chatbots, and next-generation flyout
-menus.
+The other durable piece was partner-agnostic enrollment and cross-channel
+authentication between the apps and the web. Both are the kind of plumbing that
+only gets noticed when it's missing.
 
-The phase structure existed because programs this size fail at handoffs rather
-than at execution. Consistent phases meant every pod knew what "ready" meant at
-each boundary, and SteerCo could fund against a shape it recognized.
+> **Draft note — launch count.** Your resume says 12 launches; a
+> self-assessment says 8 sitewide. Those may be counting different things, or
+> one may be stale. Which is right?
 
-> **Draft note —** What are the three phases? I have described what the
-> structure achieved without naming the stages, because I don't know them.
-> Naming them turns a claim into a method someone could borrow, and it's the
-> kind of thing an interviewer will ask you to walk through.
+> **Draft note — team size.** Three sources, three numbers: 3 pods / 72 people
+> (resume), 2 pods / around 60 (self-assessment), 50+ offshore across 2 pods
+> (promotion notes). The page now says "multiple pods" rather than picking one.
 
-> **Draft note —** The AI chatbot launch is the most relevant item on that list
-> for AI-focused roles and it currently gets four words. What did it do, who
-> used it, did it work? This could be its own case study.
+> **Draft note — the three phases.** I've described what the phase structure
+> achieved without naming the stages, because I don't know them. Naming them
+> turns a claim into a method someone could borrow.
 
-## Outcomes
+> **Draft note — the AI chatbot.** Most relevant item here for AI-focused
+> roles, and it currently gets a passing mention. What did it do, who used it,
+> did it work? Possibly its own case study.
 
-- **12 launches** across promotions, rate validation, conversational AI and
-  navigation
-- **1.5× launch velocity** after embedding AI tooling in pod workflows
-- **+4% account enrollment**
-- Funding and alignment held across quarterly SteerCo cycles
+## What shipped
+
+- Sign-in centralized from a modal to a flyout pattern, phased across **5
+  releases** at roughly **180–220 story points**
+- Emergency deprecation of two partner brands: **45 references, 8 pages, 3
+  teams, 2 days**
+- Partner-agnostic enrollment and cross-channel authentication between apps and
+  web
+- Login flows standardized across the site
+- Two global promotions delivered inside the launch calendar
+- AI tooling embedded in pod workflows
+
+> **Draft note — the outcome metric. Read this one first.** Three different
+> numbers exist across your sources for what this work achieved: **+4% account
+> enrollment** (resume), **enrollment up 1.3M** (self-assessment), and
+> **checkout conversion up 3%** via login standardization (self-assessment).
+>
+> Those are three claims about two different outcomes, and enrollment volume
+> and checkout conversion can't be merged into one figure. I've left all of
+> them off the page rather than pick. Tell me which you can defend and how it
+> was measured, and it becomes the headline metric — this page needs one.
 
 ## What I'd do differently
 
-A few people became informal tooling coaches inside their pods. That worked,
-and it was fragile. The role was unnamed, unfunded and unrecognised, and it
-would have collapsed if any of them had rolled off. I should have named it and
-given it explicit time.
+A few people became informal tooling coaches inside their pods. That worked, and
+it was fragile. The role was unnamed, unfunded and unrecognized, and it would
+have collapsed if any of them had rolled off. I should have named it early.
 
-I also reconstructed the velocity baseline after the fact. The 1.5× holds up,
-but I would rather have had clean pre-period instrumentation than a good
-reconstruction, and I didn't think to set it up before we started changing
-things.
+The bigger miss was instrumentation. I didn't set up a clean before-and-after
+baseline before we started changing how the pods worked, which is why the
+velocity claim on my resume is harder to source than it should be. On a change
+you intend to claim credit for, the measurement has to exist before the change
+does.

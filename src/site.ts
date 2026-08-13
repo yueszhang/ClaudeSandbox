@@ -24,7 +24,7 @@ export const site = {
     'Product manager who builds with AI, and gets organizations building with it too.',
 
   intro:
-    'I ship product with AI inside my own delivery loop. Then I turn what works into something teams can adopt: tooling, guardrails, and the change management that makes it stick. Most recently across 900+ product teams at a global investment manager.',
+    'I ship product with AI inside my own delivery loop. Then I turn what works into something teams can adopt: tooling, guardrails, and the change management that makes it stick. Most recently on a firm-wide adoption program at an investment management company.',
 
   /**
    * Optional headshot for the About page. Drop an image in `src/assets/` and
