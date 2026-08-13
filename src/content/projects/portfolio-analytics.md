@@ -66,12 +66,6 @@ which is usually where internal tooling should start.
 > you led? "Led a team of engineers" is doing real work on this page and a
 > number would make it concrete.
 
-> **Draft note —** Conflicting figures across your resumes. The older one says
-> you covered **$500M** of aerospace and defense; the current one says
-> **$750M**. The site uses $750M. If the book grew over your time there, both
-> are true and neither needs changing. If not, tell me which is right — this is
-> the kind of number an interviewer checks.
-
 ## The analyst work
 
 Running alongside: recommending newly issued securities and relative value
