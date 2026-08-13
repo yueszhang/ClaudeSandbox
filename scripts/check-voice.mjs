@@ -146,6 +146,9 @@ for (const file of files.sort()) {
   // component label data (e.g. "Gate — governed access") are separators, not
   // rhythm, and counting them produces noise.
   if (/\.mdx?$/.test(file)) text.split(/\n\s*\n/).forEach((para) => {
+    // Draft notes are working annotations, not published prose. They get
+    // deleted before launch, so holding them to the style rules is noise.
+    if (para.trim().startsWith('>')) return;
     const count = (para.match(/—/g) || []).length;
     if (count > MAX_EMDASH_PER_PARAGRAPH) {
       const line = text.slice(0, text.indexOf(para)).split('\n').length;

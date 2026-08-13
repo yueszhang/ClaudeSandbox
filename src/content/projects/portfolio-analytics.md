@@ -1,13 +1,13 @@
 ---
 title: 'Portfolio Analytics for a $750M Book'
-tagline: 'My first product, built for the traders I sat next to. Adopted by 120+ people, and the reason I stopped being an analyst.'
+tagline: 'A credit risk and portfolio monitoring system, built for the traders I sat next to. 120+ users, and the reason I stopped being an analyst.'
 company: 'Loews Corporation'
 role: 'Investment Analyst'
 client: 'Loews Corporation investment team'
 industry: 'Investment Management'
 period: 'March 2019 — September 2020'
 sortDate: '2019-06'
-summary: 'Portfolio analytics software adopted by 120+ portfolio managers, traders and research analysts. Built for users I sat next to, which is why it got used.'
+summary: 'A department-wide credit risk and portfolio monitoring system, adopted by 120+ portfolio managers, traders and research analysts. Built for users I sat next to, which is why it got used.'
 themes:
   - 'Platform & Tooling'
   - 'Research & Discovery'
@@ -24,9 +24,11 @@ metrics:
 featured: false
 ---
 
-I launched portfolio analytics software to 120+ portfolio managers, traders and
-research analysts at Loews. I translated stakeholder interviews into user
-stories and requirements, then saw it through to adoption.
+I led a team of engineers to build a department-wide credit risk and portfolio
+monitoring system at Loews. It replaced the investment operations
+infrastructure, automated recurring P&L, and generated credit risk and
+positioning reports. 120+ portfolio managers, traders and research analysts
+ended up using it.
 
 I was an investment analyst at the time, covering a $750M aerospace and defense
 book. The analytics we had weren't good enough and I volunteered to fix it.
@@ -47,16 +49,36 @@ rather than a transcript of a feature request. Turning stakeholder language
 into user stories is mostly interpretation, and you can't interpret a domain
 you don't know.
 
-> **Draft note —** What did the software do? Position and exposure views,
-> relative value screening, risk reporting? The page argues about why it got
-> adopted without saying what it was, and that gap is conspicuous on the one
-> project here that started your career change.
+## What it replaced
+
+The investment operations infrastructure it overhauled was doing three jobs
+badly. Recurring P&L was assembled by hand every cycle. Credit risk and
+positioning reports were produced on request rather than on a schedule. And
+nothing tied the two together, so a portfolio manager asking a risk question
+had to wait for someone to go and build the answer.
+
+Automating the recurring P&L was the piece that bought the most goodwill. It
+was the least interesting problem on the list and the one everyone felt weekly,
+which is usually where internal tooling should start.
+
+> **Draft note —** Two things would round this out. Roughly how long did the
+> manual P&L cycle take before, and after? And how big was the engineering team
+> you led? "Led a team of engineers" is doing real work on this page and a
+> number would make it concrete.
+
+> **Draft note —** Conflicting figures across your resumes. The older one says
+> you covered **$500M** of aerospace and defense; the current one says
+> **$750M**. The site uses $750M. If the book grew over your time there, both
+> are true and neither needs changing. If not, tell me which is right — this is
+> the kind of number an interviewer checks.
 
 ## The analyst work
 
 Running alongside: recommending newly issued securities and relative value
 trades, and briefing portfolio managers on sentiment, industry headwinds and
-market trends.
+market trends. I also backtested trading strategies in the high yield universe
+and helped close around $150M of committed capital through fundamental analysis
+and due diligence on new issues and private placements.
 
 That training still shows up. Most product arguments come down to a claim about
 numbers. Whether a metric measures what someone says it does, whether a
