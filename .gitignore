@@ -6,3 +6,13 @@ dist/
 *.log
 .env
 .env.production
+
+# Source material. Read locally, never published.
+# Contains client names and internal detail that the site deliberately
+# anonymizes, and this repo is public. Git history is permanent, so a single
+# accidental commit here cannot be undone by deleting the file later.
+website context/
+website-context/
+/context/
+/source-material/
+
