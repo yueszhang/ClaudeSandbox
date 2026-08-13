@@ -8,7 +8,7 @@ industry: 'Travel & Hospitality'
 period: 'September 2020 — January 2024'
 sortDate: '2021-01'
 teamSize: 'Engineering, design and QA'
-summary: 'Product lead on a content intake tool serving 8,000+ properties and 50,000+ users, then discovery lead on a broader content-at-scale assessment: 30 sessions, 80 stakeholders, 200+ pain points.'
+summary: 'Content tooling for 8,000+ properties and 50,000+ users, plus the discovery program behind it: 30 sessions, 80 stakeholders, 200+ pain points ranked into an opportunity set.'
 themes:
   - 'Product Management'
   - 'Platform & Tooling'
@@ -30,15 +30,14 @@ metrics:
 featured: true
 ---
 
-Two efforts about a year apart, for the same client.
+I led content tooling for a global hospitality client, covering **8,000+
+properties** and **50,000+ end users**.
 
-First I was product lead on a content intake tool, streamlining how content got
-created and submitted for **8,000+ properties** and **50,000+ end users**. We
-took it to MVP and then ran post-production prioritization against how people
-used it in practice.
-
-Later I came back as discovery lead on a much broader question: what would it
-take to run content operations across the whole estate, not just intake.
+Two halves. Building and launching the intake tool that let properties submit
+content without a specialist in the loop, taking it to MVP and then running
+post-production prioritization against how people used it. And leading the
+discovery that mapped the broader question: what it would take to run content
+operations across the whole estate rather than just intake.
 
 ## The discovery
 
@@ -62,8 +61,8 @@ happened.
 
 ## The build
 
-The intake tool came first and had a narrower brief: make submitting content
-possible without a specialist in the loop.
+The intake tool had the narrower brief: make submitting content possible without
+a specialist in the loop.
 
 Two failure modes sat on either side. Too much freedom and you get thousands of
 off-brand properties, which is worse than the bottleneck you removed. Too
@@ -100,10 +99,6 @@ them rather than publish claims I can't back.
 > designers + 2 testers (resume), 10 engineers + 2 designers (later
 > self-assessment), 8 engineers + 2 testers (earliest). Which is right?
 
-> **Draft note — one page or two?** The build and the discovery are separated
-> by about a year and had different scopes. Presenting them as one continuous
-> project is a timeline problem. Want them split?
-
 ## What I'd do differently
 
 On the build, I should have shipped to a handful of properties much earlier.
@@ -111,5 +106,5 @@ Designing for the full estate from the start was right in principle and meant a
 long stretch before real users touched anything.
 
 On the discovery, the opposite problem. Two hundred pain points is a lot of
-evidence and I spent longer organizing it than I needed to before showing
-anyone the shape of the answer.
+evidence and I spent longer organizing it than I needed to before showing anyone
+the shape of the answer.

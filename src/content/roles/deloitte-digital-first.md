@@ -21,12 +21,3 @@ specialist for every property.
 This is where I learned requirements at volume — five hundred of them on one
 program, out of discovery with people whose incentives did not line up.
 Deloitte sponsored my MBA off the back of this work and I came back afterwards.
-
-> **Draft note — title dates.** Your resume presents this whole stretch as
-> "Senior Consultant, September 2020 – January 2024." LinkedIn splits it:
-> Consultant from September 2020, Senior Consultant from May 2022. The resume
-> backdates the senior title by about 20 months.
->
-> This page uses the LinkedIn version because a hiring manager who checks both
-> will notice the gap, and the promotion is a better story than the backdate.
-> Tell me if you'd rather present it as one block.
