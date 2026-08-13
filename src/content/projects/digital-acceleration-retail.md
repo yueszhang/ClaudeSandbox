@@ -51,7 +51,7 @@ That research set the prioritization, which was the point. A groomed backlog
 with no research behind it is an ordered list of opinions.
 
 > **Draft note —** What were the top two or three pain points you found? This
-> is the section where you can show research judgement, and right now it argues
+> is the section where you can show research judgment, and right now it argues
 > for the method without reporting a single finding. Even one specific
 > friction point you fixed would carry it.
 
@@ -72,7 +72,7 @@ step and underinvests everywhere else.
 
 > **Draft note —** How did the segmentation model differ from the rule-based
 > segments it replaced, and did it change what the marketing team did? An AI
-> project from 2022 that changed someone's behaviour is worth more here than
+> project from 2022 that changed someone's behavior is worth more here than
 > the technique itself.
 
 ## Outcomes

@@ -21,11 +21,11 @@ software gets built and became how fast organizations could absorb it. The
 enablement work I do now follows directly from that timing.
 
 I was also a Columbia Build Lab incubatee, which meant building rather than
-analysing.
+analyzing.
 
 > **Draft note —** What did you work on at Build Lab? If it was a real product,
 > even one that went nowhere, it deserves a case study. Self-built work carries
-> no confidentiality risk, and it answers a question the client work cannot:
+> no confidentiality risk, and it answers a question the client work can't:
 > what do you make when nobody is paying you to.
 
 > **Draft note —** Anything from the MBA worth naming? A concentration, a

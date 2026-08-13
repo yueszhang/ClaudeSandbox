@@ -29,13 +29,13 @@ research analysts at Loews. I translated stakeholder interviews into user
 stories and requirements, then saw it through to adoption.
 
 I was an investment analyst at the time, covering a $750M aerospace and defense
-book. The analytics we had were not good enough and I volunteered to fix it.
+book. The analytics we had weren't good enough and I volunteered to fix it.
 
 ## Why it got adopted
 
 I sat next to the users. Every day.
 
-That is not a methodology, and it explains the outcome better than anything
+That isn't a methodology, and it explains the outcome better than anything
 else I could claim. When you use the tool yourself, and the people it fails are
 people you will see at lunch, the feedback loop is immediate. Most internal
 tools fail on adoption, and most of that failure is distance between the person
@@ -44,8 +44,8 @@ building and the person using.
 Domain knowledge mattered too. When a trader described what they needed, I
 understood the workflow underneath it, so the requirements captured intent
 rather than a transcript of a feature request. Turning stakeholder language
-into user stories is mostly interpretation, and you cannot interpret a domain
-you do not know.
+into user stories is mostly interpretation, and you can't interpret a domain
+you don't know.
 
 > **Draft note —** What did the software do? Position and exposure views,
 > relative value screening, risk reporting? The page argues about why it got

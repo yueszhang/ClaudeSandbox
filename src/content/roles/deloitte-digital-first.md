@@ -11,7 +11,7 @@ Three and a half years of core product management, mostly travel and
 hospitality, mostly on systems with a lot of users and a lot of history.
 
 The common thread was replatforming and tooling. Taking something that worked
-but did not scale, and rebuilding it around what the people using it needed. A
+but didn't scale, and rebuilding it around what the people using it needed. A
 loyalty program on ageing infrastructure. A website creation process that took
 six weeks per property.
 

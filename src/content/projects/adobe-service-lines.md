@@ -25,7 +25,7 @@ featured: false
 ---
 
 I spent the summer between MBA years at Adobe Professional Services, working
-out which services Adobe should be selling that it was not. I catalogued and
+out which services Adobe should be selling that it wasn't. I cataloged and
 priced new service lines with executive stakeholders, then scoped two custom
 implementations worth $200K, integrating Adobe Experience Cloud into enterprise
 systems.
@@ -39,22 +39,22 @@ same work from the other side of the table.
 Adobe wanted to grow its implementation pipeline. The open question was which
 service lines to add.
 
-New service lines get proposed constantly and most die, because they are argued
+New service lines get proposed constantly and most die, because they're argued
 from anecdote. A salesperson loses a deal, concludes a gap exists, and nothing
 tests that.
 
 ## Pricing against evidence
 
-Grounding the catalogue in customer data changed the conversation with
+Grounding the catalog in customer data changed the conversation with
 executives. The claim stopped being "customers seem to want this" and became a
 demonstrable pattern of demand that a service line would address.
 
 Scoping two of them into real implementations was the test. A service line you
-cannot turn into a priced, deliverable engagement is a slide. Scoping is where
+can't turn into a priced, deliverable engagement is a slide. Scoping is where
 the optimistic ones fall apart.
 
 > **Draft note —** What were the service lines, and which two did you scope?
-> Adobe's services catalogue is public, so this is not sensitive. Naming them
+> Adobe's services catalog is public, so this isn't sensitive. Naming them
 > turns an abstract commercial exercise into something a reader can evaluate.
 
 ## What the buyer-side experience contributed
@@ -64,11 +64,11 @@ Integration surface area. Dependence on vendor professional services. Total
 cost after the customization nobody scoped up front.
 
 Those anxieties are predictable. A service line priced without accounting for
-them looks competitive and does not close.
+them looks competitive and doesn't close.
 
 ## Outcomes
 
-- New service lines catalogued and priced with executive stakeholders
+- New service lines cataloged and priced with executive stakeholders
 - **2 custom implementations** scoped and designed, worth **$200K**
 - Adobe Experience Cloud integrated into enterprise systems
 
@@ -77,4 +77,4 @@ them looks competitive and does not close.
 I worked mostly from data about customers rather than talking to them. The
 analysis held up, but ten weeks is enough time for a handful of real
 conversations, and those would have tested the pricing assumptions in a way
-historical data cannot.
+historical data can't.

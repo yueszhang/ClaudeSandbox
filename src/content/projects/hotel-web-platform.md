@@ -49,7 +49,7 @@ Two failure modes sat on either side of this, and both are fatal.
 
 Give property managers too much freedom and you get 8,000 off-brand websites,
 which is worse than the bottleneck you removed. Give them too little and they
-cannot show what makes their hotel different, so they work around the tool and
+can't show what makes their hotel different, so they work around the tool and
 you have built shelfware.
 
 We put the brand constraints into the system rather than into a guidelines PDF.
@@ -62,13 +62,13 @@ translated string needs, and what counts as a hotel in that market all vary.
 
 > **Draft note —** What could a property manager do in the tool? Pick from
 > templates, edit copy, upload photos, change layout? Right now the page argues
-> about the design constraint without showing what got built, and that is the
+> about the design constraint without showing what got built, and that's the
 > first question anyone will ask.
 
 ## Time to launch
 
 Six weeks down to two, across 8,000 properties, is where the $2.5M comes from.
-It is not a licence saving or a headcount cut. It is the same work moving
+It isn't a license saving or a headcount cut. It's the same work moving
 through the queue three times faster.
 
 > **Draft note —** Do you have an adoption figure? Percentage of properties

@@ -16,6 +16,6 @@ volunteered to run it, and I spent months interviewing traders and research
 analysts and turning what they said into requirements. It shipped to 120+
 people.
 
-That project held my attention in a way the trades did not. I have been doing
+That project held my attention in a way the trades didn't. I've been doing
 some version of it since. The analytical training stayed useful, because most
 product arguments are arguments about numbers.
