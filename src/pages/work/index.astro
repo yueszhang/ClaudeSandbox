@@ -23,9 +23,7 @@ const startYear = projects
   .sort()[0]
   ?.slice(0, 4);
 
-/** Projects belong to a role when company and role title both match. */
-const projectsForRole = (company: string, roleTitle: string) =>
-  projects.filter((p) => p.data.company === company && p.data.role.startsWith(roleTitle.split(' — ')[0]));
+import { projectsForRole } from '../../lib/roles';
 ---
 
 <Base
@@ -83,11 +81,13 @@ const projectsForRole = (company: string, roleTitle: string) =>
     <ol class="roles">
       {
         roles.map((role) => {
-          const related = projectsForRole(role.data.company, role.data.role);
+          const related = projectsForRole(role, projects, roles);
           return (
             <li class="role">
               <div class="role-head">
-                <h3>{role.data.company}</h3>
+                <h3>
+                  <a href={`/roles/${role.id}/`}>{role.data.company}</a>
+                </h3>
                 <p class="meta role-period">{role.data.period}</p>
               </div>
               <p class="role-title">{role.data.role}</p>
@@ -219,6 +219,14 @@ const projectsForRole = (company: string, roleTitle: string) =>
   .role-head h3 {
     font-size: var(--step-1);
     margin: 0;
+  }
+
+  .role-head h3 a {
+    text-decoration: none;
+  }
+
+  .role-head h3 a:hover {
+    color: var(--accent);
   }
 
   .role-period {

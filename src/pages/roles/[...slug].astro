@@ -1,0 +1,165 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import Base from '../../layouts/Base.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { projectsForRole } from '../../lib/roles';
+
+export const getStaticPaths = (async () => {
+  const roles = (await getCollection('roles')).sort((a, b) =>
+    b.data.sortDate.localeCompare(a.data.sortDate)
+  );
+  const projects = (await getCollection('projects'))
+    .filter((p) => !p.data.draft)
+    .sort((a, b) => b.data.sortDate.localeCompare(a.data.sortDate));
+
+  return roles.map((role, i) => ({
+    params: { slug: role.id },
+    props: {
+      role,
+      related: projectsForRole(role, projects, roles),
+      newer: roles[i - 1] ?? null,
+      older: roles[i + 1] ?? null,
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+const { role, related, newer, older } = Astro.props;
+const d = role.data;
+const { Content } = await render(role);
+---
+
+<Base title={`${d.company} — ${d.role}`} description={d.summary}>
+  <article>
+    <header class="page hero">
+      <p class="eyebrow">{d.period} · {d.location}</p>
+      <h1>{d.company}</h1>
+      <p class="hero-role">{d.role}</p>
+      <p class="hero-summary">{d.summary}</p>
+    </header>
+
+    {/* .page must stay on its own element: it sets margin-inline:auto, and
+        combining that with .prose's max-width centres the reading column. */}
+    <div class="page body">
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+
+    {
+      related.length > 0 && (
+        <section class="page related">
+          <h2 class="eyebrow">Work from this role</h2>
+          <div class="cards">
+            {related.map((project) => (
+              <ProjectCard project={project} />
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    <nav class="page pager" aria-label="Other roles">
+      {
+        newer ? (
+          <a href={`/roles/${newer.id}/`} class="pager-link">
+            <span class="eyebrow">Newer</span>
+            <span class="pager-title">{newer.data.company}</span>
+          </a>
+        ) : (
+          <span />
+        )
+      }
+      {
+        older && (
+          <a href={`/roles/${older.id}/`} class="pager-link pager-link--next">
+            <span class="eyebrow">Earlier</span>
+            <span class="pager-title">{older.data.company}</span>
+          </a>
+        )
+      }
+    </nav>
+  </article>
+</Base>
+
+<style>
+  .hero {
+    padding-block: clamp(3rem, 8vh, 5rem) 0;
+  }
+
+  .hero h1 {
+    font-size: var(--step-3);
+    margin: 0.85rem 0 0.4rem;
+  }
+
+  .hero-role {
+    font-family: var(--font-sans);
+    font-size: var(--step-0);
+    font-weight: 600;
+    color: var(--text-muted);
+    margin: 0 0 1.1rem;
+  }
+
+  .hero-summary {
+    max-width: var(--measure);
+    font-size: var(--step-1);
+    line-height: 1.5;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .body {
+    margin-top: 3rem;
+  }
+
+  .related {
+    margin-top: clamp(3.5rem, 9vh, 5.5rem);
+    padding-top: 2.25rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(22rem, 100%), 1fr));
+    gap: 0 3.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .pager {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .pager-link {
+    display: grid;
+    gap: 0.4rem;
+    text-decoration: none;
+  }
+
+  .pager-link--next {
+    text-align: right;
+  }
+
+  .pager-title {
+    font-family: var(--font-serif);
+    font-size: var(--step-0);
+    font-weight: 600;
+  }
+
+  .pager-link:hover .pager-title {
+    color: var(--accent);
+  }
+
+  @media (max-width: 34rem) {
+    .pager {
+      grid-template-columns: 1fr;
+    }
+    .pager-link--next {
+      text-align: left;
+    }
+  }
+</style>
