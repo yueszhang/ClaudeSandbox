@@ -11,7 +11,7 @@ I came back to Deloitte Digital after Columbia with a narrower brief than I
 left with: help large organizations use AI, not evaluate it.
 
 Three engagements run in parallel. One is enablement at enterprise scale,
-several hundred product teams at an investment management company. One is delivery, running web
+900+ product teams at an investment management company. One is delivery, running web
 channels for a multinational loyalty program with AI tooling embedded in how
 the pods work. One is internal, vetting the AI tools our own practice buys and
 builds.
