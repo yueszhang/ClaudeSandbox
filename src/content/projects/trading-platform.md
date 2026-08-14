@@ -27,7 +27,7 @@ metrics:
     label: 'Workflows tracked'
   - value: '5+ hrs'
     label: 'Saved per workstream per week'
-featured: false
+featured: true
 ---
 
 I was product owner and PMO lead on a trading system implementation for a global

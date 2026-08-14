@@ -87,6 +87,15 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
           <li>
             <a href={site.linkedin} rel="me noopener">{site.linkedinLabel}</a>
           </li>
+          {
+            site.resume && (
+              <li>
+                <a href={site.resume.path} download>
+                  {site.resume.label}
+                </a>
+              </li>
+            )
+          }
         </ul>
       </div>
     </footer>

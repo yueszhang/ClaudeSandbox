@@ -62,10 +62,10 @@ const pursuits = [
       </p>
       <p>
         Four years of product management at Deloitte Digital followed, mostly
-        travel and hospitality. A loyalty program replatform that became a $1.2M
-        negotiation. An internal web platform that took property site launches
-        from six weeks to two, across 8,000 hotels in 139 countries. Conversion
-        work for two Fortune 500 retailers.
+        travel and hospitality. A loyalty program replatform that ran to 500+
+        requirements and a five-vendor selection. Content tooling for 8,000
+        properties. A trading platform implementation, and marketing platform
+        work for a pair of apparel retailers.
       </p>
       <p>
         Deloitte sponsored my MBA at Columbia on the strength of that work. I
@@ -184,6 +184,15 @@ const pursuits = [
     <ul class="contact">
       <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
       <li><a href={site.linkedin} rel="me noopener">{site.linkedinLabel}</a></li>
+      {
+        site.resume && (
+          <li>
+            <a href={site.resume.path} download>
+              {site.resume.label}
+            </a>
+          </li>
+        )
+      }
     </ul>
   </section>
 </Base>

@@ -24,7 +24,7 @@ metrics:
     label: 'Control objectives mapped'
   - value: '12 wk'
     label: 'Foundation plan across 7 phases'
-featured: true
+featured: false
 ---
 
 I designed an agent-driven software delivery lifecycle for a financial services

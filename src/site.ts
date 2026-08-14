@@ -33,6 +33,22 @@ export const site = {
    */
   portrait: null as string | null,
 
+  /**
+   * Downloadable resume. Put the PDF in `public/` and set `path` to its URL,
+   * e.g. '/joey-zhang-resume.pdf'. Links appear on About and in the footer
+   * only when this is set; leave it null and nothing renders.
+   *
+   * Before you add the file, two things to settle:
+   *
+   * 1. This repo is public and git history is permanent. Every resume version
+   *    carries a phone number, which the site itself deliberately omits. Use a
+   *    copy with the number removed, or accept that it becomes public.
+   * 2. Your resume still states figures the site no longer does — the four
+   *    dollar amounts, 12 launches, 1.5x velocity. Publishing both invites
+   *    someone to notice the difference.
+   */
+  resume: null as { path: string; label: string; updated: string } | null,
+
   email: 'YueSZhang@gmail.com',
   linkedin: 'https://linkedin.com/in/joey-y-zhang',
   linkedinLabel: 'linkedin.com/in/joey-y-zhang',
