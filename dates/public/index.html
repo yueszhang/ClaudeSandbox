@@ -1,0 +1,2145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="A swipeable deck of New York date ideas that sorts itself by the temperature. You each swipe on your own phone; when you both say yes, it's a match.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#e9ecf0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0e1216" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Weather Permitting">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Weather Permitting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap">
+<style>
+/* =========================================================================
+   Weather Permitting — tokens
+   Cool slate neutrals; the accent is the temperature. Cold is glacier blue,
+   warm is ember, everything is graphite. Verdict colors stay separate from
+   the accent so "yes" never changes meaning when the weather does.
+   ========================================================================= */
+:root{
+  color-scheme: light dark;
+
+  --ground:#e9ecf0;
+  --ground-deep:#dce1e7;
+  --surface:#ffffff;
+  --surface-2:#f3f5f8;
+  --ink:#12171d;
+  --ink-2:#4e5866;
+  --ink-3:#7d8794;
+  --line:#d4dae1;
+  --line-soft:#e4e8ed;
+
+  --cold:#0d6fa6;
+  --cold-tint:#dbecf7;
+  --warm:#c25a17;
+  --warm-tint:#fae5d2;
+  --all:#4d5a6b;
+  --all-tint:#e2e7ed;
+
+  --yes:#1d7d52;
+  --yes-tint:#dbf0e5;
+  --no:#b4302f;
+  --no-tint:#fadedd;
+
+  --tempgrad:linear-gradient(90deg,#0d6fa6 0%,#4e93b8 40%,#9aa2a6 68%,#c25a17 92%,#c25a17 100%);
+
+  --card-shadow:0 1px 2px rgba(18,23,29,.07), 0 18px 34px -14px rgba(18,23,29,.30);
+  --lift:0 1px 2px rgba(18,23,29,.06), 0 8px 20px -12px rgba(18,23,29,.28);
+
+  --sans:'Archivo', ui-sans-serif, system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  --serif:'Instrument Serif', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
+
+  --accent:var(--warm);
+  --accent-tint:var(--warm-tint);
+
+  --pad:16px;
+  --r-lg:24px;
+  --r-md:14px;
+  --r-sm:10px;
+  --safe-b:env(safe-area-inset-bottom, 0px);
+  --safe-t:env(safe-area-inset-top, 0px);
+  --kb:0px;
+}
+
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0e1216;
+    --ground-deep:#080b0e;
+    --surface:#171d24;
+    --surface-2:#1e252d;
+    --ink:#eef2f6;
+    --ink-2:#a6b2be;
+    --ink-3:#74818e;
+    --line:#2b333c;
+    --line-soft:#232a32;
+
+    --cold:#5cc0ee;
+    --cold-tint:#123243;
+    --warm:#f0a14a;
+    --warm-tint:#3b2412;
+    --all:#9db0c2;
+    --all-tint:#242c35;
+
+    --yes:#45c68c;
+    --yes-tint:#12332a;
+    --no:#f0736a;
+    --no-tint:#3a1a1b;
+
+    --tempgrad:linear-gradient(90deg,#5cc0ee 0%,#5f9cba 40%,#8b8f93 68%,#f0a14a 92%,#f0a14a 100%);
+
+    --card-shadow:0 1px 2px rgba(0,0,0,.5), 0 20px 40px -16px rgba(0,0,0,.7);
+    --lift:0 1px 2px rgba(0,0,0,.4), 0 10px 22px -14px rgba(0,0,0,.6);
+  }
+}
+
+:root[data-theme="dark"]{
+  --ground:#0e1216;
+  --ground-deep:#080b0e;
+  --surface:#171d24;
+  --surface-2:#1e252d;
+  --ink:#eef2f6;
+  --ink-2:#a6b2be;
+  --ink-3:#74818e;
+  --line:#2b333c;
+  --line-soft:#232a32;
+
+  --cold:#5cc0ee;
+  --cold-tint:#123243;
+  --warm:#f0a14a;
+  --warm-tint:#3b2412;
+  --all:#9db0c2;
+  --all-tint:#242c35;
+
+  --yes:#45c68c;
+  --yes-tint:#12332a;
+  --no:#f0736a;
+  --no-tint:#3a1a1b;
+
+  --tempgrad:linear-gradient(90deg,#5cc0ee 0%,#5f9cba 40%,#8b8f93 68%,#f0a14a 92%,#f0a14a 100%);
+
+  --card-shadow:0 1px 2px rgba(0,0,0,.5), 0 20px 40px -16px rgba(0,0,0,.7);
+  --lift:0 1px 2px rgba(0,0,0,.4), 0 10px 22px -14px rgba(0,0,0,.6);
+}
+
+/* The deck in view decides the accent, document-wide — the sheets and the
+   toast are outside .app and need it too. */
+:root[data-mode="cold"]{--accent:var(--cold); --accent-tint:var(--cold-tint);}
+:root[data-mode="warm"]{--accent:var(--warm); --accent-tint:var(--warm-tint);}
+:root[data-mode="all"] {--accent:var(--all);  --accent-tint:var(--all-tint);}
+
+*,*::before,*::after{box-sizing:border-box}
+
+/* Any author `display` beats the UA rule for [hidden], so say it once here.
+   Without this, every panel we hide by attribute stays on the page. */
+[hidden]{display:none !important}
+
+html{-webkit-text-size-adjust:100%}
+
+body{
+  margin:0;
+  height:100vh;
+  height:100dvh;
+  overflow:hidden;
+  overscroll-behavior:none;
+  background:var(--ground);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:15px;
+  line-height:1.45;
+  -webkit-font-smoothing:antialiased;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+
+button{font:inherit;color:inherit;margin:0}
+
+:focus-visible{outline:2px solid var(--accent,#0d6fa6);outline-offset:2px;border-radius:4px}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{transition-duration:.01ms !important;animation-duration:.01ms !important}
+}
+
+/* =========================================================================
+   App shell — three fixed rows: instrument, stage, verdict rail.
+   ========================================================================= */
+.app{
+  height:100%;
+  max-width:520px;
+  margin:0 auto;
+  display:grid;
+  grid-template-rows:auto minmax(0,1fr) auto;
+  grid-template-columns:minmax(0,1fr);
+  background:var(--ground);
+  padding:calc(var(--safe-t) + 10px) var(--pad) 0;
+  -webkit-user-select:none;
+  user-select:none;
+}
+
+/* ---------- Instrument header ---------- */
+.bar{display:flex;flex-direction:column;gap:10px;min-width:0}
+
+.bar-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;min-width:0}
+.wordmark{min-width:0}
+
+.wordmark-name{
+  display:block;
+  overflow-wrap:anywhere;
+  font-family:var(--serif);
+  font-size:27px;
+  line-height:1.05;
+  letter-spacing:-.01em;
+}
+.wordmark-sub{
+  display:block;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  margin-top:3px;
+  font-size:11px;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+  color:var(--ink-3);
+}
+
+.bar-actions{display:flex;gap:8px;flex:none}
+
+.icon-btn{
+  display:inline-flex;align-items:center;gap:5px;
+  height:38px;min-width:38px;padding:0 11px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:999px;
+  box-shadow:var(--lift);
+  cursor:pointer;
+  transition:transform .16s ease, border-color .2s ease;
+}
+.icon-btn:active{transform:scale(.94)}
+.icon-btn svg{width:17px;height:17px;flex:none;color:var(--ink-2)}
+.icon-btn .count{
+  font-size:13px;font-weight:600;font-variant-numeric:tabular-nums;
+  min-width:9px;text-align:center;
+}
+.icon-btn[data-has="1"]{border-color:var(--accent)}
+.icon-btn[data-has="1"] svg{color:var(--yes)}
+
+/* ---------- Temperature readout + scale ---------- */
+.instrument{
+  display:flex;align-items:center;gap:12px;
+  width:100%;padding:9px 12px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--r-md);
+  box-shadow:var(--lift);
+  text-align:left;cursor:pointer;min-width:0;
+  transition:border-color .2s ease;
+}
+.instrument[aria-expanded="true"]{border-color:var(--accent)}
+
+.temp{
+  font-family:var(--serif);
+  font-size:34px;line-height:1;
+  font-variant-numeric:tabular-nums;
+  color:var(--accent);
+  flex:none;
+}
+.temp .deg{font-size:16px;vertical-align:super;letter-spacing:.02em}
+
+.instrument-meta{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
+.instrument-verdict{font-size:13.5px;font-weight:600;letter-spacing:-.005em}
+.instrument-source{
+  font-size:10.5px;letter-spacing:.085em;text-transform:uppercase;color:var(--ink-3);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.chev{flex:none;display:inline-flex;color:var(--ink-3);transition:transform .26s ease}
+.chev svg{width:16px;height:16px}
+.instrument[aria-expanded="true"] .chev{transform:rotate(180deg)}
+
+.temp-panel{
+  padding:12px 14px 10px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--r-md);
+  box-shadow:var(--lift);
+}
+
+.scale{position:relative}
+.scale-bar{
+  position:absolute;left:0;right:0;top:8px;height:10px;
+  border-radius:999px;background:var(--tempgrad);
+  border:1px solid var(--line);pointer-events:none;
+}
+.scale-tick{position:absolute;left:70%;top:-5px;bottom:-5px;width:2px;background:var(--ink);border-radius:2px;opacity:.72}
+.scale input[type=range]{
+  position:relative;-webkit-appearance:none;appearance:none;
+  display:block;width:100%;height:26px;margin:0;background:transparent;cursor:pointer;
+}
+.scale input[type=range]::-webkit-slider-runnable-track{height:26px;background:transparent;border:0}
+.scale input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;
+  width:26px;height:26px;border-radius:50%;
+  background:var(--surface);border:2px solid var(--accent);
+  box-shadow:0 2px 8px rgba(18,23,29,.30);
+}
+.scale input[type=range]::-moz-range-track{height:26px;background:transparent;border:0}
+.scale input[type=range]::-moz-range-thumb{
+  width:22px;height:22px;border-radius:50%;
+  background:var(--surface);border:2px solid var(--accent);
+  box-shadow:0 2px 8px rgba(18,23,29,.30);
+}
+.scale-legend{position:relative;height:14px;margin-top:5px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.scale-legend span{position:absolute;top:0;white-space:nowrap}
+.scale-legend .l0{left:0}
+.scale-legend .l70{left:70%;transform:translateX(-50%);color:var(--ink-2);font-weight:600}
+.scale-legend .l100{right:0}
+
+.link-btn{
+  display:block;margin-top:10px;padding:0;
+  background:none;border:0;border-bottom:1px solid currentColor;
+  color:var(--accent);font-size:12.5px;font-weight:500;cursor:pointer;
+}
+
+/* ---------- Deck switch ---------- */
+.modes{
+  position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  padding:4px;background:var(--ground-deep);
+  border:1px solid var(--line-soft);border-radius:999px;
+}
+.modes-thumb{
+  position:absolute;top:4px;bottom:4px;left:4px;
+  width:calc((100% - 8px)/3);
+  background:var(--surface);border-radius:999px;
+  box-shadow:var(--lift);
+  transform:translateX(calc(var(--i,0) * 100%));
+  transition:transform .3s cubic-bezier(.32,.72,0,1);
+}
+.modes button{
+  position:relative;z-index:1;
+  height:34px;padding:0 4px;
+  background:none;border:0;border-radius:999px;
+  font-size:12.5px;font-weight:600;letter-spacing:.01em;
+  color:var(--ink-3);cursor:pointer;
+  min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  transition:color .22s ease;
+}
+.modes button[aria-checked="true"]{color:var(--accent)}
+
+/* ---------- Card stage ---------- */
+.stage{position:relative;min-height:0;min-width:0;padding:14px 0 10px;display:flex}
+.stack{position:relative;flex:1;min-height:0;min-width:0}
+
+.card{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  padding:20px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--r-lg);
+  box-shadow:var(--card-shadow);
+  overflow:hidden;
+  -webkit-touch-callout:none;
+  will-change:transform;
+}
+.card[data-depth="0"]{touch-action:none;cursor:grab;z-index:3}
+.card[data-depth="0"]:active{cursor:grabbing}
+.card[data-depth="1"]{transform:translateY(12px) scale(.955);z-index:2;opacity:.85}
+.card[data-depth="2"]{transform:translateY(23px) scale(.912);z-index:1;opacity:.55}
+.card[data-depth="1"],.card[data-depth="2"]{pointer-events:none}
+
+/* A hairline of the card's own weather along the top edge. */
+.card::before{
+  content:"";position:absolute;left:0;right:0;top:0;height:3px;
+  background:var(--card-hue);
+}
+.card[data-w="warm"]{--card-hue:var(--warm);--card-tint:var(--warm-tint)}
+.card[data-w="cold"]{--card-hue:var(--cold);--card-tint:var(--cold-tint)}
+.card[data-w="any"] {--card-hue:var(--all); --card-tint:var(--all-tint)}
+
+.card-top{display:flex;flex-wrap:wrap;gap:6px;align-items:center;min-width:0}
+
+.chip{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:4px 9px;border-radius:999px;
+  font-size:10.5px;font-weight:600;letter-spacing:.075em;text-transform:uppercase;
+  white-space:nowrap;
+}
+.chip svg{width:13px;height:13px}
+.chip--w{background:var(--card-tint);color:var(--card-hue)}
+.chip--ghost{background:transparent;border:1px solid var(--line);color:var(--ink-3)}
+
+.card-body{
+  flex:1;min-height:0;
+  display:flex;flex-direction:column;justify-content:center;
+  gap:10px;padding:14px 0;
+}
+.card-title{
+  margin:0;
+  font-family:var(--serif);
+  font-weight:400;
+  font-size:clamp(32px, 9vw, 44px);
+  line-height:1.06;
+  letter-spacing:-.015em;
+  text-wrap:balance;
+  overflow-wrap:anywhere;
+}
+.card-note{
+  margin:0;
+  font-size:14.5px;line-height:1.5;
+  color:var(--ink-2);
+  overflow-wrap:anywhere;
+  display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;
+}
+.card-foot{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding-top:14px;border-top:1px solid var(--line-soft);
+}
+.card-foot-chips{display:flex;gap:6px;flex-wrap:wrap;min-width:0}
+.counter{
+  font-size:10.5px;letter-spacing:.085em;text-transform:uppercase;
+  color:var(--ink-3);font-variant-numeric:tabular-nums;white-space:nowrap;
+}
+
+.stamp{
+  position:absolute;top:26px;
+  padding:6px 12px;
+  border:2.5px solid currentColor;border-radius:8px;
+  font-size:16px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  opacity:0;pointer-events:none;
+}
+.stamp--yes{left:20px;color:var(--yes);transform:rotate(-11deg)}
+.stamp--no{right:20px;color:var(--no);transform:rotate(11deg)}
+
+/* ---------- Empty state ---------- */
+.empty{
+  position:absolute;inset:14px 0 10px;
+  display:flex;flex-direction:column;justify-content:center;gap:16px;
+  padding:24px;
+  background:var(--surface);
+  border:1px dashed var(--line);
+  border-radius:var(--r-lg);
+  text-align:left;
+}
+.empty h2{margin:0;font-family:var(--serif);font-weight:400;font-size:31px;line-height:1.1;letter-spacing:-.01em;text-wrap:balance}
+.empty p{margin:0;color:var(--ink-2);font-size:14.5px}
+.empty-actions{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:46px;padding:0 18px;
+  border-radius:var(--r-md);border:1px solid var(--line);
+  background:var(--surface-2);color:var(--ink);
+  font-size:14.5px;font-weight:600;cursor:pointer;
+  transition:transform .16s ease;
+}
+.btn:active{transform:scale(.98)}
+.btn--primary{background:var(--accent);border-color:var(--accent);color:#fff}
+:root[data-theme="dark"] .btn--primary{color:#0e1216}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn--primary{color:#0e1216}}
+
+/* ---------- Verdict rail ---------- */
+.rail{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 0 calc(var(--safe-b) + 12px);
+  min-width:0;
+}
+.verdict{
+  flex:1;min-width:0;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  height:56px;padding:0 12px;
+  border-radius:18px;border:1px solid;
+  font-size:14.5px;font-weight:600;letter-spacing:.01em;
+  box-shadow:var(--lift);cursor:pointer;
+  transition:transform .16s ease;
+}
+.verdict:active{transform:scale(.96)}
+.verdict svg{width:19px;height:19px}
+.verdict--no{background:var(--surface);border-color:var(--line);color:var(--no)}
+.verdict--yes{background:var(--yes);border-color:var(--yes);color:#fff}
+:root[data-theme="dark"] .verdict--yes{color:#08110d}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .verdict--yes{color:#08110d}}
+
+.undo{
+  flex:none;width:50px;height:56px;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:var(--surface);border:1px solid var(--line);border-radius:18px;
+  color:var(--ink-2);box-shadow:var(--lift);cursor:pointer;
+  transition:transform .16s ease, opacity .2s ease;
+}
+.undo svg{width:20px;height:20px}
+.undo:active{transform:scale(.94)}
+.undo:disabled{opacity:.34;cursor:default;box-shadow:none}
+
+/* ---------- Sheets ---------- */
+.scrim{
+  position:fixed;inset:0;z-index:30;
+  background:rgba(8,12,17,.5);
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .3s ease, visibility 0s .3s;
+}
+.scrim.open{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .3s ease}
+
+.sheet{
+  position:fixed;left:0;right:0;bottom:0;z-index:31;
+  width:100%;max-width:520px;margin:0 auto;
+  display:flex;flex-direction:column;
+  max-height:min(88dvh,660px);
+  background:var(--surface);
+  border:1px solid var(--line);border-bottom:0;
+  border-radius:22px 22px 0 0;
+  box-shadow:0 -14px 44px rgba(8,12,17,.28);
+  transform:translateY(101%);
+  visibility:hidden;
+  transition:transform .34s cubic-bezier(.32,.72,0,1), visibility 0s .34s;
+}
+.sheet.open{transform:translateY(calc(-1 * var(--kb)));visibility:visible;transition:transform .34s cubic-bezier(.32,.72,0,1)}
+
+.sheet-grip{width:38px;height:4px;border-radius:999px;background:var(--line);margin:9px auto 0;flex:none}
+.sheet-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:12px 20px 10px;flex:none;min-width:0}
+.sheet-head h2{margin:0;font-family:var(--serif);font-weight:400;font-size:25px;line-height:1.1}
+.sheet-head .tally{font-size:11px;letter-spacing:.085em;text-transform:uppercase;color:var(--ink-3);font-variant-numeric:tabular-nums;white-space:nowrap}
+.sheet-body{padding:0 20px;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;flex:1;min-height:0}
+.sheet-foot{display:flex;gap:10px;padding:14px 20px calc(var(--safe-b) + 16px);border-top:1px solid var(--line-soft);flex:none}
+.sheet-foot .btn{flex:1}
+
+/* ---------- Add form ---------- */
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.field label,.legend{font-size:11px;letter-spacing:.085em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.field input[type=text]{
+  width:100%;height:48px;padding:0 14px;
+  font:inherit;font-size:16px; /* 16px keeps iOS from zooming on focus */
+  color:var(--ink);background:var(--surface-2);
+  border:1px solid var(--line);border-radius:var(--r-md);
+  -webkit-appearance:none;appearance:none;
+}
+.field input[type=text]::placeholder{color:var(--ink-3)}
+.field input[type=text]:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-tint)}
+
+fieldset{margin:0 0 14px;padding:0;border:0;display:flex;flex-direction:column;gap:6px}
+.picker{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.picker button{
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+  padding:11px 6px;
+  background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-md);
+  font-size:11.5px;font-weight:600;color:var(--ink-2);cursor:pointer;
+  transition:border-color .2s ease,color .2s ease,background-color .2s ease;
+}
+.picker button svg{width:19px;height:19px}
+.picker button[aria-checked="true"][data-w="warm"]{border-color:var(--warm);background:var(--warm-tint);color:var(--warm)}
+.picker button[aria-checked="true"][data-w="cold"]{border-color:var(--cold);background:var(--cold-tint);color:var(--cold)}
+.picker button[aria-checked="true"][data-w="any"]{border-color:var(--all);background:var(--all-tint);color:var(--all)}
+
+.form-error{color:var(--no);font-size:13px;font-weight:600;min-height:19px;margin:-6px 0 8px}
+
+/* ---------- Yes list ---------- */
+.sec-head{
+  display:flex;align-items:baseline;justify-content:space-between;gap:10px;
+  padding:16px 0 4px;
+  font-size:11px;letter-spacing:.085em;text-transform:uppercase;font-weight:600;color:var(--ink-3);
+  font-variant-numeric:tabular-nums;
+}
+.sec-head:first-child{padding-top:2px}
+.row-btn--done{border-color:var(--yes);color:var(--yes)}
+.yeslist li[data-done="1"] .yes-title{color:var(--ink-2);font-weight:500}
+.yeslist{list-style:none;margin:0;padding:0 0 6px;display:flex;flex-direction:column}
+.yeslist li{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line-soft)}
+.yeslist li:last-child{border-bottom:0}
+.yes-mark{flex:none;width:30px;height:30px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:var(--row-tint);color:var(--row-hue)}
+.yes-mark svg{width:15px;height:15px}
+.yeslist li[data-w="warm"]{--row-hue:var(--warm);--row-tint:var(--warm-tint)}
+.yeslist li[data-w="cold"]{--row-hue:var(--cold);--row-tint:var(--cold-tint)}
+.yeslist li[data-w="any"]{--row-hue:var(--all);--row-tint:var(--all-tint)}
+.yes-text{flex:1;min-width:0}
+.yes-title{display:block;font-size:15.5px;font-weight:600;overflow-wrap:anywhere}
+.yes-note{display:block;font-size:12.5px;color:var(--ink-3);overflow-wrap:anywhere}
+.row-btn{
+  flex:none;width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;
+  background:none;border:1px solid var(--line);border-radius:50%;color:var(--ink-3);cursor:pointer;
+}
+.row-btn svg{width:15px;height:15px}
+.row-btn:active{background:var(--surface-2)}
+
+.blank{padding:30px 0 34px;text-align:center;color:var(--ink-3)}
+.blank strong{display:block;font-family:var(--serif);font-weight:400;font-size:22px;color:var(--ink-2);margin-bottom:6px}
+
+/* ---------- Toast ---------- */
+.toast{
+  position:fixed;left:50%;bottom:calc(var(--safe-b) + 88px);z-index:50;
+  max-width:min(calc(100% - 40px),400px);
+  padding:10px 16px;
+  background:var(--ink);color:var(--ground);
+  border-radius:999px;font-size:13.5px;font-weight:600;text-align:center;
+  box-shadow:0 8px 24px rgba(8,12,17,.35);
+  transform:translate(-50%,10px);opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .24s ease, transform .24s ease, visibility 0s .24s;
+}
+.toast.show{opacity:1;visibility:visible;transform:translate(-50%,0);transition:opacity .24s ease, transform .24s ease}
+
+/* Short phones: give the stage back the pixels the header borrowed. */
+@media (max-height: 700px){
+  .wordmark-name{font-size:23px}
+  .wordmark-sub{display:none}
+  .temp{font-size:29px}
+  .card-title{font-size:clamp(28px,8vw,38px)}
+  .verdict,.undo{height:52px}
+}
+
+/* =========================================================================
+   Two-player additions
+   ========================================================================= */
+
+/* ---------- Welcome ---------- */
+.welcome{
+  position:fixed;inset:0;z-index:60;
+  display:flex;align-items:center;justify-content:center;
+  padding:calc(var(--safe-t) + 24px) 22px calc(var(--safe-b) + 24px);
+  background:var(--ground);
+  overflow-y:auto;
+}
+.welcome-inner{width:100%;max-width:380px;display:flex;flex-direction:column;gap:18px}
+.welcome h1{
+  margin:0;font-family:var(--serif);font-weight:400;
+  font-size:clamp(38px,12vw,52px);line-height:1;letter-spacing:-.02em;
+}
+.welcome .lede{margin:0;color:var(--ink-2);font-size:15.5px;line-height:1.5;max-width:32ch}
+.welcome-actions{display:flex;flex-direction:column;gap:9px}
+.btn--quiet{background:transparent;border-color:transparent;color:var(--ink-3);font-weight:500;min-height:40px}
+.welcome-error{margin:0;color:var(--no);font-size:13.5px;font-weight:600;min-height:19px}
+.join-row{display:flex;gap:8px}
+.join-row input{flex:1;text-transform:uppercase;letter-spacing:.16em;font-weight:600}
+.join-row .btn{flex:none;padding:0 16px}
+
+/* ---------- Partner strip ---------- */
+.partners{
+  display:flex;align-items:center;gap:10px;
+  padding:7px 12px;min-width:0;
+  background:var(--surface);border:1px solid var(--line);border-radius:999px;
+  box-shadow:var(--lift);
+  font-size:12.5px;
+}
+.partners-dot{flex:none;width:8px;height:8px;border-radius:50%;background:var(--ink-3)}
+.partners[data-paired="1"] .partners-dot{background:var(--yes)}
+.partners-text{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink-2)}
+.partners-text strong{color:var(--ink);font-weight:600}
+.partners-btn{
+  flex:none;padding:4px 11px;background:var(--accent-tint);color:var(--accent);
+  border:0;border-radius:999px;font-size:11.5px;font-weight:700;letter-spacing:.04em;cursor:pointer;
+}
+
+/* ---------- Rain ---------- */
+.rain-strip{
+  display:flex;align-items:center;gap:8px;
+  padding:7px 12px;
+  background:var(--cold-tint);color:var(--cold);
+  border-radius:var(--r-sm);
+  font-size:12.5px;font-weight:600;
+}
+.rain-strip svg{width:15px;height:15px;flex:none}
+.rain-strip span{flex:1;min-width:0}
+.rain-strip button{
+  flex:none;background:none;border:0;padding:0;
+  color:inherit;font-size:12px;font-weight:700;
+  text-decoration:underline;cursor:pointer;
+}
+
+/* ---------- Segmented control, compact ---------- */
+.seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:4px;background:var(--ground-deep);border-radius:999px}
+.seg button{
+  height:32px;background:none;border:0;border-radius:999px;
+  font-size:12px;font-weight:600;color:var(--ink-3);cursor:pointer;
+  min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.seg button[aria-checked="true"]{background:var(--surface);color:var(--accent);box-shadow:var(--lift)}
+.panel-row{display:flex;flex-direction:column;gap:6px;margin-top:12px}
+.panel-row > .legend{font-size:10.5px}
+
+/* ---------- Card detail ---------- */
+.card-meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;min-width:0}
+.meta-item{
+  font-size:12.5px;color:var(--ink-2);
+  display:inline-flex;align-items:center;gap:5px;min-width:0;
+}
+.meta-item svg{width:13px;height:13px;color:var(--ink-3);flex:none}
+.meta-cost{font-variant-numeric:tabular-nums;letter-spacing:.06em;font-weight:600;color:var(--ink-2)}
+.meta-link{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:12.5px;font-weight:600;color:var(--accent);text-decoration:none;
+  border-bottom:1px solid currentColor;
+}
+.meta-link svg{width:12px;height:12px}
+.meta-hint{
+  background:none;border:1px dashed var(--line-strong,var(--line));border-radius:999px;
+  padding:3px 10px;font-size:11.5px;font-weight:600;color:var(--ink-3);cursor:pointer;
+}
+.card-edit{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:30px;height:30px;flex:none;
+  background:none;border:1px solid var(--line);border-radius:50%;
+  color:var(--ink-3);cursor:pointer;
+}
+.card-edit svg{width:14px;height:14px}
+.chip--time{background:transparent;border:1px solid var(--line);color:var(--ink-2)}
+
+/* ---------- Match banner ---------- */
+.match{
+  position:fixed;left:50%;z-index:55;
+  top:calc(var(--safe-t) + 12px);
+  width:min(calc(100% - 32px),440px);
+  display:flex;align-items:center;gap:11px;
+  padding:12px 14px;
+  background:var(--yes);color:#fff;
+  border-radius:var(--r-md);
+  box-shadow:0 10px 30px rgba(8,12,17,.32);
+  transform:translate(-50%,-16px);opacity:0;visibility:hidden;
+  transition:opacity .3s ease, transform .3s ease, visibility 0s .3s;
+}
+.match.show{opacity:1;visibility:visible;transform:translate(-50%,0);transition:opacity .3s ease, transform .3s ease}
+:root[data-theme="dark"] .match{color:#08110d}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .match{color:#08110d}}
+.match svg{width:20px;height:20px;flex:none}
+.match-text{flex:1;min-width:0;font-size:13.5px;line-height:1.35}
+.match-text strong{display:block;font-size:15px;font-weight:700}
+.match button{flex:none;background:rgba(255,255,255,.22);border:0;border-radius:999px;color:inherit;padding:5px 11px;font-size:12px;font-weight:700;cursor:pointer}
+
+/* ---------- Done + invite sheets ---------- */
+.done-what{
+  margin:0 0 14px;font-family:var(--serif);font-weight:400;
+  font-size:26px;line-height:1.1;letter-spacing:-.01em;
+}
+.field input[type=date]{
+  width:100%;height:48px;padding:0 14px;
+  font:inherit;font-size:16px;color:var(--ink);background:var(--surface-2);
+  border:1px solid var(--line);border-radius:var(--r-md);
+  -webkit-appearance:none;appearance:none;
+}
+.invite-code{
+  font-family:var(--sans);font-size:32px;font-weight:700;letter-spacing:.14em;
+  text-align:center;padding:18px 10px;margin:4px 0 14px;
+  background:var(--accent-tint);color:var(--accent);
+  border-radius:var(--r-md);
+  font-variant-numeric:tabular-nums;
+  -webkit-user-select:all;user-select:all;
+}
+.sheet-body p.hint{margin:0 0 14px;color:var(--ink-3);font-size:13px;line-height:1.5}
+.danger{color:var(--no);border-color:var(--no)}
+
+</style>
+</head>
+<body>
+
+<div class="welcome" id="welcome" hidden>
+  <div class="welcome-inner">
+    <h1>Weather Permitting</h1>
+    <p class="lede">A deck of New York dates that sorts itself by the temperature. You each swipe on your own phone. When you both say yes, it's a match.</p>
+
+    <div class="field">
+      <label for="wName">Your name</label>
+      <input type="text" id="wName" autocomplete="given-name" autocapitalize="words" enterkeyhint="go" placeholder="Joey" maxlength="24">
+    </div>
+
+    <div class="welcome-actions">
+      <button type="button" class="btn btn--primary" id="wStart">Start a deck</button>
+      <button type="button" class="btn" id="wJoinOpen">Join with a code</button>
+      <div class="join-row" id="wJoinRow" hidden>
+        <input type="text" id="wCode" inputmode="latin" autocapitalize="characters" autocomplete="off" enterkeyhint="go" placeholder="XKMR-4T2P" maxlength="9">
+        <button type="button" class="btn btn--primary" id="wJoinGo">Join</button>
+      </div>
+      <button type="button" class="btn btn--quiet" id="wSolo">Just me, on this phone</button>
+    </div>
+
+    <p class="welcome-error" id="wError" role="alert"></p>
+  </div>
+</div>
+
+<div class="app" id="app" data-mode="warm" hidden>
+
+  <header class="bar">
+    <div class="bar-top">
+      <div class="wordmark">
+        <span class="wordmark-name">Weather Permitting</span>
+        <span class="wordmark-sub">New York dates, sorted by temperature</span>
+      </div>
+      <div class="bar-actions">
+        <button type="button" class="icon-btn" id="addBtn" aria-label="Add a date idea">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <button type="button" class="icon-btn" id="listBtn" data-has="0" aria-label="Open your list">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21S3.8 15.6 2.4 11.3C1 7.2 3.6 4.2 6.9 4.2c2 0 3.7 1.1 5.1 3 1.4-1.9 3.1-3 5.1-3 3.3 0 5.9 3 4.5 7.1C20.2 15.6 12 21 12 21z"/></svg>
+          <span class="count" id="yesCount">0</span>
+        </button>
+      </div>
+    </div>
+
+    <button type="button" class="instrument" id="instrumentBtn" aria-expanded="false" aria-controls="tempPanel">
+      <span class="temp" id="tempReadout">—<span class="deg">°F</span></span>
+      <span class="instrument-meta">
+        <span class="instrument-verdict" id="tempVerdict">Reading the thermometer</span>
+        <span class="instrument-source" id="tempSource">Seventy degrees is the line</span>
+      </span>
+      <span class="chev" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </span>
+    </button>
+
+    <div class="rain-strip" id="rainStrip" hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M7 15.5A4.5 4.5 0 0 1 7.5 6.6a5.5 5.5 0 0 1 10.4 1.6 3.9 3.9 0 0 1-.6 7.3"/><line x1="8.5" y1="19" x2="7.5" y2="21.5"/><line x1="12.5" y1="19" x2="11.5" y2="21.5"/><line x1="16.5" y1="19" x2="15.5" y2="21.5"/></svg>
+      <span id="rainText">It's wet out — showing the indoor deck</span>
+      <button type="button" id="rainIgnore">Ignore</button>
+    </div>
+
+    <div class="temp-panel" id="tempPanel" hidden>
+      <label class="sr-only" for="tempRange">Temperature in degrees Fahrenheit</label>
+      <div class="scale">
+        <div class="scale-bar" aria-hidden="true"><span class="scale-tick"></span></div>
+        <input type="range" id="tempRange" min="0" max="100" step="1" value="70">
+        <div class="scale-legend" aria-hidden="true">
+          <span class="l0">0°</span>
+          <span class="l70">70° — the line</span>
+          <span class="l100">100°</span>
+        </div>
+      </div>
+      <div class="panel-row">
+        <span class="legend" id="whenLegend">Time of day</span>
+        <div class="seg" id="whenSeg" role="radiogroup" aria-labelledby="whenLegend">
+          <button type="button" role="radio" data-when="any" aria-checked="true">Either</button>
+          <button type="button" role="radio" data-when="day" aria-checked="false">Daytime</button>
+          <button type="button" role="radio" data-when="night" aria-checked="false">Evening</button>
+        </div>
+      </div>
+      <button type="button" class="link-btn" id="locBtn" hidden>Use where I actually am</button>
+    </div>
+
+    <div class="modes" id="modes" role="radiogroup" aria-label="Which deck to swipe" style="--i:1">
+      <span class="modes-thumb" aria-hidden="true"></span>
+      <button type="button" role="radio" data-mode-btn="cold" aria-checked="false">Cold</button>
+      <button type="button" role="radio" data-mode-btn="warm" aria-checked="true">Warm</button>
+      <button type="button" role="radio" data-mode-btn="all" aria-checked="false">Everything</button>
+    </div>
+
+    <div class="partners" id="partners" data-paired="0" hidden>
+      <span class="partners-dot" aria-hidden="true"></span>
+      <span class="partners-text" id="partnersText">Just you so far</span>
+      <button type="button" class="partners-btn" id="inviteBtn">Invite</button>
+    </div>
+  </header>
+
+  <main class="stage">
+    <div class="stack" id="stack"></div>
+    <div class="empty" id="empty" hidden>
+      <h2 id="emptyTitle">That's the whole deck.</h2>
+      <p id="emptyBody">Nothing left to swipe.</p>
+      <div class="empty-actions">
+        <button type="button" class="btn btn--primary" id="emptyList">See your list</button>
+        <button type="button" class="btn" id="emptyReset">Reshuffle the no's back in</button>
+        <button type="button" class="btn" id="emptyAdd">Add an idea</button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="rail">
+    <button type="button" class="verdict verdict--no" id="noBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+      Not today
+    </button>
+    <button type="button" class="undo" id="undoBtn" disabled aria-label="Undo the last swipe">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="8.5 4.5 4 9 8.5 13.5"/><path d="M4 9h10a5.5 5.5 0 0 1 0 11H9"/></svg>
+    </button>
+    <button type="button" class="verdict verdict--yes" id="yesBtn">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21S3.8 15.6 2.4 11.3C1 7.2 3.6 4.2 6.9 4.2c2 0 3.7 1.1 5.1 3 1.4-1.9 3.1-3 5.1-3 3.3 0 5.9 3 4.5 7.1C20.2 15.6 12 21 12 21z"/></svg>
+      Let's go
+    </button>
+  </footer>
+</div>
+
+<div class="scrim" id="scrim"></div>
+
+<section class="sheet" id="ideaSheet" role="dialog" aria-modal="true" aria-labelledby="ideaTitleHead" inert>
+  <span class="sheet-grip" aria-hidden="true"></span>
+  <div class="sheet-head"><h2 id="ideaTitleHead">Add a date idea</h2></div>
+  <div class="sheet-body">
+    <div class="field">
+      <label for="fTitle">What is it</label>
+      <input type="text" id="fTitle" autocomplete="off" autocapitalize="sentences" placeholder="Sunset at Domino Park" maxlength="80">
+    </div>
+    <div class="field">
+      <label for="fNote">Anything to remember</label>
+      <input type="text" id="fNote" autocomplete="off" autocapitalize="sentences" placeholder="the spot, the order, who to bring" maxlength="140">
+    </div>
+    <fieldset>
+      <span class="legend" id="fWeatherLegend">When it works</span>
+      <div class="picker" id="fWeather" role="radiogroup" aria-labelledby="fWeatherLegend"></div>
+    </fieldset>
+    <fieldset>
+      <span class="legend" id="fWhenLegend">Time of day</span>
+      <div class="seg" id="fWhen" role="radiogroup" aria-labelledby="fWhenLegend">
+        <button type="button" role="radio" data-w="any" aria-checked="true">Either</button>
+        <button type="button" role="radio" data-w="day" aria-checked="false">Daytime</button>
+        <button type="button" role="radio" data-w="night" aria-checked="false">Evening</button>
+      </div>
+    </fieldset>
+    <div class="field">
+      <label for="fHood">Neighborhood</label>
+      <input type="text" id="fHood" autocomplete="off" autocapitalize="words" placeholder="Greenpoint, Brooklyn" maxlength="48">
+    </div>
+    <fieldset>
+      <span class="legend" id="fCostLegend">Rough cost</span>
+      <div class="seg" id="fCost" role="radiogroup" aria-labelledby="fCostLegend">
+        <button type="button" role="radio" data-w="1" aria-checked="false">$</button>
+        <button type="button" role="radio" data-w="2" aria-checked="false">$$</button>
+        <button type="button" role="radio" data-w="3" aria-checked="false">$$$</button>
+      </div>
+    </fieldset>
+    <div class="field">
+      <label for="fUrl">Link</label>
+      <input type="text" id="fUrl" inputmode="url" autocomplete="off" autocapitalize="none" placeholder="maps.app.goo.gl/…" maxlength="400">
+    </div>
+    <p class="form-error" id="fError" role="alert"></p>
+    <button type="button" class="btn danger" id="fDelete" hidden>Delete this idea</button>
+  </div>
+  <div class="sheet-foot">
+    <button type="button" class="btn" data-close-sheet>Cancel</button>
+    <button type="button" class="btn btn--primary" id="fSave">Add to the deck</button>
+  </div>
+</section>
+
+<section class="sheet" id="doneSheet" role="dialog" aria-modal="true" aria-labelledby="doneHead" inert>
+  <span class="sheet-grip" aria-hidden="true"></span>
+  <div class="sheet-head"><h2 id="doneHead">Mark it done</h2></div>
+  <div class="sheet-body">
+    <p class="done-what" id="doneWhat"></p>
+    <div class="field">
+      <label for="dDate">When was it</label>
+      <input type="date" id="dDate">
+    </div>
+    <div class="field">
+      <label for="dNote">How was it</label>
+      <input type="text" id="dNote" autocomplete="off" autocapitalize="sentences" placeholder="the pistachio one was better" maxlength="200">
+    </div>
+  </div>
+  <div class="sheet-foot">
+    <button type="button" class="btn" data-close-sheet>Cancel</button>
+    <button type="button" class="btn btn--primary" id="dSave">Save it</button>
+  </div>
+</section>
+
+<section class="sheet" id="inviteSheet" role="dialog" aria-modal="true" aria-labelledby="inviteHead" inert>
+  <span class="sheet-grip" aria-hidden="true"></span>
+  <div class="sheet-head"><h2 id="inviteHead">Invite them in</h2></div>
+  <div class="sheet-body">
+    <p class="hint">Send the link. They open it, type their name, and they're swiping the same deck. Only one other person can join.</p>
+    <div class="invite-code" id="inviteCode">————</div>
+    <div class="welcome-actions">
+      <button type="button" class="btn btn--primary" id="inviteShare">Share the link</button>
+      <button type="button" class="btn" id="inviteCopy">Copy the link</button>
+    </div>
+    <p class="hint" style="margin-top:14px">Or read them the code — they can type it on the welcome screen.</p>
+  </div>
+  <div class="sheet-foot">
+    <button type="button" class="btn btn--primary" data-close-sheet>Close</button>
+  </div>
+</section>
+
+<section class="sheet" id="listSheet" role="dialog" aria-modal="true" aria-labelledby="listTitle" inert>
+  <span class="sheet-grip" aria-hidden="true"></span>
+  <div class="sheet-head">
+    <h2 id="listTitle">Your list</h2>
+    <span class="tally" id="listTally">0 to do</span>
+  </div>
+  <div class="sheet-body" id="listBody"></div>
+  <div class="sheet-foot">
+    <button type="button" class="btn" id="clearYes">Clear picks</button>
+    <button type="button" class="btn btn--primary" data-close-sheet>Close</button>
+  </div>
+</section>
+
+<div class="match" id="matchBanner" role="status" aria-live="polite">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21S3.8 15.6 2.4 11.3C1 7.2 3.6 4.2 6.9 4.2c2 0 3.7 1.1 5.1 3 1.4-1.9 3.1-3 5.1-3 3.3 0 5.9 3 4.5 7.1C20.2 15.6 12 21 12 21z"/></svg>
+  <span class="match-text" id="matchText"></span>
+  <button type="button" id="matchOpen">See it</button>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script type="module">
+import { SEED } from './seed.js';
+
+/* -------------------------------------------------------------------------
+   iOS chrome tags, wherever this page ends up embedded.
+   ------------------------------------------------------------------------- */
+const setMeta = (name, content) => {
+  if(!document.head) return;
+  let m = document.head.querySelector(`meta[name="${name}"]`);
+  if(!m){ m = document.createElement('meta'); m.setAttribute('name', name); document.head.appendChild(m); }
+  m.setAttribute('content', content);
+};
+setMeta('viewport', 'width=device-width, initial-scale=1, viewport-fit=cover');
+setMeta('apple-mobile-web-app-capable', 'yes');
+setMeta('mobile-web-app-capable', 'yes');
+setMeta('apple-mobile-web-app-title', 'Weather Permitting');
+setMeta('apple-mobile-web-app-status-bar-style', 'black-translucent');
+
+/* ------------------------------- constants ------------------------------- */
+const KEY = 'weather-permitting.v2';
+const OLD_KEY = 'weather-permitting.v1';
+
+const W = {
+  cold:{ chip:'Cold · under 70°', pick:'Cold', noun:'cold' },
+  warm:{ chip:'Warm · 70° and up', pick:'Warm', noun:'warm' },
+  any: { chip:'Any weather', pick:'Any', noun:'all-weather' }
+};
+const WHEN_LABEL = { day:'Daytime', night:'Evening', any:'' };
+
+const ICON = {
+  warm:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1.8" x2="12" y2="4.2"/><line x1="12" y1="19.8" x2="12" y2="22.2"/><line x1="1.8" y1="12" x2="4.2" y2="12"/><line x1="19.8" y1="12" x2="22.2" y2="12"/><line x1="4.8" y1="4.8" x2="6.5" y2="6.5"/><line x1="17.5" y1="17.5" x2="19.2" y2="19.2"/><line x1="19.2" y1="4.8" x2="17.5" y2="6.5"/><line x1="6.5" y1="17.5" x2="4.8" y2="19.2"/></svg>',
+  cold:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="2.4" x2="12" y2="21.6"/><line x1="3.7" y1="7.2" x2="20.3" y2="16.8"/><line x1="3.7" y1="16.8" x2="20.3" y2="7.2"/><line x1="9.4" y1="4.9" x2="12" y2="7"/><line x1="14.6" y1="4.9" x2="12" y2="7"/><line x1="9.4" y1="19.1" x2="12" y2="17"/><line x1="14.6" y1="19.1" x2="12" y2="17"/></svg>',
+  any: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="8.2"/><path d="M12 3.8a8.2 8.2 0 0 1 0 16.4z" fill="currentColor" stroke="none"/></svg>'
+};
+const SVG_CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4.5 12.5 9.5 17.5 19.5 6.5"/></svg>';
+const SVG_REDO  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="8.5 4.5 4 9 8.5 13.5"/><path d="M4 9h10a5.5 5.5 0 0 1 0 11H9"/></svg>';
+const SVG_X     = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>';
+const SVG_PIN   = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21.5s7-6.1 7-11.1a7 7 0 1 0-14 0c0 5 7 11.1 7 11.1z"/><circle cx="12" cy="10.2" r="2.4"/></svg>';
+const SVG_PENCIL= '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19.5 8.5a2.1 2.1 0 0 0-3-3L5 17v3z"/></svg>';
+const SVG_OUT   = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M20 4 11 13"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>';
+
+/* Average daily high in New York by month. Shown instantly so the app never
+   waits on a network call to know which deck to open. */
+const NORMAL_HIGH = [39, 42, 50, 61, 71, 79, 85, 83, 76, 64, 54, 44];
+/* WMO codes that mean water is falling on you. */
+const WET_CODES = new Set([51,53,55,56,57,61,63,65,66,67,71,73,75,77,80,81,82,85,86,95,96,99]);
+
+/* --------------------------------- state --------------------------------- */
+const S = {
+  shared:false,
+  code:null, member:null, name:'',
+  deck:'warm', when:'any',
+  tempF:70, wet:false, ignoreRain:false, manualTemp:false,
+  view:{ rev:0, ideas:[], votes:{}, matches:[], picks:[], partner:null, you:null },
+  local:{ ideas:[], votes:{} },
+  queue:[], order:{}, history:[],
+  knownMatches:{},
+  editingId:null, doneId:null,
+  netOK:false, activeSheet:null, lastFocus:null, flinging:false,
+  lastActivity:Date.now(), pollTimer:null
+};
+
+const $ = (id) => document.getElementById(id);
+const el = (tag, cls, text) => {
+  const n = document.createElement(tag);
+  if(cls) n.className = cls;
+  if(text != null) n.textContent = text;
+  return n;
+};
+
+/* ------------------------------- persistence ----------------------------- */
+function save(){
+  try{
+    const payload = S.shared
+      ? { shared:true, code:S.code, member:S.member, name:S.name, knownMatches:S.knownMatches }
+      : { shared:false, name:S.name, ideas:S.local.ideas, votes:S.local.votes };
+    localStorage.setItem(KEY, JSON.stringify(payload));
+  }catch{ /* private browsing — the session still works, it just won't survive */ }
+}
+
+function load(){
+  try{ return JSON.parse(localStorage.getItem(KEY)) || null; }catch{ return null; }
+}
+
+function freshLocalIdeas(){
+  return SEED.map((s) => ({
+    id:s.id, title:s.title, note:s.note || '', weather:s.weather,
+    hood:s.hood || null, when:s.when || 'any', cost:null, url:null,
+    addedBy:'seed', createdAt:0,
+    done: s.done ? { at:0, note:'', by:'seed' } : null
+  }));
+}
+
+/** Carry over whatever the single-player version already knew. */
+function migrateV1(){
+  let old = null;
+  try{ old = JSON.parse(localStorage.getItem(OLD_KEY)); }catch{ return false; }
+  if(!old) return false;
+
+  S.local.ideas = freshLocalIdeas();
+  for(const c of old.customs || []){
+    S.local.ideas.push({
+      id:c.id, title:c.title, note:c.note || '', weather:c.w || 'any',
+      hood:null, when:'any', cost:null, url:null,
+      addedBy:'me', createdAt:Date.now(), done:null
+    });
+  }
+  for(const [id, d] of Object.entries(old.decisions || {})){
+    if(d && (d.v === 'yes' || d.v === 'no')) S.local.votes[id] = { v:d.v, t:d.t || Date.now() };
+  }
+  for(const idea of S.local.ideas){
+    if((old.doneLocal || {})[idea.id]) idea.done = { at:old.doneLocal[idea.id].at, note:'', by:'me' };
+    if((old.revived || {})[idea.id]) idea.done = null;
+  }
+  return true;
+}
+
+/* ------------------------------- the view -------------------------------- */
+/** Solo mode builds the same shape the server returns, so nothing below cares. */
+function localView(){
+  const votes = {};
+  const matches = [];
+  for(const idea of S.local.ideas){
+    const v = S.local.votes[idea.id];
+    if(!v) continue;
+    votes[idea.id] = v.v;
+    if(!idea.done && v.v === 'yes') matches.push({ id:idea.id, t:v.t || 0 });
+  }
+  return {
+    rev:0, code:null,
+    you:{ name:S.name || 'You' }, partner:null,
+    ideas:S.local.ideas.slice(),
+    votes,
+    matches: matches.sort((a, b) => b.t - a.t).map((m) => m.id),
+    picks: []
+  };
+}
+
+const ideaById = (id) => S.view.ideas.find((i) => i.id === id);
+
+function eligible(idea){
+  if(idea.done) return false;
+  if(S.view.votes[idea.id]) return false;
+  if(S.deck !== 'all' && idea.weather !== S.deck && idea.weather !== 'any') return false;
+  if(S.when !== 'any' && idea.when !== S.when && idea.when !== 'any') return false;
+  return true;
+}
+
+const rnd = (id) => (S.order[id] ??= Math.random());
+
+function rebuildQueue(){
+  S.queue = S.view.ideas.filter(eligible).sort((a, b) => rnd(a.id) - rnd(b.id)).map((i) => i.id);
+}
+
+/** Keeps your place: drops what's no longer eligible, appends what's new. */
+function syncQueue(){
+  const ok = new Set(S.view.ideas.filter(eligible).map((i) => i.id));
+  S.queue = S.queue.filter((id) => ok.has(id));
+  const have = new Set(S.queue);
+  const added = [...ok].filter((id) => !have.has(id)).sort((a, b) => rnd(a) - rnd(b));
+  S.queue.push(...added);
+}
+
+function applyView(view, { keepPlace = true } = {}){
+  const before = S.view.matches;
+  S.view = view;
+  keepPlace ? syncQueue() : rebuildQueue();
+  announceMatches(before, view.matches);
+  renderAll();
+}
+
+/* ------------------------------ conditions ------------------------------- */
+function setConditions({ temp, wet, source }){
+  if(temp != null) S.tempF = temp;
+  if(wet != null) S.wet = wet;
+  if(source) S.sourceText = source;
+
+  $('tempReadout').textContent = String(S.tempF);
+  $('tempReadout').appendChild(el('span', 'deg', '°F'));
+  $('tempVerdict').textContent = S.tempF >= 70 ? 'Warm out — 70° and up' : 'Cold out — under 70°';
+  $('tempSource').textContent = S.sourceText || '';
+  if($('tempRange').value !== String(S.tempF)) $('tempRange').value = String(S.tempF);
+
+  $('rainStrip').hidden = !S.wet;
+  $('rainIgnore').textContent = S.ignoreRain ? 'Use it' : 'Ignore';
+  $('rainText').textContent = S.ignoreRain
+    ? "It's wet out — going by temperature anyway"
+    : "It's wet out — showing the indoor deck";
+
+  setDeck(S.wet && !S.ignoreRain ? 'cold' : (S.tempF >= 70 ? 'warm' : 'cold'));
+}
+
+async function liveWeather(lat, lon){
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}`
+            + '&current=temperature_2m,precipitation,weather_code&temperature_unit=fahrenheit';
+  const ctl = new AbortController();
+  const timer = setTimeout(() => ctl.abort(), 6000);
+  try{
+    const r = await fetch(url, { signal:ctl.signal });
+    if(!r.ok) throw new Error('status ' + r.status);
+    const j = await r.json();
+    const t = j?.current?.temperature_2m;
+    if(typeof t !== 'number') throw new Error('no reading');
+    return {
+      temp: Math.round(t),
+      wet: (j.current.precipitation || 0) > 0 || WET_CODES.has(j.current.weather_code)
+    };
+  }finally{ clearTimeout(timer); }
+}
+
+/* -------------------------------- the deck ------------------------------- */
+function setDeck(deck, fromUser){
+  if(S.deck === deck){ syncControls(); return; }
+  S.deck = deck;
+  $('app').setAttribute('data-mode', deck);
+  document.documentElement.setAttribute('data-mode', deck);
+  syncControls();
+  rebuildQueue();
+  render();
+  if(fromUser) S.manualDeck = true;
+}
+
+function setWhen(when){
+  if(S.when === when) return;
+  S.when = when;
+  syncControls();
+  rebuildQueue();
+  render();
+}
+
+function syncControls(){
+  const order = ['cold', 'warm', 'all'];
+  $('modes').style.setProperty('--i', order.indexOf(S.deck));
+  for(const b of $('modes').querySelectorAll('[data-mode-btn]')){
+    b.setAttribute('aria-checked', String(b.dataset.modeBtn === S.deck));
+  }
+  for(const b of $('whenSeg').querySelectorAll('[data-when]')){
+    b.setAttribute('aria-checked', String(b.dataset.when === S.when));
+  }
+}
+
+function chip(cls, iconKey, text){
+  const c = el('span', cls);
+  if(iconKey) c.innerHTML = ICON[iconKey];
+  c.appendChild(document.createTextNode(text));
+  return c;
+}
+
+function cardEl(idea, depth){
+  const c = el('article', 'card');
+  c.dataset.depth = String(depth);
+  c.dataset.w = idea.weather;
+
+  const top = el('div', 'card-top');
+  top.appendChild(chip('chip chip--w', idea.weather, W[idea.weather].chip));
+  if(idea.when && idea.when !== 'any') top.appendChild(chip('chip chip--time', null, WHEN_LABEL[idea.when]));
+  c.appendChild(top);
+
+  const body = el('div', 'card-body');
+  body.appendChild(el('h2', 'card-title', idea.title));
+  if(idea.note) body.appendChild(el('p', 'card-note', idea.note));
+
+  const meta = el('div', 'card-meta');
+  if(idea.hood){
+    const h = el('span', 'meta-item');
+    h.innerHTML = SVG_PIN;
+    h.appendChild(document.createTextNode(idea.hood));
+    meta.appendChild(h);
+  }else{
+    const hint = el('button', 'meta-hint', 'Add a neighborhood');
+    hint.type = 'button';
+    hint.addEventListener('click', () => openIdeaSheet(idea));
+    meta.appendChild(hint);
+  }
+  if(idea.cost) meta.appendChild(el('span', 'meta-item meta-cost', '$'.repeat(idea.cost)));
+  if(idea.url){
+    const a = el('a', 'meta-link', 'Open');
+    a.href = idea.url;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.insertAdjacentHTML('beforeend', SVG_OUT);
+    meta.appendChild(a);
+  }
+  body.appendChild(meta);
+  c.appendChild(body);
+
+  const foot = el('div', 'card-foot');
+  const chips = el('div', 'card-foot-chips');
+  const edit = el('button', 'card-edit');
+  edit.type = 'button';
+  edit.setAttribute('aria-label', 'Edit ' + idea.title);
+  edit.innerHTML = SVG_PENCIL;
+  edit.addEventListener('click', () => openIdeaSheet(idea));
+  chips.appendChild(edit);
+  if(idea.addedBy !== 'seed') chips.appendChild(chip('chip chip--ghost', null, 'Added'));
+  foot.appendChild(chips);
+  if(depth === 0) foot.appendChild(el('span', 'counter', S.queue.length + (S.queue.length === 1 ? ' left' : ' to go')));
+  c.appendChild(foot);
+
+  if(depth === 0){
+    c.appendChild(el('span', 'stamp stamp--yes', "Let's go"));
+    c.appendChild(el('span', 'stamp stamp--no', 'Not today'));
+  }
+  return c;
+}
+
+function render(){
+  const stack = $('stack');
+  stack.innerHTML = '';
+  const top = S.queue.slice(0, 3);
+  if(!top.length){ showEmpty(); updateRail(); return; }
+  $('empty').hidden = true;
+  for(let d = top.length - 1; d >= 0; d--){
+    const idea = ideaById(top[d]);
+    if(idea) stack.appendChild(cardEl(idea, d));
+  }
+  const face = stack.querySelector('.card[data-depth="0"]');
+  if(face) attachDrag(face);
+  updateRail();
+}
+
+function showEmpty(){
+  const saved = S.view.matches.length + S.view.picks.length;
+  const filtered = S.when !== 'any';
+  const deckName = S.deck === 'all' ? 'everything' : W[S.deck].noun + ' deck';
+
+  $('emptyTitle').textContent = filtered
+    ? `Nothing left in ${deckName} for the ${S.when === 'day' ? 'daytime' : 'evening'}.`
+    : (S.deck === 'all' ? "You've been through everything." : `That's the whole ${deckName}.`);
+  $('emptyBody').textContent = saved
+    ? `${saved} ${saved === 1 ? 'idea is' : 'ideas are'} on your list. Reshuffle the no's if you want another pass.`
+    : "Nothing on your list yet. Reshuffle and be less picky, or add something of your own.";
+  $('empty').hidden = false;
+}
+
+function updateRail(){
+  $('undoBtn').disabled = S.history.length === 0;
+  const none = S.queue.length === 0;
+  for(const b of [$('yesBtn'), $('noBtn')]){
+    b.disabled = none;
+    b.style.opacity = none ? '.4' : '';
+  }
+}
+
+function renderAll(){
+  render();
+  syncControls();
+  updateCounts();
+  renderPartners();
+  if(S.activeSheet === $('listSheet')) renderList();
+}
+
+function updateCounts(){
+  const n = S.view.matches.length;
+  $('yesCount').textContent = String(n);
+  $('listBtn').dataset.has = n ? '1' : '0';
+  $('listBtn').setAttribute('aria-label', `Open your list, ${n} ${S.shared ? 'matched' : 'saved'}`);
+  $('listTally').textContent = S.shared ? `${n} matched` : `${n} to do`;
+}
+
+function renderPartners(){
+  const bar = $('partners');
+  bar.hidden = !S.shared;
+  if(!S.shared) return;
+  const partner = S.view.partner;
+  bar.dataset.paired = partner ? '1' : '0';
+  const text = $('partnersText');
+  text.textContent = '';
+  if(partner){
+    text.appendChild(el('strong', null, `You and ${partner.name}`));
+    const n = S.view.matches.length;
+    text.appendChild(document.createTextNode(n ? ` · ${n} match${n === 1 ? '' : 'es'}` : ' · no matches yet'));
+    $('inviteBtn').textContent = 'Code';
+  }else{
+    text.textContent = 'Just you so far';
+    $('inviteBtn').textContent = 'Invite';
+  }
+}
+
+/* -------------------------------- mutations ------------------------------ */
+async function callApi(path, body){
+  const r = await fetch('/api/' + path, {
+    method:'POST',
+    headers:{ 'Content-Type':'application/json' },
+    body: JSON.stringify({ code:S.code, member:S.member, ...body })
+  });
+  const j = await r.json().catch(() => ({ error:'The server said something we could not read.' }));
+  if(!r.ok) throw new Error(j.error || 'That did not go through.');
+  return j;
+}
+
+async function push(path, body, { keepPlace = true } = {}){
+  if(!S.shared) return;
+  try{
+    applyView(await callApi(path, body), { keepPlace });
+  }catch(err){
+    toast(err.message);
+    refresh();
+  }
+}
+
+function decide(verdict){
+  S.flinging = false;
+  const id = S.queue[0];
+  if(!id) return;
+  S.history.push(id);
+  S.queue.shift();
+
+  if(S.shared){
+    // Show the next card immediately; the server's answer arrives right behind it.
+    S.view.votes[id] = verdict;
+    render();
+    push('swipe', { idea:id, v:verdict });
+  }else{
+    S.local.votes[id] = { v:verdict, t:Date.now() };
+    S.view = localView();
+    save();
+    renderAll();
+  }
+}
+
+function undo(){
+  const id = S.history.pop();
+  if(!id) return;
+  S.queue.unshift(id);
+  if(S.shared){
+    delete S.view.votes[id];
+    render();
+    push('swipe', { idea:id, v:null });
+  }else{
+    delete S.local.votes[id];
+    S.view = localView();
+    save();
+    renderAll();
+  }
+}
+
+async function refresh(){
+  if(!S.shared) return;
+  try{
+    const r = await fetch(`/api/deck?code=${S.code}&member=${S.member}`);
+    if(!r.ok) return;
+    applyView(await r.json());
+  }catch{ /* offline for a moment; the next poll will catch up */ }
+}
+
+/* ------------------------------- swipe drag ------------------------------ */
+const reducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function fling(card, verdict, dy){
+  if(S.flinging) return;
+  S.flinging = true;
+  if(reducedMotion()){ decide(verdict); return; }
+  const dir = verdict === 'yes' ? 1 : -1;
+  const stamp = card.querySelector(verdict === 'yes' ? '.stamp--yes' : '.stamp--no');
+  if(stamp){ stamp.style.transition = 'opacity .14s linear'; stamp.style.opacity = '1'; }
+  card.style.transition = 'transform .34s cubic-bezier(.22,.61,.36,1), opacity .32s ease';
+  card.style.transform = `translate(${dir * Math.max(520, innerWidth)}px,${(dy || 0) + 32}px) rotate(${dir * 24}deg)`;
+  card.style.opacity = '0';
+  let done = false;
+  const finish = () => { if(done) return; done = true; decide(verdict); };
+  card.addEventListener('transitionend', finish, { once:true });
+  setTimeout(finish, 430);
+}
+
+function attachDrag(card){
+  let startX = 0, startY = 0, dx = 0, dy = 0, t0 = 0, pid = null, active = false;
+  const yes = card.querySelector('.stamp--yes');
+  const no = card.querySelector('.stamp--no');
+  const reach = Math.min(115, Math.max(62, (card.offsetWidth || 320) * 0.28));
+
+  const paint = () => {
+    card.style.transform = `translate(${dx}px,${dy}px) rotate(${dx / 20}deg)`;
+    if(yes) yes.style.opacity = String(Math.min(1, Math.max(0, dx) / (reach * 0.8)));
+    if(no) no.style.opacity = String(Math.min(1, Math.max(0, -dx) / (reach * 0.8)));
+  };
+
+  card.addEventListener('pointerdown', (e) => {
+    if(S.flinging) return;
+    if(e.target.closest('button, a')) return; // let the controls on the card work
+    if(typeof e.button === 'number' && e.button !== 0) return;
+    active = true; pid = e.pointerId; t0 = Date.now();
+    startX = e.clientX; startY = e.clientY; dx = 0; dy = 0;
+    card.style.transition = 'none';
+    for(const s of [yes, no]) if(s) s.style.transition = 'none';
+    try{ card.setPointerCapture(pid); }catch{ /* older engines cope without it */ }
+  });
+
+  card.addEventListener('pointermove', (e) => {
+    if(!active || e.pointerId !== pid) return;
+    dx = e.clientX - startX;
+    dy = (e.clientY - startY) * 0.4;
+    paint();
+  });
+
+  const release = (e) => {
+    if(!active || (e && e.pointerId !== pid)) return;
+    active = false;
+    try{ card.releasePointerCapture(pid); }catch{ /* as above */ }
+    const speed = Math.abs(dx) / Math.max(1, Date.now() - t0);
+    if(Math.abs(dx) > reach || (speed > 0.55 && Math.abs(dx) > 44)){
+      fling(card, dx > 0 ? 'yes' : 'no', dy);
+      return;
+    }
+    card.style.transition = 'transform .34s cubic-bezier(.32,.72,0,1)';
+    card.style.transform = '';
+    for(const s of [yes, no]){
+      if(!s) continue;
+      s.style.transition = 'opacity .26s ease';
+      s.style.opacity = '0';
+    }
+  };
+  card.addEventListener('pointerup', release);
+  card.addEventListener('pointercancel', release);
+}
+
+function swipe(v){
+  if(S.flinging || !S.queue.length) return;
+  const face = $('stack').querySelector('.card[data-depth="0"]');
+  if(face) fling(face, v, 0);
+}
+
+/* --------------------------------- sheets -------------------------------- */
+function openSheet(sheet){
+  if(S.activeSheet) closeSheet();
+  S.lastFocus = document.activeElement;
+  S.activeSheet = sheet;
+  $('scrim').classList.add('open');
+  sheet.removeAttribute('inert');
+  sheet.classList.add('open');
+  setTimeout(() => {
+    const first = sheet.querySelector('input, button:not([disabled])');
+    if(first) first.focus({ preventScroll:true });
+  }, 80);
+}
+
+function closeSheet(){
+  const sheet = S.activeSheet;
+  if(!sheet) return;
+  S.activeSheet = null;
+  sheet.classList.remove('open');
+  sheet.setAttribute('inert', '');
+  $('scrim').classList.remove('open');
+  document.documentElement.style.setProperty('--kb', '0px');
+  S.lastFocus?.focus?.({ preventScroll:true });
+  S.lastFocus = null;
+}
+
+let toastTimer = null;
+function toast(msg){
+  $('toast').textContent = msg;
+  $('toast').classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => $('toast').classList.remove('show'), 2600);
+}
+
+let matchTimer = null;
+function announceMatches(before, after){
+  if(!S.shared) return;
+  const fresh = after.filter((id) => !before.includes(id) && !S.knownMatches[id]);
+  for(const id of after) S.knownMatches[id] = true;
+  save();
+  if(!fresh.length) return;
+
+  const idea = ideaById(fresh[0]);
+  if(!idea) return;
+  const extra = fresh.length - 1;
+  const text = $('matchText');
+  text.textContent = '';
+  text.appendChild(el('strong', null, "You're both in"));
+  text.appendChild(document.createTextNode(idea.title + (extra ? ` and ${extra} more` : '')));
+  $('matchBanner').classList.add('show');
+  clearTimeout(matchTimer);
+  matchTimer = setTimeout(() => $('matchBanner').classList.remove('show'), 6000);
+}
+
+/* ------------------------------- idea sheet ------------------------------ */
+function segValue(seg){
+  const on = seg.querySelector('[aria-checked="true"]');
+  return on ? on.dataset.w : null;
+}
+function setSeg(seg, value){
+  for(const b of seg.querySelectorAll('button')) b.setAttribute('aria-checked', String(b.dataset.w === String(value)));
+}
+
+function buildWeatherPicker(){
+  for(const w of ['cold', 'warm', 'any']){
+    const b = el('button');
+    b.type = 'button';
+    b.setAttribute('role', 'radio');
+    b.dataset.w = w;
+    b.innerHTML = ICON[w];
+    b.appendChild(document.createTextNode(W[w].pick));
+    b.addEventListener('click', () => setSeg($('fWeather'), w));
+    $('fWeather').appendChild(b);
+  }
+}
+
+function openIdeaSheet(idea){
+  S.editingId = idea ? idea.id : null;
+  $('ideaTitleHead').textContent = idea ? 'Edit this idea' : 'Add a date idea';
+  $('fSave').textContent = idea ? 'Save changes' : 'Add to the deck';
+  $('fTitle').value = idea?.title || '';
+  $('fNote').value = idea?.note || '';
+  $('fHood').value = idea?.hood || '';
+  $('fUrl').value = idea?.url || '';
+  setSeg($('fWeather'), idea?.weather || (S.deck === 'all' ? 'any' : S.deck));
+  setSeg($('fWhen'), idea?.when || 'any');
+  setSeg($('fCost'), idea?.cost || 0);
+  $('fError').textContent = '';
+  $('fDelete').hidden = !(idea && idea.addedBy !== 'seed');
+  openSheet($('ideaSheet'));
+}
+
+function readIdeaForm(){
+  const cost = segValue($('fCost'));
+  return {
+    title: $('fTitle').value.trim(),
+    note: $('fNote').value.trim(),
+    weather: segValue($('fWeather')) || 'any',
+    when: segValue($('fWhen')) || 'any',
+    hood: $('fHood').value.trim() || null,
+    cost: cost ? Number(cost) : null,
+    url: $('fUrl').value.trim() || null
+  };
+}
+
+/** Same shaping the server does, so solo mode can't hold something shared won't. */
+function localSafeUrl(raw){
+  if(!raw) return null;
+  const withScheme = /^https?:\/\//i.test(raw) ? raw : 'https://' + raw;
+  try{
+    const u = new URL(withScheme);
+    return (u.protocol === 'http:' || u.protocol === 'https:') ? u.toString() : null;
+  }catch{ return null; }
+}
+
+async function saveIdea(){
+  const fields = readIdeaForm();
+  if(!fields.title){
+    $('fError').textContent = 'Give it a name first.';
+    $('fTitle').focus();
+    return;
+  }
+
+  if(S.shared){
+    const editing = S.editingId;
+    closeSheet();
+    await push('idea', editing ? { op:'edit', id:editing, idea:fields } : { op:'add', idea:fields });
+    toast(editing ? 'Saved.' : "Added — it's next up.");
+    if(!editing) bumpNewestToFront();
+    return;
+  }
+
+  fields.url = localSafeUrl(fields.url);
+  if(S.editingId){
+    const idea = S.local.ideas.find((i) => i.id === S.editingId);
+    if(idea) Object.assign(idea, fields);
+  }else{
+    S.local.ideas.push({
+      id: 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+      ...fields, addedBy:'me', createdAt:Date.now(), done:null
+    });
+  }
+  const editing = S.editingId;
+  S.view = localView();
+  save();
+  syncQueue();
+  if(!editing) bumpNewestToFront();
+  closeSheet();
+  renderAll();
+  toast(editing ? 'Saved.' : "Added — it's next up.");
+}
+
+/** A new idea should be the next thing you see, not buried in the shuffle. */
+function bumpNewestToFront(){
+  const newest = S.view.ideas.filter(eligible).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0))[0];
+  if(!newest) return;
+  S.queue = S.queue.filter((id) => id !== newest.id);
+  S.queue.splice(S.queue.length ? 1 : 0, 0, newest.id);
+  render();
+}
+
+async function deleteIdea(){
+  const id = S.editingId;
+  if(!id) return;
+  closeSheet();
+  if(S.shared){
+    await push('idea', { op:'delete', id });
+  }else{
+    S.local.ideas = S.local.ideas.filter((i) => i.id !== id);
+    delete S.local.votes[id];
+    S.view = localView();
+    save();
+    syncQueue();
+    renderAll();
+  }
+  toast('Deleted.');
+}
+
+/* ------------------------------- done sheet ------------------------------ */
+const isoToday = () => new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+
+function openDoneSheet(idea){
+  S.doneId = idea.id;
+  $('doneWhat').textContent = idea.title;
+  $('dDate').value = isoToday();
+  $('dNote').value = '';
+  openSheet($('doneSheet'));
+}
+
+async function saveDone(){
+  const id = S.doneId;
+  if(!id) return;
+  const parsed = Date.parse($('dDate').value + 'T12:00:00');
+  const at = Number.isFinite(parsed) ? parsed : Date.now();
+  const note = $('dNote').value.trim();
+  closeSheet();
+
+  if(S.shared){
+    await push('idea', { op:'done', id, done:{ at, note } });
+  }else{
+    const idea = S.local.ideas.find((i) => i.id === id);
+    if(idea) idea.done = { at, note, by:'me' };
+    S.view = localView();
+    save();
+    syncQueue();
+    renderAll();
+  }
+  toast('Marked done.');
+  if(S.activeSheet !== $('listSheet')) { renderList(); openSheet($('listSheet')); }
+}
+
+async function setUndone(idea){
+  if(S.shared){
+    await push('idea', { op:'undone', id:idea.id });
+  }else{
+    const local = S.local.ideas.find((i) => i.id === idea.id);
+    if(local) local.done = null;
+    delete S.local.votes[idea.id];
+    S.view = localView();
+    save();
+    syncQueue();
+    renderAll();
+  }
+  renderList();
+  toast('Back in the deck.');
+}
+
+/* -------------------------------- the list ------------------------------- */
+function listRow(idea, kind){
+  const li = el('li');
+  li.dataset.w = idea.weather;
+  if(kind === 'done') li.dataset.done = '1';
+
+  const mark = el('span', 'yes-mark');
+  mark.innerHTML = ICON[idea.weather];
+  li.appendChild(mark);
+
+  let sub = idea.hood || idea.note || W[idea.weather].chip;
+  if(kind === 'done'){
+    const when = idea.done?.at
+      ? new Date(idea.done.at).toLocaleDateString(undefined, { month:'short', day:'numeric', year:'numeric' })
+      : null;
+    sub = [when ? 'Done ' + when : 'Done before', idea.done?.note].filter(Boolean).join(' · ');
+  }
+
+  const text = el('div', 'yes-text');
+  text.appendChild(el('span', 'yes-title', idea.title));
+  text.appendChild(el('span', 'yes-note', sub));
+  li.appendChild(text);
+
+  const action = (cls, label, svg, fn) => {
+    const b = el('button', 'row-btn' + (cls ? ' ' + cls : ''));
+    b.type = 'button';
+    b.setAttribute('aria-label', label);
+    b.innerHTML = svg;
+    b.addEventListener('click', fn);
+    li.appendChild(b);
+  };
+
+  if(kind === 'done'){
+    action('', `Put ${idea.title} back in the deck`, SVG_REDO, () => setUndone(idea));
+    return li;
+  }
+
+  action('row-btn--done', `Mark ${idea.title} as done`, SVG_CHECK, () => openDoneSheet(idea));
+  action('', `Take ${idea.title} off the list`, SVG_X, () => {
+    if(S.shared){ push('swipe', { idea:idea.id, v:null }); }
+    else{
+      delete S.local.votes[idea.id];
+      S.view = localView();
+      save();
+      syncQueue();
+      renderAll();
+    }
+    setTimeout(renderList, 0);
+  });
+  return li;
+}
+
+function listSection(label, list, kind, blurb){
+  if(!list.length) return;
+  const head = el('div', 'sec-head');
+  head.appendChild(el('span', null, label));
+  head.appendChild(el('span', null, String(list.length)));
+  $('listBody').appendChild(head);
+  if(blurb) $('listBody').appendChild(Object.assign(el('p', 'hint', blurb), { style:'margin:0 0 4px' }));
+  const ul = el('ul', 'yeslist');
+  for(const idea of list) ul.appendChild(listRow(idea, kind));
+  $('listBody').appendChild(ul);
+}
+
+function renderList(){
+  const body = $('listBody');
+  body.innerHTML = '';
+  const pick = (ids) => ids.map(ideaById).filter(Boolean);
+  const matches = pick(S.view.matches);
+  const picks = pick(S.view.picks);
+  const dones = S.view.ideas.filter((i) => i.done).sort((a, b) => (b.done.at || 0) - (a.done.at || 0));
+
+  if(!matches.length && !picks.length && !dones.length){
+    const blank = el('div', 'blank');
+    blank.appendChild(el('strong', null, 'Nothing yet'));
+    blank.appendChild(el('p', null, 'Swipe right on something and it lands here.'));
+    body.appendChild(blank);
+    return;
+  }
+
+  listSection(S.shared ? 'Both said yes' : 'Want to do', matches, 'want');
+  listSection('Your picks, not matched yet', picks, 'want',
+    S.shared ? "They haven't landed on these yet." : null);
+  listSection('Already done', dones, 'done');
+}
+
+/* --------------------------------- invite -------------------------------- */
+const inviteUrl = () => `${location.origin}${location.pathname}?join=${S.code}`;
+const prettyCode = (c) => c ? c.slice(0, 4) + '-' + c.slice(4) : '————';
+
+function openInvite(){
+  $('inviteCode').textContent = prettyCode(S.code);
+  $('inviteHead').textContent = S.view.partner ? 'Your deck code' : 'Invite them in';
+  $('inviteShare').hidden = !navigator.share;
+  openSheet($('inviteSheet'));
+}
+
+async function copyInvite(){
+  try{
+    await navigator.clipboard.writeText(inviteUrl());
+    toast('Link copied.');
+  }catch{
+    toast('Copying was blocked — read them the code instead.');
+  }
+}
+
+/* --------------------------------- polling -------------------------------- */
+/** One cheap read while you're looking; slower once you've stopped touching it. */
+function schedulePoll(){
+  clearTimeout(S.pollTimer);
+  if(!S.shared || document.hidden) return;
+  const idle = Date.now() - S.lastActivity;
+  const delay = idle < 60000 ? 4000 : idle < 300000 ? 12000 : 30000;
+  S.pollTimer = setTimeout(runPoll, delay);
+}
+
+async function runPoll(){
+  if(!S.shared || document.hidden) return schedulePoll();
+  try{
+    const r = await fetch(`/api/deck?code=${S.code}&member=${S.member}&rev=${S.view.rev}`);
+    if(r.ok){
+      const j = await r.json();
+      if(!j.unchanged) applyView(j);
+    }
+  }catch{ /* a dropped poll is not worth telling anyone about */ }
+  schedulePoll();
+}
+
+const noteActivity = () => { S.lastActivity = Date.now(); };
+
+/* --------------------------------- welcome -------------------------------- */
+function showWelcome(prefillCode){
+  $('welcome').hidden = false;
+  $('app').hidden = true;
+  if(prefillCode){
+    $('wJoinRow').hidden = false;
+    $('wCode').value = prettyCode(prefillCode);
+    $('wStart').hidden = true;
+    $('wJoinOpen').hidden = true;
+  }
+  setTimeout(() => $('wName').focus({ preventScroll:true }), 120);
+}
+
+function enterApp(){
+  $('welcome').hidden = true;
+  $('app').hidden = false;
+}
+
+async function startShared(op, code){
+  const name = $('wName').value.trim();
+  if(!name){
+    $('wError').textContent = 'Your name first — it shows on their phone.';
+    $('wName').focus();
+    return;
+  }
+  $('wError').textContent = '';
+  S.name = name;
+
+  try{
+    const r = await fetch('/api/deck', {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json' },
+      body: JSON.stringify(op === 'create' ? { op:'create', name } : { op:'join', code, name })
+    });
+    const j = await r.json().catch(() => ({}));
+    if(!r.ok) throw new Error(j.error || 'That did not work.');
+
+    S.shared = true;
+    S.code = j.code;
+    S.member = j.member;
+    save();
+    enterApp();
+    applyView(j.view, { keepPlace:false });
+    startConditions();
+    schedulePoll();
+    if(op === 'create') setTimeout(openInvite, 500);
+  }catch(err){
+    $('wError').textContent = /fetch|network|Failed/i.test(err.message)
+      ? "Can't reach the deck server from here — try “Just me, on this phone”."
+      : err.message;
+  }
+}
+
+function startSolo(){
+  S.shared = false;
+  S.name = $('wName').value.trim() || 'You';
+  if(!S.local.ideas.length) S.local.ideas = freshLocalIdeas();
+  S.view = localView();
+  save();
+  enterApp();
+  rebuildQueue();
+  renderAll();
+  startConditions();
+}
+
+/* ---------------------------------- boot ---------------------------------- */
+function startConditions(){
+  setConditions({
+    temp: NORMAL_HIGH[new Date().getMonth()],
+    wet: false,
+    source: 'Seasonal estimate for New York'
+  });
+  liveWeather('40.713', '-74.006').then(({ temp, wet }) => {
+    S.netOK = true;
+    $('locBtn').hidden = false;
+    if(!S.manualTemp) setConditions({ temp, wet, source: 'Live · New York City' });
+  }).catch(() => {
+    S.sourceText = 'Seasonal estimate · tap to set it yourself';
+    $('tempSource').textContent = S.sourceText;
+  });
+}
+
+function wire(){
+  buildWeatherPicker();
+
+  $('instrumentBtn').addEventListener('click', () => {
+    const open = $('tempPanel').hidden;
+    $('tempPanel').hidden = !open;
+    $('instrumentBtn').setAttribute('aria-expanded', String(open));
+  });
+
+  $('tempRange').addEventListener('input', () => {
+    S.manualTemp = true;
+    setConditions({ temp: Number($('tempRange').value), source:'You set this' });
+  });
+
+  $('rainIgnore').addEventListener('click', () => {
+    S.ignoreRain = !S.ignoreRain;
+    setConditions({});
+  });
+
+  $('modes').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-mode-btn]');
+    if(b) setDeck(b.dataset.modeBtn, true);
+  });
+
+  $('whenSeg').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-when]');
+    if(b) setWhen(b.dataset.when);
+  });
+
+  $('yesBtn').addEventListener('click', () => swipe('yes'));
+  $('noBtn').addEventListener('click', () => swipe('no'));
+  $('undoBtn').addEventListener('click', undo);
+
+  $('addBtn').addEventListener('click', () => openIdeaSheet(null));
+  $('emptyAdd').addEventListener('click', () => openIdeaSheet(null));
+  $('fSave').addEventListener('click', saveIdea);
+  $('fDelete').addEventListener('click', deleteIdea);
+  $('fTitle').addEventListener('input', () => { if($('fError').textContent) $('fError').textContent = ''; });
+
+  $('dSave').addEventListener('click', saveDone);
+
+  $('inviteBtn').addEventListener('click', openInvite);
+  $('inviteCopy').addEventListener('click', copyInvite);
+  $('inviteShare').addEventListener('click', async () => {
+    try{ await navigator.share({ title:'Weather Permitting', text:'Swipe on dates with me', url:inviteUrl() }); }
+    catch{ /* they backed out of the share sheet */ }
+  });
+
+  const openList = () => { renderList(); openSheet($('listSheet')); };
+  $('listBtn').addEventListener('click', openList);
+  $('emptyList').addEventListener('click', openList);
+  $('matchOpen').addEventListener('click', () => {
+    $('matchBanner').classList.remove('show');
+    openList();
+  });
+
+  $('emptyReset').addEventListener('click', async () => {
+    const nos = S.view.ideas.filter((i) => S.view.votes[i.id] === 'no');
+    if(!nos.length) return toast('Nothing to bring back.');
+    S.history = [];
+    if(S.shared){
+      for(const idea of nos) await callApi('swipe', { idea:idea.id, v:null }).catch(() => {});
+      await refresh();
+    }else{
+      for(const idea of nos) delete S.local.votes[idea.id];
+      S.view = localView();
+      save();
+      rebuildQueue();
+      renderAll();
+    }
+    toast(`${nos.length} ${nos.length === 1 ? 'idea is' : 'ideas are'} back.`);
+  });
+
+  let clearArmed = false, clearTimer = null;
+  $('clearYes').addEventListener('click', async () => {
+    if(!clearArmed){
+      clearArmed = true;
+      $('clearYes').textContent = 'Tap again to clear';
+      clearTimer = setTimeout(() => { clearArmed = false; $('clearYes').textContent = 'Clear picks'; }, 3200);
+      return;
+    }
+    clearTimeout(clearTimer);
+    clearArmed = false;
+    $('clearYes').textContent = 'Clear picks';
+    const yeses = S.view.ideas.filter((i) => S.view.votes[i.id] === 'yes' && !i.done);
+    S.history = [];
+    if(S.shared){
+      for(const idea of yeses) await callApi('swipe', { idea:idea.id, v:null }).catch(() => {});
+      await refresh();
+    }else{
+      for(const idea of yeses) delete S.local.votes[idea.id];
+      S.view = localView();
+      save();
+      rebuildQueue();
+      renderAll();
+    }
+    renderList();
+  });
+
+  for(const b of document.querySelectorAll('[data-close-sheet]')) b.addEventListener('click', closeSheet);
+  $('scrim').addEventListener('click', closeSheet);
+
+  for(const seg of [$('fWhen'), $('fCost')]){
+    seg.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-w]');
+      if(b) setSeg(seg, b.dataset.w);
+    });
+  }
+
+  $('wStart').addEventListener('click', () => startShared('create'));
+  $('wJoinOpen').addEventListener('click', () => {
+    $('wJoinRow').hidden = false;
+    $('wCode').focus();
+  });
+  $('wJoinGo').addEventListener('click', () => startShared('join', $('wCode').value));
+  $('wSolo').addEventListener('click', startSolo);
+  $('wCode').addEventListener('keydown', (e) => { if(e.key === 'Enter') startShared('join', $('wCode').value); });
+  $('wName').addEventListener('keydown', (e) => { if(e.key === 'Enter') $('wJoinRow').hidden ? startShared('create') : startShared('join', $('wCode').value); });
+
+  document.addEventListener('keydown', (e) => {
+    noteActivity();
+    if(S.activeSheet){ if(e.key === 'Escape') closeSheet(); return; }
+    if(!$('welcome').hidden) return;
+    if(e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+    if(e.key === 'ArrowRight'){ e.preventDefault(); swipe('yes'); }
+    else if(e.key === 'ArrowLeft'){ e.preventDefault(); swipe('no'); }
+    else if(e.key === 'ArrowDown' || e.key === 'z' || e.key === 'Z'){ e.preventDefault(); undo(); }
+  });
+
+  for(const evt of ['pointerdown', 'touchstart']) document.addEventListener(evt, noteActivity, { passive:true });
+  document.addEventListener('visibilitychange', () => {
+    if(document.hidden) return clearTimeout(S.pollTimer);
+    noteActivity();
+    refresh();
+    schedulePoll();
+  });
+
+  // Keep an open sheet above the iOS keyboard.
+  if(window.visualViewport){
+    const vv = visualViewport;
+    const track = () => {
+      const kb = S.activeSheet ? Math.max(0, innerHeight - vv.height - vv.offsetTop) : 0;
+      document.documentElement.style.setProperty('--kb', kb + 'px');
+    };
+    vv.addEventListener('resize', track);
+    vv.addEventListener('scroll', track);
+  }
+
+  $('locBtn').addEventListener('click', () => {
+    if(!navigator.geolocation) return toast('This browser will not share a location.');
+    $('locBtn').textContent = 'Checking…';
+    navigator.geolocation.getCurrentPosition(({ coords }) => {
+      liveWeather(coords.latitude.toFixed(3), coords.longitude.toFixed(3)).then(({ temp, wet }) => {
+        S.manualTemp = false;
+        setConditions({ temp, wet, source:'Live · where you are' });
+        $('locBtn').textContent = 'Using your location';
+        $('locBtn').disabled = true;
+      }).catch(() => {
+        $('locBtn').textContent = 'Use where I actually am';
+        toast('Could not reach the weather service.');
+      });
+    }, () => {
+      $('locBtn').textContent = 'Use where I actually am';
+      toast('Location was not shared.');
+    }, { timeout:8000, maximumAge:600000 });
+  });
+}
+
+async function boot(){
+  wire();
+  document.documentElement.setAttribute('data-mode', S.deck);
+
+  const joinCode = new URLSearchParams(location.search).get('join');
+  const saved = load();
+
+  if(saved?.shared && saved.code && saved.member){
+    S.shared = true;
+    S.code = saved.code;
+    S.member = saved.member;
+    S.name = saved.name || '';
+    S.knownMatches = saved.knownMatches || {};
+    try{
+      const r = await fetch(`/api/deck?code=${S.code}&member=${S.member}`);
+      if(!r.ok) throw new Error('gone');
+      enterApp();
+      applyView(await r.json(), { keepPlace:false });
+      startConditions();
+      schedulePoll();
+      return;
+    }catch{
+      // The deck expired, or this device lost its key. Start over rather than
+      // pretend — nothing local was worth keeping in shared mode anyway.
+      S.shared = false;
+    }
+  }
+
+  if(saved && saved.shared === false){
+    S.name = saved.name || '';
+    S.local.ideas = Array.isArray(saved.ideas) && saved.ideas.length ? saved.ideas : freshLocalIdeas();
+    S.local.votes = saved.votes || {};
+    if(!joinCode){
+      S.view = localView();
+      enterApp();
+      rebuildQueue();
+      renderAll();
+      startConditions();
+      return;
+    }
+  }else if(migrateV1()){
+    save();
+  }
+
+  showWelcome(joinCode);
+}
+
+boot();
+</script>
+</body>
+</html>
