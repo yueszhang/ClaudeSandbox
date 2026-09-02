@@ -32,9 +32,10 @@ steps, all in the Vercel dashboard:
    `KV_REST_API_*` or the `UPSTASH_REDIS_REST_*` spelling, whichever appears.
 3. Set the production branch under **Settings → Git**.
 
-No other environment variables. Without Redis the deployment still serves the
-page and runs on memory, which on serverless means decks are lost between
-requests — connect the database before sharing a code with anyone.
+No other environment variables. A deployment without Redis refuses to create or
+open a shared deck and says which click is missing, rather than running on
+memory and losing decks between invocations. "Just me, on this phone" keeps
+working either way.
 
 ## How it fits together
 
@@ -45,6 +46,7 @@ api/deck.js         create · join · poll
 api/swipe.js        vote · undo
 api/idea.js         add · edit · delete · mark done
 lib/deck.js         deck rules, and the only place blind matching is enforced
+lib/http.js         request plumbing, and the no-database guard
 lib/store.js        Upstash, or process memory when there are no credentials
 ```
 

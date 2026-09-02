@@ -1,9 +1,10 @@
 import { createDeck, joinDeck, viewFor, revision } from '../lib/deck.js';
 import { normalizeCode } from '../lib/ids.js';
-import { readBody, send, fail, credentials } from './_shared.js';
+import { readBody, send, fail, credentials, assertStorage } from '../lib/http.js';
 
 export default async function handler(req, res){
   try{
+    assertStorage();
     if(req.method === 'GET'){
       const { code, member } = credentials(req.query || {});
       // The poll costs one read: if nothing changed, say so and send no data.

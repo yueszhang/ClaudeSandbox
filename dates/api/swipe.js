@@ -1,8 +1,9 @@
 import { setVote, viewFor } from '../lib/deck.js';
-import { readBody, send, fail, credentials } from './_shared.js';
+import { readBody, send, fail, credentials, assertStorage } from '../lib/http.js';
 
 export default async function handler(req, res){
   try{
+    assertStorage();
     if(req.method !== 'POST'){
       res.setHeader('Allow', 'POST');
       return send(res, 405, { error: 'Method not allowed.' });
