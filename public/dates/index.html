@@ -1,0 +1,1354 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="A swipeable deck of New York date ideas that sorts itself by the temperature. Seventy degrees is the line.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#e9ecf0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0e1216" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Weather Permitting">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Weather Permitting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap">
+<style>
+/* =========================================================================
+   Weather Permitting — tokens
+   Cool slate neutrals; the accent is the temperature. Cold is glacier blue,
+   warm is ember, everything is graphite. Verdict colors stay separate from
+   the accent so "yes" never changes meaning when the weather does.
+   ========================================================================= */
+:root{
+  color-scheme: light dark;
+
+  --ground:#e9ecf0;
+  --ground-deep:#dce1e7;
+  --surface:#ffffff;
+  --surface-2:#f3f5f8;
+  --ink:#12171d;
+  --ink-2:#4e5866;
+  --ink-3:#7d8794;
+  --line:#d4dae1;
+  --line-soft:#e4e8ed;
+
+  --cold:#0d6fa6;
+  --cold-tint:#dbecf7;
+  --warm:#c25a17;
+  --warm-tint:#fae5d2;
+  --all:#4d5a6b;
+  --all-tint:#e2e7ed;
+
+  --yes:#1d7d52;
+  --yes-tint:#dbf0e5;
+  --no:#b4302f;
+  --no-tint:#fadedd;
+
+  --tempgrad:linear-gradient(90deg,#0d6fa6 0%,#4e93b8 40%,#9aa2a6 68%,#c25a17 92%,#c25a17 100%);
+
+  --card-shadow:0 1px 2px rgba(18,23,29,.07), 0 18px 34px -14px rgba(18,23,29,.30);
+  --lift:0 1px 2px rgba(18,23,29,.06), 0 8px 20px -12px rgba(18,23,29,.28);
+
+  --sans:'Archivo', ui-sans-serif, system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  --serif:'Instrument Serif', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
+
+  --accent:var(--warm);
+  --accent-tint:var(--warm-tint);
+
+  --pad:16px;
+  --r-lg:24px;
+  --r-md:14px;
+  --r-sm:10px;
+  --safe-b:env(safe-area-inset-bottom, 0px);
+  --safe-t:env(safe-area-inset-top, 0px);
+  --kb:0px;
+}
+
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0e1216;
+    --ground-deep:#080b0e;
+    --surface:#171d24;
+    --surface-2:#1e252d;
+    --ink:#eef2f6;
+    --ink-2:#a6b2be;
+    --ink-3:#74818e;
+    --line:#2b333c;
+    --line-soft:#232a32;
+
+    --cold:#5cc0ee;
+    --cold-tint:#123243;
+    --warm:#f0a14a;
+    --warm-tint:#3b2412;
+    --all:#9db0c2;
+    --all-tint:#242c35;
+
+    --yes:#45c68c;
+    --yes-tint:#12332a;
+    --no:#f0736a;
+    --no-tint:#3a1a1b;
+
+    --tempgrad:linear-gradient(90deg,#5cc0ee 0%,#5f9cba 40%,#8b8f93 68%,#f0a14a 92%,#f0a14a 100%);
+
+    --card-shadow:0 1px 2px rgba(0,0,0,.5), 0 20px 40px -16px rgba(0,0,0,.7);
+    --lift:0 1px 2px rgba(0,0,0,.4), 0 10px 22px -14px rgba(0,0,0,.6);
+  }
+}
+
+:root[data-theme="dark"]{
+  --ground:#0e1216;
+  --ground-deep:#080b0e;
+  --surface:#171d24;
+  --surface-2:#1e252d;
+  --ink:#eef2f6;
+  --ink-2:#a6b2be;
+  --ink-3:#74818e;
+  --line:#2b333c;
+  --line-soft:#232a32;
+
+  --cold:#5cc0ee;
+  --cold-tint:#123243;
+  --warm:#f0a14a;
+  --warm-tint:#3b2412;
+  --all:#9db0c2;
+  --all-tint:#242c35;
+
+  --yes:#45c68c;
+  --yes-tint:#12332a;
+  --no:#f0736a;
+  --no-tint:#3a1a1b;
+
+  --tempgrad:linear-gradient(90deg,#5cc0ee 0%,#5f9cba 40%,#8b8f93 68%,#f0a14a 92%,#f0a14a 100%);
+
+  --card-shadow:0 1px 2px rgba(0,0,0,.5), 0 20px 40px -16px rgba(0,0,0,.7);
+  --lift:0 1px 2px rgba(0,0,0,.4), 0 10px 22px -14px rgba(0,0,0,.6);
+}
+
+/* The deck in view decides the accent, document-wide — the sheets and the
+   toast are outside .app and need it too. */
+:root[data-mode="cold"]{--accent:var(--cold); --accent-tint:var(--cold-tint);}
+:root[data-mode="warm"]{--accent:var(--warm); --accent-tint:var(--warm-tint);}
+:root[data-mode="all"] {--accent:var(--all);  --accent-tint:var(--all-tint);}
+
+*,*::before,*::after{box-sizing:border-box}
+
+html{-webkit-text-size-adjust:100%}
+
+body{
+  margin:0;
+  height:100vh;
+  height:100dvh;
+  overflow:hidden;
+  overscroll-behavior:none;
+  background:var(--ground);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:15px;
+  line-height:1.45;
+  -webkit-font-smoothing:antialiased;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+
+button{font:inherit;color:inherit;margin:0}
+
+:focus-visible{outline:2px solid var(--accent,#0d6fa6);outline-offset:2px;border-radius:4px}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{transition-duration:.01ms !important;animation-duration:.01ms !important}
+}
+
+/* =========================================================================
+   App shell — three fixed rows: instrument, stage, verdict rail.
+   ========================================================================= */
+.app{
+  height:100%;
+  max-width:520px;
+  margin:0 auto;
+  display:grid;
+  grid-template-rows:auto minmax(0,1fr) auto;
+  grid-template-columns:minmax(0,1fr);
+  background:var(--ground);
+  padding:calc(var(--safe-t) + 10px) var(--pad) 0;
+  -webkit-user-select:none;
+  user-select:none;
+}
+
+/* ---------- Instrument header ---------- */
+.bar{display:flex;flex-direction:column;gap:10px;min-width:0}
+
+.bar-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;min-width:0}
+.wordmark{min-width:0}
+
+.wordmark-name{
+  display:block;
+  overflow-wrap:anywhere;
+  font-family:var(--serif);
+  font-size:27px;
+  line-height:1.05;
+  letter-spacing:-.01em;
+}
+.wordmark-sub{
+  display:block;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  margin-top:3px;
+  font-size:11px;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+  color:var(--ink-3);
+}
+
+.bar-actions{display:flex;gap:8px;flex:none}
+
+.icon-btn{
+  display:inline-flex;align-items:center;gap:5px;
+  height:38px;min-width:38px;padding:0 11px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:999px;
+  box-shadow:var(--lift);
+  cursor:pointer;
+  transition:transform .16s ease, border-color .2s ease;
+}
+.icon-btn:active{transform:scale(.94)}
+.icon-btn svg{width:17px;height:17px;flex:none;color:var(--ink-2)}
+.icon-btn .count{
+  font-size:13px;font-weight:600;font-variant-numeric:tabular-nums;
+  min-width:9px;text-align:center;
+}
+.icon-btn[data-has="1"]{border-color:var(--accent)}
+.icon-btn[data-has="1"] svg{color:var(--yes)}
+
+/* ---------- Temperature readout + scale ---------- */
+.instrument{
+  display:flex;align-items:center;gap:12px;
+  width:100%;padding:9px 12px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--r-md);
+  box-shadow:var(--lift);
+  text-align:left;cursor:pointer;min-width:0;
+  transition:border-color .2s ease;
+}
+.instrument[aria-expanded="true"]{border-color:var(--accent)}
+
+.temp{
+  font-family:var(--serif);
+  font-size:34px;line-height:1;
+  font-variant-numeric:tabular-nums;
+  color:var(--accent);
+  flex:none;
+}
+.temp .deg{font-size:16px;vertical-align:super;letter-spacing:.02em}
+
+.instrument-meta{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
+.instrument-verdict{font-size:13.5px;font-weight:600;letter-spacing:-.005em}
+.instrument-source{
+  font-size:10.5px;letter-spacing:.085em;text-transform:uppercase;color:var(--ink-3);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.chev{flex:none;display:inline-flex;color:var(--ink-3);transition:transform .26s ease}
+.chev svg{width:16px;height:16px}
+.instrument[aria-expanded="true"] .chev{transform:rotate(180deg)}
+
+.temp-panel{
+  padding:12px 14px 10px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--r-md);
+  box-shadow:var(--lift);
+}
+
+.scale{position:relative}
+.scale-bar{
+  position:absolute;left:0;right:0;top:8px;height:10px;
+  border-radius:999px;background:var(--tempgrad);
+  border:1px solid var(--line);pointer-events:none;
+}
+.scale-tick{position:absolute;left:70%;top:-5px;bottom:-5px;width:2px;background:var(--ink);border-radius:2px;opacity:.72}
+.scale input[type=range]{
+  position:relative;-webkit-appearance:none;appearance:none;
+  display:block;width:100%;height:26px;margin:0;background:transparent;cursor:pointer;
+}
+.scale input[type=range]::-webkit-slider-runnable-track{height:26px;background:transparent;border:0}
+.scale input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;
+  width:26px;height:26px;border-radius:50%;
+  background:var(--surface);border:2px solid var(--accent);
+  box-shadow:0 2px 8px rgba(18,23,29,.30);
+}
+.scale input[type=range]::-moz-range-track{height:26px;background:transparent;border:0}
+.scale input[type=range]::-moz-range-thumb{
+  width:22px;height:22px;border-radius:50%;
+  background:var(--surface);border:2px solid var(--accent);
+  box-shadow:0 2px 8px rgba(18,23,29,.30);
+}
+.scale-legend{position:relative;height:14px;margin-top:5px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.scale-legend span{position:absolute;top:0;white-space:nowrap}
+.scale-legend .l0{left:0}
+.scale-legend .l70{left:70%;transform:translateX(-50%);color:var(--ink-2);font-weight:600}
+.scale-legend .l100{right:0}
+
+.link-btn{
+  display:block;margin-top:10px;padding:0;
+  background:none;border:0;border-bottom:1px solid currentColor;
+  color:var(--accent);font-size:12.5px;font-weight:500;cursor:pointer;
+}
+
+/* ---------- Deck switch ---------- */
+.modes{
+  position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  padding:4px;background:var(--ground-deep);
+  border:1px solid var(--line-soft);border-radius:999px;
+}
+.modes-thumb{
+  position:absolute;top:4px;bottom:4px;left:4px;
+  width:calc((100% - 8px)/3);
+  background:var(--surface);border-radius:999px;
+  box-shadow:var(--lift);
+  transform:translateX(calc(var(--i,0) * 100%));
+  transition:transform .3s cubic-bezier(.32,.72,0,1);
+}
+.modes button{
+  position:relative;z-index:1;
+  height:34px;padding:0 4px;
+  background:none;border:0;border-radius:999px;
+  font-size:12.5px;font-weight:600;letter-spacing:.01em;
+  color:var(--ink-3);cursor:pointer;
+  min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  transition:color .22s ease;
+}
+.modes button[aria-checked="true"]{color:var(--accent)}
+
+/* ---------- Card stage ---------- */
+.stage{position:relative;min-height:0;min-width:0;padding:14px 0 10px;display:flex}
+.stack{position:relative;flex:1;min-height:0;min-width:0}
+
+.card{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  padding:20px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--r-lg);
+  box-shadow:var(--card-shadow);
+  overflow:hidden;
+  -webkit-touch-callout:none;
+  will-change:transform;
+}
+.card[data-depth="0"]{touch-action:none;cursor:grab;z-index:3}
+.card[data-depth="0"]:active{cursor:grabbing}
+.card[data-depth="1"]{transform:translateY(12px) scale(.955);z-index:2;opacity:.85}
+.card[data-depth="2"]{transform:translateY(23px) scale(.912);z-index:1;opacity:.55}
+.card[data-depth="1"],.card[data-depth="2"]{pointer-events:none}
+
+/* A hairline of the card's own weather along the top edge. */
+.card::before{
+  content:"";position:absolute;left:0;right:0;top:0;height:3px;
+  background:var(--card-hue);
+}
+.card[data-w="warm"]{--card-hue:var(--warm);--card-tint:var(--warm-tint)}
+.card[data-w="cold"]{--card-hue:var(--cold);--card-tint:var(--cold-tint)}
+.card[data-w="any"] {--card-hue:var(--all); --card-tint:var(--all-tint)}
+
+.card-top{display:flex;flex-wrap:wrap;gap:6px;align-items:center;min-width:0}
+
+.chip{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:4px 9px;border-radius:999px;
+  font-size:10.5px;font-weight:600;letter-spacing:.075em;text-transform:uppercase;
+  white-space:nowrap;
+}
+.chip svg{width:13px;height:13px}
+.chip--w{background:var(--card-tint);color:var(--card-hue)}
+.chip--ghost{background:transparent;border:1px solid var(--line);color:var(--ink-3)}
+
+.card-body{
+  flex:1;min-height:0;
+  display:flex;flex-direction:column;justify-content:center;
+  gap:10px;padding:14px 0;
+}
+.card-title{
+  margin:0;
+  font-family:var(--serif);
+  font-weight:400;
+  font-size:clamp(32px, 9vw, 44px);
+  line-height:1.06;
+  letter-spacing:-.015em;
+  text-wrap:balance;
+  overflow-wrap:anywhere;
+}
+.card-note{
+  margin:0;
+  font-size:14.5px;line-height:1.5;
+  color:var(--ink-2);
+  overflow-wrap:anywhere;
+  display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;
+}
+.card-foot{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding-top:14px;border-top:1px solid var(--line-soft);
+}
+.card-foot-chips{display:flex;gap:6px;flex-wrap:wrap;min-width:0}
+.counter{
+  font-size:10.5px;letter-spacing:.085em;text-transform:uppercase;
+  color:var(--ink-3);font-variant-numeric:tabular-nums;white-space:nowrap;
+}
+
+.stamp{
+  position:absolute;top:26px;
+  padding:6px 12px;
+  border:2.5px solid currentColor;border-radius:8px;
+  font-size:16px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  opacity:0;pointer-events:none;
+}
+.stamp--yes{left:20px;color:var(--yes);transform:rotate(-11deg)}
+.stamp--no{right:20px;color:var(--no);transform:rotate(11deg)}
+
+/* ---------- Empty state ---------- */
+.empty{
+  position:absolute;inset:14px 0 10px;
+  display:flex;flex-direction:column;justify-content:center;gap:16px;
+  padding:24px;
+  background:var(--surface);
+  border:1px dashed var(--line);
+  border-radius:var(--r-lg);
+  text-align:left;
+}
+.empty h2{margin:0;font-family:var(--serif);font-weight:400;font-size:31px;line-height:1.1;letter-spacing:-.01em;text-wrap:balance}
+.empty p{margin:0;color:var(--ink-2);font-size:14.5px}
+.empty-actions{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:46px;padding:0 18px;
+  border-radius:var(--r-md);border:1px solid var(--line);
+  background:var(--surface-2);color:var(--ink);
+  font-size:14.5px;font-weight:600;cursor:pointer;
+  transition:transform .16s ease;
+}
+.btn:active{transform:scale(.98)}
+.btn--primary{background:var(--accent);border-color:var(--accent);color:#fff}
+:root[data-theme="dark"] .btn--primary{color:#0e1216}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn--primary{color:#0e1216}}
+
+/* ---------- Verdict rail ---------- */
+.rail{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 0 calc(var(--safe-b) + 12px);
+  min-width:0;
+}
+.verdict{
+  flex:1;min-width:0;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  height:56px;padding:0 12px;
+  border-radius:18px;border:1px solid;
+  font-size:14.5px;font-weight:600;letter-spacing:.01em;
+  box-shadow:var(--lift);cursor:pointer;
+  transition:transform .16s ease;
+}
+.verdict:active{transform:scale(.96)}
+.verdict svg{width:19px;height:19px}
+.verdict--no{background:var(--surface);border-color:var(--line);color:var(--no)}
+.verdict--yes{background:var(--yes);border-color:var(--yes);color:#fff}
+:root[data-theme="dark"] .verdict--yes{color:#08110d}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .verdict--yes{color:#08110d}}
+
+.undo{
+  flex:none;width:50px;height:56px;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:var(--surface);border:1px solid var(--line);border-radius:18px;
+  color:var(--ink-2);box-shadow:var(--lift);cursor:pointer;
+  transition:transform .16s ease, opacity .2s ease;
+}
+.undo svg{width:20px;height:20px}
+.undo:active{transform:scale(.94)}
+.undo:disabled{opacity:.34;cursor:default;box-shadow:none}
+
+/* ---------- Sheets ---------- */
+.scrim{
+  position:fixed;inset:0;z-index:30;
+  background:rgba(8,12,17,.5);
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .3s ease, visibility 0s .3s;
+}
+.scrim.open{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .3s ease}
+
+.sheet{
+  position:fixed;left:0;right:0;bottom:0;z-index:31;
+  width:100%;max-width:520px;margin:0 auto;
+  display:flex;flex-direction:column;
+  max-height:min(88dvh,660px);
+  background:var(--surface);
+  border:1px solid var(--line);border-bottom:0;
+  border-radius:22px 22px 0 0;
+  box-shadow:0 -14px 44px rgba(8,12,17,.28);
+  transform:translateY(101%);
+  visibility:hidden;
+  transition:transform .34s cubic-bezier(.32,.72,0,1), visibility 0s .34s;
+}
+.sheet.open{transform:translateY(calc(-1 * var(--kb)));visibility:visible;transition:transform .34s cubic-bezier(.32,.72,0,1)}
+
+.sheet-grip{width:38px;height:4px;border-radius:999px;background:var(--line);margin:9px auto 0;flex:none}
+.sheet-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:12px 20px 10px;flex:none;min-width:0}
+.sheet-head h2{margin:0;font-family:var(--serif);font-weight:400;font-size:25px;line-height:1.1}
+.sheet-head .tally{font-size:11px;letter-spacing:.085em;text-transform:uppercase;color:var(--ink-3);font-variant-numeric:tabular-nums;white-space:nowrap}
+.sheet-body{padding:0 20px;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;flex:1;min-height:0}
+.sheet-foot{display:flex;gap:10px;padding:14px 20px calc(var(--safe-b) + 16px);border-top:1px solid var(--line-soft);flex:none}
+.sheet-foot .btn{flex:1}
+
+/* ---------- Add form ---------- */
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.field label,.legend{font-size:11px;letter-spacing:.085em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.field input[type=text]{
+  width:100%;height:48px;padding:0 14px;
+  font:inherit;font-size:16px; /* 16px keeps iOS from zooming on focus */
+  color:var(--ink);background:var(--surface-2);
+  border:1px solid var(--line);border-radius:var(--r-md);
+  -webkit-appearance:none;appearance:none;
+}
+.field input[type=text]::placeholder{color:var(--ink-3)}
+.field input[type=text]:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-tint)}
+
+fieldset{margin:0 0 14px;padding:0;border:0;display:flex;flex-direction:column;gap:6px}
+.picker{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.picker button{
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+  padding:11px 6px;
+  background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-md);
+  font-size:11.5px;font-weight:600;color:var(--ink-2);cursor:pointer;
+  transition:border-color .2s ease,color .2s ease,background-color .2s ease;
+}
+.picker button svg{width:19px;height:19px}
+.picker button[aria-checked="true"][data-w="warm"]{border-color:var(--warm);background:var(--warm-tint);color:var(--warm)}
+.picker button[aria-checked="true"][data-w="cold"]{border-color:var(--cold);background:var(--cold-tint);color:var(--cold)}
+.picker button[aria-checked="true"][data-w="any"]{border-color:var(--all);background:var(--all-tint);color:var(--all)}
+
+.form-error{color:var(--no);font-size:13px;font-weight:600;min-height:19px;margin:-6px 0 8px}
+
+/* ---------- Yes list ---------- */
+.yeslist{list-style:none;margin:0;padding:0 0 6px;display:flex;flex-direction:column}
+.yeslist li{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line-soft)}
+.yeslist li:last-child{border-bottom:0}
+.yes-mark{flex:none;width:30px;height:30px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:var(--row-tint);color:var(--row-hue)}
+.yes-mark svg{width:15px;height:15px}
+.yeslist li[data-w="warm"]{--row-hue:var(--warm);--row-tint:var(--warm-tint)}
+.yeslist li[data-w="cold"]{--row-hue:var(--cold);--row-tint:var(--cold-tint)}
+.yeslist li[data-w="any"]{--row-hue:var(--all);--row-tint:var(--all-tint)}
+.yes-text{flex:1;min-width:0}
+.yes-title{display:block;font-size:15.5px;font-weight:600;overflow-wrap:anywhere}
+.yes-note{display:block;font-size:12.5px;color:var(--ink-3);overflow-wrap:anywhere}
+.row-btn{
+  flex:none;width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;
+  background:none;border:1px solid var(--line);border-radius:50%;color:var(--ink-3);cursor:pointer;
+}
+.row-btn svg{width:15px;height:15px}
+.row-btn:active{background:var(--surface-2)}
+
+.blank{padding:30px 0 34px;text-align:center;color:var(--ink-3)}
+.blank strong{display:block;font-family:var(--serif);font-weight:400;font-size:22px;color:var(--ink-2);margin-bottom:6px}
+
+/* ---------- Toast ---------- */
+.toast{
+  position:fixed;left:50%;bottom:calc(var(--safe-b) + 88px);z-index:50;
+  max-width:min(calc(100% - 40px),400px);
+  padding:10px 16px;
+  background:var(--ink);color:var(--ground);
+  border-radius:999px;font-size:13.5px;font-weight:600;text-align:center;
+  box-shadow:0 8px 24px rgba(8,12,17,.35);
+  transform:translate(-50%,10px);opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .24s ease, transform .24s ease, visibility 0s .24s;
+}
+.toast.show{opacity:1;visibility:visible;transform:translate(-50%,0);transition:opacity .24s ease, transform .24s ease}
+
+/* Short phones: give the stage back the pixels the header borrowed. */
+@media (max-height: 700px){
+  .wordmark-name{font-size:23px}
+  .wordmark-sub{display:none}
+  .temp{font-size:29px}
+  .card-title{font-size:clamp(28px,8vw,38px)}
+  .verdict,.undo{height:52px}
+}
+</style>
+</head>
+<body>
+
+<div class="app" id="app" data-mode="warm">
+
+  <header class="bar">
+    <div class="bar-top">
+      <div class="wordmark">
+        <span class="wordmark-name">Weather Permitting</span>
+        <span class="wordmark-sub">New York dates, sorted by temperature</span>
+      </div>
+      <div class="bar-actions">
+        <button type="button" class="icon-btn" id="addBtn" aria-label="Add a date idea">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <button type="button" class="icon-btn" id="listBtn" data-has="0" aria-label="Open your yes list">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21S3.8 15.6 2.4 11.3C1 7.2 3.6 4.2 6.9 4.2c2 0 3.7 1.1 5.1 3 1.4-1.9 3.1-3 5.1-3 3.3 0 5.9 3 4.5 7.1C20.2 15.6 12 21 12 21z"/></svg>
+          <span class="count" id="yesCount">0</span>
+        </button>
+      </div>
+    </div>
+
+    <button type="button" class="instrument" id="instrumentBtn" aria-expanded="false" aria-controls="tempPanel">
+      <span class="temp" id="tempReadout">—<span class="deg">°F</span></span>
+      <span class="instrument-meta">
+        <span class="instrument-verdict" id="tempVerdict">Reading the thermometer</span>
+        <span class="instrument-source" id="tempSource">Seventy degrees is the line</span>
+      </span>
+      <span class="chev" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </span>
+    </button>
+
+    <div class="temp-panel" id="tempPanel" hidden>
+      <label class="sr-only" for="tempRange">Temperature in degrees Fahrenheit</label>
+      <div class="scale">
+        <div class="scale-bar" aria-hidden="true"><span class="scale-tick"></span></div>
+        <input type="range" id="tempRange" min="0" max="100" step="1" value="70">
+        <div class="scale-legend" aria-hidden="true">
+          <span class="l0">0°</span>
+          <span class="l70">70° — the line</span>
+          <span class="l100">100°</span>
+        </div>
+      </div>
+      <button type="button" class="link-btn" id="locBtn" hidden>Use where I actually am</button>
+    </div>
+
+    <div class="modes" id="modes" role="radiogroup" aria-label="Which deck to swipe" style="--i:1">
+      <span class="modes-thumb" aria-hidden="true"></span>
+      <button type="button" role="radio" data-mode-btn="cold" aria-checked="false">Cold</button>
+      <button type="button" role="radio" data-mode-btn="warm" aria-checked="true">Warm</button>
+      <button type="button" role="radio" data-mode-btn="all" aria-checked="false">Everything</button>
+    </div>
+  </header>
+
+  <main class="stage">
+    <div class="stack" id="stack"></div>
+    <div class="empty" id="empty" hidden>
+      <h2 id="emptyTitle">That's the whole deck.</h2>
+      <p id="emptyBody">Nothing left to swipe.</p>
+      <div class="empty-actions">
+        <button type="button" class="btn btn--primary" id="emptyList">See your yes list</button>
+        <button type="button" class="btn" id="emptyReset">Reshuffle the no's back in</button>
+        <button type="button" class="btn" id="emptyAdd">Add an idea</button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="rail">
+    <button type="button" class="verdict verdict--no" id="noBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+      Not today
+    </button>
+    <button type="button" class="undo" id="undoBtn" disabled aria-label="Undo the last swipe">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="8.5 4.5 4 9 8.5 13.5"/><path d="M4 9h10a5.5 5.5 0 0 1 0 11H9"/></svg>
+    </button>
+    <button type="button" class="verdict verdict--yes" id="yesBtn">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21S3.8 15.6 2.4 11.3C1 7.2 3.6 4.2 6.9 4.2c2 0 3.7 1.1 5.1 3 1.4-1.9 3.1-3 5.1-3 3.3 0 5.9 3 4.5 7.1C20.2 15.6 12 21 12 21z"/></svg>
+      Let's go
+    </button>
+  </footer>
+</div>
+
+<div class="scrim" id="scrim"></div>
+
+<section class="sheet" id="addSheet" role="dialog" aria-modal="true" aria-labelledby="addTitle" inert>
+  <span class="sheet-grip" aria-hidden="true"></span>
+  <div class="sheet-head">
+    <h2 id="addTitle">Add a date idea</h2>
+  </div>
+  <div class="sheet-body">
+    <div class="field">
+      <label for="ideaTitle">What is it</label>
+      <input type="text" id="ideaTitle" autocomplete="off" autocapitalize="sentences" enterkeyhint="done" placeholder="Sunset at Domino Park" maxlength="80">
+    </div>
+    <div class="field">
+      <label for="ideaNote">Anything to remember</label>
+      <input type="text" id="ideaNote" autocomplete="off" autocapitalize="sentences" enterkeyhint="done" placeholder="the spot, the order, who to bring" maxlength="120">
+    </div>
+    <fieldset>
+      <span class="legend" id="pickerLegend">When it works</span>
+      <div class="picker" id="picker" role="radiogroup" aria-labelledby="pickerLegend"></div>
+    </fieldset>
+    <p class="form-error" id="addError" role="alert"></p>
+  </div>
+  <div class="sheet-foot">
+    <button type="button" class="btn" data-close-sheet>Cancel</button>
+    <button type="button" class="btn btn--primary" id="addSave">Add to the deck</button>
+  </div>
+</section>
+
+<section class="sheet" id="listSheet" role="dialog" aria-modal="true" aria-labelledby="listTitle" inert>
+  <span class="sheet-grip" aria-hidden="true"></span>
+  <div class="sheet-head">
+    <h2 id="listTitle">Your yes list</h2>
+    <span class="tally" id="listTally">0 saved</span>
+  </div>
+  <div class="sheet-body" id="listBody"></div>
+  <div class="sheet-foot">
+    <button type="button" class="btn" id="clearYes">Clear the list</button>
+    <button type="button" class="btn btn--primary" data-close-sheet>Done</button>
+  </div>
+</section>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+'use strict';
+
+/* -------------------------------------------------------------------------
+   Make sure the iOS chrome tags exist wherever this page ends up embedded.
+   ------------------------------------------------------------------------- */
+function setMeta(name, content){
+  if(!document.head) return;
+  var m = document.head.querySelector('meta[name="' + name + '"]');
+  if(!m){ m = document.createElement('meta'); m.setAttribute('name', name); document.head.appendChild(m); }
+  m.setAttribute('content', content);
+}
+setMeta('viewport', 'width=device-width, initial-scale=1, viewport-fit=cover');
+setMeta('apple-mobile-web-app-capable', 'yes');
+setMeta('mobile-web-app-capable', 'yes');
+setMeta('apple-mobile-web-app-title', 'Weather Permitting');
+setMeta('apple-mobile-web-app-status-bar-style', 'black-translucent');
+
+/* -------------------------------------------------------------------------
+   The starter deck. Titles are kept as written; anything after a dash in the
+   original list became the note.
+   ------------------------------------------------------------------------- */
+var SEED = [
+  ['coney-island',           'Coney Island',                        '',                          'warm'],
+  ['picnics',                'Picnics',                             '',                          'warm'],
+  ['breakneck-ridge',        'Breakneck Ridge',                     '',                          'warm'],
+  ['central-park-boats',     'Central Park boats',                  '',                          'warm'],
+  ['met-cloisters',          'The Met Cloisters',                   '',                          'warm'],
+  ['walk-manhattan',         'Walk Manhattan island',               '',                          'warm'],
+  ['randalls-bikes',         "Randall's Island bikes",              '',                          'warm'],
+  ['prospect-park-sky',      'Prospect Park with Sky',              '',                          'warm'],
+  ['brooklyn-promenade-sky', 'Brooklyn Promenade with Sky',         '',                          'warm'],
+  ['fort-greene-sky',        'Fort Greene with Sky',                '',                          'warm'],
+
+  ['ice-skating',            'Ice skating',                         '',                          'cold'],
+  ['thrifting',              'Thrifting day',                       '',                          'cold'],
+  ['spa',                    'Spa',                                 '',                          'cold'],
+  ['movie-theater',          'Movie theater',                       '',                          'cold'],
+  ['lottery-tickets',        'Lottery tickets',                     '',                          'cold'],
+  ['sports-game',            'Sports game',                         '',                          'cold'],
+  ['whitney',                'The Whitney',                         '',                          'cold'],
+  ['comedy-cellar',          'Comedy Cellar',                       'Aoka matcha after',          'cold'],
+  ['trivia',                 'Trivia',                              '',                          'cold'],
+  ['jazz-club',              'Jazz club',                           'Smile',                     'cold'],
+  ['red-pavilion',           'Red Pavilion',                        '',                          'cold'],
+
+  ['pizza-tour',             'Pizza tour',                          '',                          'any'],
+  ['taqueria-ramirez',       'Taqueria Ramirez',                    '',                          'any'],
+  ['ev-bar-hopping',         'East Village bar hopping',            'Bahn Anh Em, Scmuck',       'any'],
+  ['seaport',                'Seaport',                             'Dead Rabbit, Old Mates',    'any'],
+  ['hells-kitchen',          "Hell's Kitchen explore",              '',                          'any'],
+  ['midtown-east-pizza',     'Midtown East pizzas and eclair cafe', '',                          'any', true],
+  ['forma-pasta',            'Forma Pasta',                         '',                          'any'],
+  ['mille-crepe',            'Mille crepe',                         '',                          'any'],
+  ['astoria-1',              'Astoria date, part one',              '',                          'any'],
+  ['astoria-2',              'Astoria date, part two',              '',                          'any'],
+  ['bolivian-llama-party',   'Bolivian Llama Party',                '',                          'any']
+];
+
+var LIB = SEED.map(function(r){
+  return { id:r[0], title:r[1], note:r[2], w:r[3], done:!!r[4] };
+});
+
+var W = {
+  cold:{ chip:'Cold · under 70°', pick:'Cold', noun:'cold' },
+  warm:{ chip:'Warm · 70° and up', pick:'Warm', noun:'warm' },
+  any: { chip:'Any weather',                pick:'Any',  noun:'all-weather' }
+};
+
+var ICON = {
+  warm:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1.8" x2="12" y2="4.2"/><line x1="12" y1="19.8" x2="12" y2="22.2"/><line x1="1.8" y1="12" x2="4.2" y2="12"/><line x1="19.8" y1="12" x2="22.2" y2="12"/><line x1="4.8" y1="4.8" x2="6.5" y2="6.5"/><line x1="17.5" y1="17.5" x2="19.2" y2="19.2"/><line x1="19.2" y1="4.8" x2="17.5" y2="6.5"/><line x1="6.5" y1="17.5" x2="4.8" y2="19.2"/></svg>',
+  cold:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="2.4" x2="12" y2="21.6"/><line x1="3.7" y1="7.2" x2="20.3" y2="16.8"/><line x1="3.7" y1="16.8" x2="20.3" y2="7.2"/><line x1="9.4" y1="4.9" x2="12" y2="7"/><line x1="14.6" y1="4.9" x2="12" y2="7"/><line x1="9.4" y1="19.1" x2="12" y2="17"/><line x1="14.6" y1="19.1" x2="12" y2="17"/></svg>',
+  any: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="8.2"/><path d="M12 3.8a8.2 8.2 0 0 1 0 16.4z" fill="currentColor" stroke="none"/></svg>'
+};
+
+/* Average daily high in New York, January through December, in Fahrenheit.
+   Used the instant the page opens, and whenever the live reading can't be
+   reached — a page that shows nothing while it waits is a page that shows
+   nothing. */
+var NORMAL_HIGH = [39, 42, 50, 61, 71, 79, 85, 83, 76, 64, 54, 44];
+
+/* ------------------------------ state ---------------------------------- */
+var KEY = 'weather-permitting.v1';
+var state = { customs:[], decisions:{}, mode:'warm', tempF:70 };
+var queue = [], history = [], seedR = {}, idIndex = null;
+var flinging = false, manualTemp = false, activeSheet = null, lastFocus = null;
+var pickW = 'any';
+
+(function restore(){
+  try{
+    var raw = localStorage.getItem(KEY);
+    if(!raw) return;
+    var saved = JSON.parse(raw) || {};
+    if(Array.isArray(saved.customs)) state.customs = saved.customs.filter(function(c){ return c && c.id && c.title; });
+    if(saved.decisions && typeof saved.decisions === 'object') state.decisions = saved.decisions;
+  }catch(e){ /* private mode, cleared storage — start fresh */ }
+})();
+
+function save(){
+  try{
+    localStorage.setItem(KEY, JSON.stringify({ customs:state.customs, decisions:state.decisions }));
+  }catch(e){ /* nothing to do; the deck still works for this session */ }
+}
+
+function ideas(){ return LIB.concat(state.customs); }
+function reindex(){ idIndex = {}; ideas().forEach(function(i){ idIndex[i.id] = i; }); }
+function byId(id){ if(!idIndex) reindex(); return idIndex[id]; }
+function rnd(id){ if(seedR[id] == null) seedR[id] = Math.random(); return seedR[id]; }
+function countYes(){
+  var n = 0;
+  for(var id in state.decisions){ if(state.decisions[id].v === 'yes' && byId(id)) n++; }
+  return n;
+}
+
+function buildQueue(){
+  queue = ideas().filter(function(i){
+    if(state.decisions[i.id]) return false;
+    if(state.mode === 'all') return true;
+    return i.w === state.mode || i.w === 'any';
+  }).sort(function(a, b){ return rnd(a.id) - rnd(b.id); })
+    .map(function(i){ return i.id; });
+}
+
+/* ------------------------------ elements -------------------------------- */
+var $ = function(id){ return document.getElementById(id); };
+var app = $('app'), stack = $('stack'), empty = $('empty');
+var tempReadout = $('tempReadout'), tempVerdict = $('tempVerdict'), tempSource = $('tempSource');
+var tempPanel = $('tempPanel'), tempRange = $('tempRange'), locBtn = $('locBtn');
+var instrumentBtn = $('instrumentBtn'), modes = $('modes');
+var yesCount = $('yesCount'), listBtn = $('listBtn'), undoBtn = $('undoBtn');
+var scrim = $('scrim'), addSheet = $('addSheet'), listSheet = $('listSheet');
+var picker = $('picker'), ideaTitle = $('ideaTitle'), ideaNote = $('ideaNote'), addError = $('addError');
+var listBody = $('listBody'), listTally = $('listTally'), clearYesBtn = $('clearYes');
+var toastEl = $('toast');
+
+function el(tag, cls, text){
+  var n = document.createElement(tag);
+  if(cls) n.className = cls;
+  if(text != null) n.textContent = text;
+  return n;
+}
+
+function chip(cls, iconKey, text){
+  var c = el('span', cls);
+  if(iconKey) c.innerHTML = ICON[iconKey];
+  c.appendChild(document.createTextNode(text));
+  return c;
+}
+
+/* ------------------------------ weather --------------------------------- */
+function setTemp(f, source, syncDeck){
+  state.tempF = f;
+  tempReadout.textContent = String(f);
+  tempReadout.appendChild(el('span', 'deg', '°F'));
+  tempVerdict.textContent = f >= 70 ? 'Warm out — 70° and up' : 'Cold out — under 70°';
+  tempSource.textContent = source;
+  if(tempRange.value !== String(f)) tempRange.value = String(f);
+  if(syncDeck) setMode(f >= 70 ? 'warm' : 'cold');
+}
+
+function liveTemp(lat, lon){
+  if(typeof fetch !== 'function') return Promise.reject(new Error('no fetch'));
+  var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon +
+            '&current=temperature_2m&temperature_unit=fahrenheit';
+  var ctl = (typeof AbortController === 'function') ? new AbortController() : null;
+  var timer = setTimeout(function(){ if(ctl) ctl.abort(); }, 6000);
+  return fetch(url, ctl ? { signal:ctl.signal } : undefined).then(function(r){
+    if(!r.ok) throw new Error('status ' + r.status);
+    return r.json();
+  }).then(function(j){
+    clearTimeout(timer);
+    var t = j && j.current && j.current.temperature_2m;
+    if(typeof t !== 'number') throw new Error('no reading');
+    return Math.round(t);
+  }).catch(function(err){ clearTimeout(timer); throw err; });
+}
+
+/* ------------------------------ deck ------------------------------------ */
+function setMode(m){
+  if(state.mode === m){ syncModes(); return; }
+  state.mode = m;
+  app.setAttribute('data-mode', m);
+  document.documentElement.setAttribute('data-mode', m);
+  syncModes();
+  buildQueue();
+  render();
+}
+
+function syncModes(){
+  var order = ['cold', 'warm', 'all'];
+  modes.style.setProperty('--i', order.indexOf(state.mode));
+  Array.prototype.forEach.call(modes.querySelectorAll('[data-mode-btn]'), function(b){
+    b.setAttribute('aria-checked', String(b.getAttribute('data-mode-btn') === state.mode));
+  });
+}
+
+function cardEl(idea, depth){
+  var c = el('article', 'card');
+  c.setAttribute('data-depth', String(depth));
+  c.setAttribute('data-w', idea.w);
+
+  var top = el('div', 'card-top');
+  top.appendChild(chip('chip chip--w', idea.w, W[idea.w].chip));
+  c.appendChild(top);
+
+  var body = el('div', 'card-body');
+  body.appendChild(el('h2', 'card-title', idea.title));
+  if(idea.note) body.appendChild(el('p', 'card-note', idea.note));
+  c.appendChild(body);
+
+  var foot = el('div', 'card-foot');
+  var chips = el('div', 'card-foot-chips');
+  if(idea.custom) chips.appendChild(chip('chip chip--ghost', null, 'Yours'));
+  if(idea.done) chips.appendChild(chip('chip chip--ghost', null, 'Done once'));
+  foot.appendChild(chips);
+  if(depth === 0){
+    foot.appendChild(el('span', 'counter', queue.length + (queue.length === 1 ? ' left' : ' to go')));
+  }
+  c.appendChild(foot);
+
+  if(depth === 0){
+    c.appendChild(el('span', 'stamp stamp--yes', "Let's go"));
+    c.appendChild(el('span', 'stamp stamp--no', 'Not today'));
+  }
+  return c;
+}
+
+function render(){
+  stack.innerHTML = '';
+  var top = queue.slice(0, 3);
+  if(!top.length){ showEmpty(); updateRail(); return; }
+  empty.hidden = true;
+  for(var d = top.length - 1; d >= 0; d--){
+    var idea = byId(top[d]);
+    if(idea) stack.appendChild(cardEl(idea, d));
+  }
+  var face = stack.querySelector('.card[data-depth="0"]');
+  if(face) attachDrag(face);
+  updateRail();
+}
+
+function showEmpty(){
+  var n = countYes();
+  $('emptyTitle').textContent = state.mode === 'all'
+    ? "You've been through everything."
+    : "That's the whole " + W[state.mode].noun + ' deck.';
+  $('emptyBody').textContent = n
+    ? 'You said yes to ' + n + (n === 1 ? ' idea' : ' ideas') + '. Reshuffle the no’s if you want another pass.'
+    : 'Nothing on the yes list yet. Reshuffle and be less picky, or add something of your own.';
+  empty.hidden = false;
+}
+
+function updateRail(){
+  undoBtn.disabled = history.length === 0;
+  var none = queue.length === 0;
+  $('yesBtn').disabled = none;
+  $('noBtn').disabled = none;
+  $('yesBtn').style.opacity = none ? '.4' : '';
+  $('noBtn').style.opacity = none ? '.4' : '';
+}
+
+function updateCounts(){
+  var n = countYes();
+  yesCount.textContent = String(n);
+  listBtn.setAttribute('data-has', n ? '1' : '0');
+  listBtn.setAttribute('aria-label', 'Open your yes list, ' + n + ' saved');
+  listTally.textContent = n + ' saved';
+}
+
+function decide(v){
+  flinging = false;
+  var id = queue[0];
+  if(!id) return;
+  state.decisions[id] = { v:v, t:Date.now() };
+  history.push(id);
+  queue.shift();
+  save();
+  render();
+  updateCounts();
+}
+
+function undo(){
+  var id = history.pop();
+  if(!id) return;
+  delete state.decisions[id];
+  queue.unshift(id);
+  save();
+  render();
+  updateCounts();
+}
+
+/* ------------------------------ swiping --------------------------------- */
+function reducedMotion(){
+  return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+}
+
+function fling(card, verdict, dy){
+  if(flinging) return;
+  flinging = true;
+  if(reducedMotion()){ decide(verdict); return; }
+  var dir = verdict === 'yes' ? 1 : -1;
+  var stamp = card.querySelector(verdict === 'yes' ? '.stamp--yes' : '.stamp--no');
+  if(stamp){ stamp.style.transition = 'opacity .14s linear'; stamp.style.opacity = '1'; }
+  card.style.transition = 'transform .34s cubic-bezier(.22,.61,.36,1), opacity .32s ease';
+  card.style.transform = 'translate(' + (dir * Math.max(520, window.innerWidth)) + 'px,' +
+                         ((dy || 0) + 32) + 'px) rotate(' + (dir * 24) + 'deg)';
+  card.style.opacity = '0';
+  var done = false;
+  var finish = function(){ if(done) return; done = true; decide(verdict); };
+  card.addEventListener('transitionend', finish, { once:true });
+  setTimeout(finish, 430);
+}
+
+function attachDrag(card){
+  var startX = 0, startY = 0, dx = 0, dy = 0, t0 = 0, pid = null, active = false;
+  var yesStamp = card.querySelector('.stamp--yes');
+  var noStamp  = card.querySelector('.stamp--no');
+  var reach = Math.min(115, Math.max(62, (card.offsetWidth || 320) * 0.28));
+
+  function paint(){
+    card.style.transform = 'translate(' + dx + 'px,' + dy + 'px) rotate(' + (dx / 20) + 'deg)';
+    if(yesStamp) yesStamp.style.opacity = String(Math.min(1, Math.max(0, dx) / (reach * 0.8)));
+    if(noStamp)  noStamp.style.opacity  = String(Math.min(1, Math.max(0, -dx) / (reach * 0.8)));
+  }
+
+  card.addEventListener('pointerdown', function(e){
+    if(flinging) return;
+    if(typeof e.button === 'number' && e.button !== 0) return;
+    active = true; pid = e.pointerId; t0 = Date.now();
+    startX = e.clientX; startY = e.clientY; dx = 0; dy = 0;
+    card.style.transition = 'none';
+    if(yesStamp) yesStamp.style.transition = 'none';
+    if(noStamp)  noStamp.style.transition = 'none';
+    try{ card.setPointerCapture(pid); }catch(err){}
+  });
+
+  card.addEventListener('pointermove', function(e){
+    if(!active || e.pointerId !== pid) return;
+    dx = e.clientX - startX;
+    dy = (e.clientY - startY) * 0.4;
+    paint();
+  });
+
+  function release(e){
+    if(!active || (e && e.pointerId !== pid)) return;
+    active = false;
+    try{ card.releasePointerCapture(pid); }catch(err){}
+    var speed = Math.abs(dx) / Math.max(1, Date.now() - t0);
+    if(Math.abs(dx) > reach || (speed > 0.55 && Math.abs(dx) > 44)){
+      fling(card, dx > 0 ? 'yes' : 'no', dy);
+      return;
+    }
+    card.style.transition = 'transform .34s cubic-bezier(.32,.72,0,1)';
+    card.style.transform = '';
+    [yesStamp, noStamp].forEach(function(s){
+      if(!s) return;
+      s.style.transition = 'opacity .26s ease';
+      s.style.opacity = '0';
+    });
+  }
+
+  card.addEventListener('pointerup', release);
+  card.addEventListener('pointercancel', release);
+}
+
+function swipe(v){
+  if(flinging || !queue.length) return;
+  var face = stack.querySelector('.card[data-depth="0"]');
+  if(face) fling(face, v, 0);
+}
+
+/* ------------------------------ sheets ---------------------------------- */
+function openSheet(sheet){
+  if(activeSheet) closeSheet();
+  lastFocus = document.activeElement;
+  activeSheet = sheet;
+  scrim.classList.add('open');
+  sheet.removeAttribute('inert');
+  sheet.classList.add('open');
+  setTimeout(function(){
+    var first = sheet.querySelector('input, button:not([disabled])');
+    if(first) first.focus({ preventScroll:true });
+  }, 80);
+}
+
+function closeSheet(){
+  if(!activeSheet) return;
+  var sheet = activeSheet;
+  activeSheet = null;
+  sheet.classList.remove('open');
+  sheet.setAttribute('inert', '');
+  scrim.classList.remove('open');
+  document.documentElement.style.setProperty('--kb', '0px');
+  if(lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll:true });
+  lastFocus = null;
+}
+
+var toastTimer = null;
+function toast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ toastEl.classList.remove('show'); }, 2400);
+}
+
+/* ------------------------------ add form -------------------------------- */
+function buildPicker(){
+  ['cold', 'warm', 'any'].forEach(function(w){
+    var b = el('button');
+    b.type = 'button';
+    b.setAttribute('role', 'radio');
+    b.setAttribute('data-w', w);
+    b.innerHTML = ICON[w];
+    b.appendChild(document.createTextNode(W[w].pick));
+    b.addEventListener('click', function(){ pickW = w; syncPicker(); });
+    picker.appendChild(b);
+  });
+}
+
+function syncPicker(){
+  Array.prototype.forEach.call(picker.querySelectorAll('button'), function(b){
+    b.setAttribute('aria-checked', String(b.getAttribute('data-w') === pickW));
+  });
+}
+
+function openAdd(){
+  ideaTitle.value = '';
+  ideaNote.value = '';
+  addError.textContent = '';
+  pickW = state.mode === 'all' ? 'any' : state.mode;
+  syncPicker();
+  openSheet(addSheet);
+}
+
+function saveIdea(){
+  var title = ideaTitle.value.trim();
+  if(!title){
+    addError.textContent = 'Give it a name first.';
+    ideaTitle.focus();
+    return;
+  }
+  var idea = {
+    id: 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+    title: title,
+    note: ideaNote.value.trim(),
+    w: pickW,
+    custom: true
+  };
+  state.customs.push(idea);
+  reindex();
+  save();
+
+  var fits = state.mode === 'all' || idea.w === state.mode || idea.w === 'any';
+  if(fits){
+    if(queue.length) queue.splice(1, 0, idea.id);
+    else queue.unshift(idea.id);
+  }
+  render();
+  updateCounts();
+  closeSheet();
+  toast(fits ? 'Added — it’s next up.' : 'Added to the ' + W[idea.w].noun + ' deck.');
+}
+
+/* ------------------------------ yes list -------------------------------- */
+function renderList(){
+  listBody.innerHTML = '';
+  var rows = Object.keys(state.decisions).filter(function(id){
+    return state.decisions[id].v === 'yes' && byId(id);
+  }).sort(function(a, b){
+    return (state.decisions[b].t || 0) - (state.decisions[a].t || 0);
+  });
+
+  if(!rows.length){
+    var blank = el('div', 'blank');
+    blank.appendChild(el('strong', null, 'Nothing yet'));
+    blank.appendChild(el('p', null, 'Swipe right on something and it lands here.'));
+    listBody.appendChild(blank);
+    return;
+  }
+
+  var ul = el('ul', 'yeslist');
+  rows.forEach(function(id){
+    var idea = byId(id);
+    var li = el('li');
+    li.setAttribute('data-w', idea.w);
+
+    var mark = el('span', 'yes-mark');
+    mark.innerHTML = ICON[idea.w];
+    li.appendChild(mark);
+
+    var text = el('div', 'yes-text');
+    text.appendChild(el('span', 'yes-title', idea.title));
+    text.appendChild(el('span', 'yes-note', idea.note || W[idea.w].chip));
+    li.appendChild(text);
+
+    if(idea.custom){
+      var del = el('button', 'row-btn');
+      del.type = 'button';
+      del.setAttribute('aria-label', 'Delete ' + idea.title + ' for good');
+      del.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 6.5h16"/><path d="M9 6.5V4.2h6v2.3"/><path d="M6.5 6.5 7.4 20h9.2l.9-13.5"/></svg>';
+      del.addEventListener('click', function(){
+        state.customs = state.customs.filter(function(c){ return c.id !== idea.id; });
+        delete state.decisions[idea.id];
+        reindex(); save(); buildQueue(); render(); updateCounts(); renderList();
+        toast('Deleted.');
+      });
+      li.appendChild(del);
+    }
+
+    var back = el('button', 'row-btn');
+    back.type = 'button';
+    back.setAttribute('aria-label', 'Put ' + idea.title + ' back in the deck');
+    back.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>';
+    back.addEventListener('click', function(){
+      delete state.decisions[idea.id];
+      save(); buildQueue(); render(); updateCounts(); renderList();
+    });
+    li.appendChild(back);
+
+    ul.appendChild(li);
+  });
+  listBody.appendChild(ul);
+}
+
+/* ------------------------------ wiring ---------------------------------- */
+instrumentBtn.addEventListener('click', function(){
+  var open = tempPanel.hidden;
+  tempPanel.hidden = !open;
+  instrumentBtn.setAttribute('aria-expanded', String(open));
+});
+
+tempRange.addEventListener('input', function(){
+  manualTemp = true;
+  setTemp(parseInt(tempRange.value, 10), 'You set this', true);
+});
+
+modes.addEventListener('click', function(e){
+  var b = e.target.closest ? e.target.closest('[data-mode-btn]') : null;
+  if(b) setMode(b.getAttribute('data-mode-btn'));
+});
+
+$('yesBtn').addEventListener('click', function(){ swipe('yes'); });
+$('noBtn').addEventListener('click', function(){ swipe('no'); });
+undoBtn.addEventListener('click', undo);
+
+$('addBtn').addEventListener('click', openAdd);
+$('emptyAdd').addEventListener('click', openAdd);
+$('addSave').addEventListener('click', saveIdea);
+ideaTitle.addEventListener('input', function(){ if(addError.textContent) addError.textContent = ''; });
+ideaNote.addEventListener('keydown', function(e){ if(e.key === 'Enter') saveIdea(); });
+ideaTitle.addEventListener('keydown', function(e){ if(e.key === 'Enter') ideaNote.focus(); });
+
+listBtn.addEventListener('click', function(){ renderList(); openSheet(listSheet); });
+$('emptyList').addEventListener('click', function(){ renderList(); openSheet(listSheet); });
+
+$('emptyReset').addEventListener('click', function(){
+  var n = 0;
+  for(var id in state.decisions){
+    if(state.decisions[id].v === 'no'){ delete state.decisions[id]; n++; }
+  }
+  history = [];
+  save(); buildQueue(); render(); updateCounts();
+  toast(n ? n + (n === 1 ? ' idea is back.' : ' ideas are back.') : 'Nothing to bring back.');
+});
+
+var clearArmed = false, clearTimer = null;
+clearYesBtn.addEventListener('click', function(){
+  if(!clearArmed){
+    clearArmed = true;
+    clearYesBtn.textContent = 'Tap again to clear';
+    clearTimer = setTimeout(function(){
+      clearArmed = false;
+      clearYesBtn.textContent = 'Clear the list';
+    }, 3200);
+    return;
+  }
+  clearTimeout(clearTimer);
+  clearArmed = false;
+  clearYesBtn.textContent = 'Clear the list';
+  for(var id in state.decisions){
+    if(state.decisions[id].v === 'yes') delete state.decisions[id];
+  }
+  history = [];
+  save(); buildQueue(); render(); updateCounts(); renderList();
+});
+
+Array.prototype.forEach.call(document.querySelectorAll('[data-close-sheet]'), function(b){
+  b.addEventListener('click', closeSheet);
+});
+scrim.addEventListener('click', closeSheet);
+
+document.addEventListener('keydown', function(e){
+  if(activeSheet){ if(e.key === 'Escape') closeSheet(); return; }
+  var t = e.target;
+  if(t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) return;
+  if(e.key === 'ArrowRight'){ e.preventDefault(); swipe('yes'); }
+  else if(e.key === 'ArrowLeft'){ e.preventDefault(); swipe('no'); }
+  else if(e.key === 'ArrowDown' || e.key === 'z' || e.key === 'Z'){ e.preventDefault(); undo(); }
+});
+
+/* Keep an open sheet above the iOS keyboard. */
+if(window.visualViewport){
+  var vv = window.visualViewport;
+  var trackKeyboard = function(){
+    var kb = activeSheet ? Math.max(0, window.innerHeight - vv.height - vv.offsetTop) : 0;
+    document.documentElement.style.setProperty('--kb', kb + 'px');
+  };
+  vv.addEventListener('resize', trackKeyboard);
+  vv.addEventListener('scroll', trackKeyboard);
+}
+
+locBtn.addEventListener('click', function(){
+  if(!navigator.geolocation){ toast('This browser will not share a location.'); return; }
+  locBtn.textContent = 'Checking…';
+  navigator.geolocation.getCurrentPosition(function(pos){
+    liveTemp(pos.coords.latitude.toFixed(3), pos.coords.longitude.toFixed(3)).then(function(t){
+      manualTemp = false;
+      setTemp(t, 'Live · where you are', true);
+      locBtn.textContent = 'Using your location';
+      locBtn.disabled = true;
+    }).catch(function(){
+      locBtn.textContent = 'Use where I actually am';
+      toast('Could not reach the weather service.');
+    });
+  }, function(){
+    locBtn.textContent = 'Use where I actually am';
+    toast('Location was not shared.');
+  }, { timeout:8000, maximumAge:600000 });
+});
+
+/* ------------------------------ boot ------------------------------------ */
+document.documentElement.setAttribute('data-mode', state.mode);
+reindex();
+buildPicker();
+setTemp(NORMAL_HIGH[new Date().getMonth()], 'Seasonal estimate for New York', true);
+buildQueue();
+render();
+updateCounts();
+
+liveTemp('40.713', '-74.006').then(function(t){
+  locBtn.hidden = false;
+  if(!manualTemp) setTemp(t, 'Live · New York City', true);
+}).catch(function(){
+  /* Offline, or a host that blocks outbound requests. The seasonal estimate
+     stands and the slider is right there. */
+  tempSource.textContent = 'Seasonal estimate · tap to set it yourself';
+});
+})();
+</script>
+</body>
+</html>
