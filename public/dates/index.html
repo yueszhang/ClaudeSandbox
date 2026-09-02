@@ -531,6 +531,15 @@ fieldset{margin:0 0 14px;padding:0;border:0;display:flex;flex-direction:column;g
 .form-error{color:var(--no);font-size:13px;font-weight:600;min-height:19px;margin:-6px 0 8px}
 
 /* ---------- Yes list ---------- */
+.sec-head{
+  display:flex;align-items:baseline;justify-content:space-between;gap:10px;
+  padding:16px 0 4px;
+  font-size:11px;letter-spacing:.085em;text-transform:uppercase;font-weight:600;color:var(--ink-3);
+  font-variant-numeric:tabular-nums;
+}
+.sec-head:first-child{padding-top:2px}
+.row-btn--done{border-color:var(--yes);color:var(--yes)}
+.yeslist li[data-done="1"] .yes-title{color:var(--ink-2);font-weight:500}
 .yeslist{list-style:none;margin:0;padding:0 0 6px;display:flex;flex-direction:column}
 .yeslist li{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line-soft)}
 .yeslist li:last-child{border-bottom:0}
@@ -589,7 +598,7 @@ fieldset{margin:0 0 14px;padding:0;border:0;display:flex;flex-direction:column;g
         <button type="button" class="icon-btn" id="addBtn" aria-label="Add a date idea">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         </button>
-        <button type="button" class="icon-btn" id="listBtn" data-has="0" aria-label="Open your yes list">
+        <button type="button" class="icon-btn" id="listBtn" data-has="0" aria-label="Open your list">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21S3.8 15.6 2.4 11.3C1 7.2 3.6 4.2 6.9 4.2c2 0 3.7 1.1 5.1 3 1.4-1.9 3.1-3 5.1-3 3.3 0 5.9 3 4.5 7.1C20.2 15.6 12 21 12 21z"/></svg>
           <span class="count" id="yesCount">0</span>
         </button>
@@ -688,13 +697,13 @@ fieldset{margin:0 0 14px;padding:0;border:0;display:flex;flex-direction:column;g
 <section class="sheet" id="listSheet" role="dialog" aria-modal="true" aria-labelledby="listTitle" inert>
   <span class="sheet-grip" aria-hidden="true"></span>
   <div class="sheet-head">
-    <h2 id="listTitle">Your yes list</h2>
-    <span class="tally" id="listTally">0 saved</span>
+    <h2 id="listTitle">Your list</h2>
+    <span class="tally" id="listTally">0 to do</span>
   </div>
   <div class="sheet-body" id="listBody"></div>
   <div class="sheet-foot">
-    <button type="button" class="btn" id="clearYes">Clear the list</button>
-    <button type="button" class="btn btn--primary" data-close-sheet>Done</button>
+    <button type="button" class="btn" id="clearYes">Clear want to do</button>
+    <button type="button" class="btn btn--primary" data-close-sheet>Close</button>
   </div>
 </section>
 
@@ -725,7 +734,7 @@ setMeta('apple-mobile-web-app-status-bar-style', 'black-translucent');
    ------------------------------------------------------------------------- */
 var SEED = [
   ['coney-island',           'Coney Island',                        '',                          'warm'],
-  ['picnics',                'Picnics',                             '',                          'warm'],
+  ['picnics',                'Picnics',                             '',                          'warm', true],
   ['breakneck-ridge',        'Breakneck Ridge',                     '',                          'warm'],
   ['central-park-boats',     'Central Park boats',                  '',                          'warm'],
   ['met-cloisters',          'The Met Cloisters',                   '',                          'warm'],
@@ -737,27 +746,27 @@ var SEED = [
 
   ['ice-skating',            'Ice skating',                         '',                          'cold'],
   ['thrifting',              'Thrifting day',                       '',                          'cold'],
-  ['spa',                    'Spa',                                 '',                          'cold'],
-  ['movie-theater',          'Movie theater',                       '',                          'cold'],
+  ['spa',                    'Spa',                                 '',                          'cold', true],
+  ['movie-theater',          'Movie theater',                       '',                          'cold', true],
   ['lottery-tickets',        'Lottery tickets',                     '',                          'cold'],
   ['sports-game',            'Sports game',                         '',                          'cold'],
   ['whitney',                'The Whitney',                         '',                          'cold'],
   ['comedy-cellar',          'Comedy Cellar',                       'Aoka matcha after',          'cold'],
-  ['trivia',                 'Trivia',                              '',                          'cold'],
+  ['trivia',                 'Trivia',                              '',                          'cold', true],
   ['jazz-club',              'Jazz club',                           'Smile',                     'cold'],
   ['red-pavilion',           'Red Pavilion',                        '',                          'cold'],
 
-  ['pizza-tour',             'Pizza tour',                          '',                          'any'],
-  ['taqueria-ramirez',       'Taqueria Ramirez',                    '',                          'any'],
+  ['pizza-tour',             'Pizza tour',                          '',                          'any', true],
+  ['taqueria-ramirez',       'Taqueria Ramirez',                    '',                          'any', true],
   ['ev-bar-hopping',         'East Village bar hopping',            'Bahn Anh Em, Scmuck',       'any'],
   ['seaport',                'Seaport',                             'Dead Rabbit, Old Mates',    'any'],
-  ['hells-kitchen',          "Hell's Kitchen explore",              '',                          'any'],
+  ['hells-kitchen',          "Hell's Kitchen explore",              '',                          'any', true],
   ['midtown-east-pizza',     'Midtown East pizzas and eclair cafe', '',                          'any', true],
   ['forma-pasta',            'Forma Pasta',                         '',                          'any'],
   ['mille-crepe',            'Mille crepe',                         '',                          'any'],
-  ['astoria-1',              'Astoria date, part one',              '',                          'any'],
-  ['astoria-2',              'Astoria date, part two',              '',                          'any'],
-  ['bolivian-llama-party',   'Bolivian Llama Party',                '',                          'any']
+  ['astoria-1',              'Astoria date, part one',              '',                          'any', true],
+  ['astoria-2',              'Astoria date, part two',              '',                          'any', true],
+  ['bolivian-llama-party',   'Bolivian Llama Party',                '',                          'any', true]
 ];
 
 var LIB = SEED.map(function(r){
@@ -776,6 +785,11 @@ var ICON = {
   any: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="8.2"/><path d="M12 3.8a8.2 8.2 0 0 1 0 16.4z" fill="currentColor" stroke="none"/></svg>'
 };
 
+var SVG_CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4.5 12.5 9.5 17.5 19.5 6.5"/></svg>';
+var SVG_REDO  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="8.5 4.5 4 9 8.5 13.5"/><path d="M4 9h10a5.5 5.5 0 0 1 0 11H9"/></svg>';
+var SVG_X     = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>';
+var SVG_TRASH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 6.5h16"/><path d="M9 6.5V4.2h6v2.3"/><path d="M6.5 6.5 7.4 20h9.2l.9-13.5"/></svg>';
+
 /* Average daily high in New York, January through December, in Fahrenheit.
    Used the instant the page opens, and whenever the live reading can't be
    reached — a page that shows nothing while it waits is a page that shows
@@ -784,7 +798,7 @@ var NORMAL_HIGH = [39, 42, 50, 61, 71, 79, 85, 83, 76, 64, 54, 44];
 
 /* ------------------------------ state ---------------------------------- */
 var KEY = 'weather-permitting.v1';
-var state = { customs:[], decisions:{}, mode:'warm', tempF:70 };
+var state = { customs:[], decisions:{}, doneLocal:{}, revived:{}, mode:'warm', tempF:70 };
 var queue = [], history = [], seedR = {}, idIndex = null;
 var flinging = false, manualTemp = false, activeSheet = null, lastFocus = null;
 var pickW = 'any';
@@ -796,12 +810,15 @@ var pickW = 'any';
     var saved = JSON.parse(raw) || {};
     if(Array.isArray(saved.customs)) state.customs = saved.customs.filter(function(c){ return c && c.id && c.title; });
     if(saved.decisions && typeof saved.decisions === 'object') state.decisions = saved.decisions;
+    if(saved.doneLocal && typeof saved.doneLocal === 'object') state.doneLocal = saved.doneLocal;
+    if(saved.revived && typeof saved.revived === 'object') state.revived = saved.revived;
   }catch(e){ /* private mode, cleared storage — start fresh */ }
 })();
 
 function save(){
   try{
-    localStorage.setItem(KEY, JSON.stringify({ customs:state.customs, decisions:state.decisions }));
+    localStorage.setItem(KEY, JSON.stringify({ customs:state.customs, decisions:state.decisions,
+      doneLocal:state.doneLocal, revived:state.revived }));
   }catch(e){ /* nothing to do; the deck still works for this session */ }
 }
 
@@ -809,14 +826,27 @@ function ideas(){ return LIB.concat(state.customs); }
 function reindex(){ idIndex = {}; ideas().forEach(function(i){ idIndex[i.id] = i; }); }
 function byId(id){ if(!idIndex) reindex(); return idIndex[id]; }
 function rnd(id){ if(seedR[id] == null) seedR[id] = Math.random(); return seedR[id]; }
+function isDone(idea){
+  if(!idea) return false;
+  if(state.revived[idea.id]) return false;
+  return !!(idea.done || state.doneLocal[idea.id]);
+}
+function doneAt(idea){
+  var d = state.doneLocal[idea.id];
+  return d ? d.at : 0;
+}
 function countYes(){
   var n = 0;
-  for(var id in state.decisions){ if(state.decisions[id].v === 'yes' && byId(id)) n++; }
+  for(var id in state.decisions){
+    var idea = byId(id);
+    if(state.decisions[id].v === 'yes' && idea && !isDone(idea)) n++;
+  }
   return n;
 }
 
 function buildQueue(){
   queue = ideas().filter(function(i){
+    if(isDone(i)) return false;
     if(state.decisions[i.id]) return false;
     if(state.mode === 'all') return true;
     return i.w === state.mode || i.w === 'any';
@@ -914,7 +944,7 @@ function cardEl(idea, depth){
   var foot = el('div', 'card-foot');
   var chips = el('div', 'card-foot-chips');
   if(idea.custom) chips.appendChild(chip('chip chip--ghost', null, 'Yours'));
-  if(idea.done) chips.appendChild(chip('chip chip--ghost', null, 'Done once'));
+  if(idea.done || state.doneLocal[idea.id]) chips.appendChild(chip('chip chip--ghost', null, 'Done before'));
   foot.appendChild(chips);
   if(depth === 0){
     foot.appendChild(el('span', 'counter', queue.length + (queue.length === 1 ? ' left' : ' to go')));
@@ -966,8 +996,8 @@ function updateCounts(){
   var n = countYes();
   yesCount.textContent = String(n);
   listBtn.setAttribute('data-has', n ? '1' : '0');
-  listBtn.setAttribute('aria-label', 'Open your yes list, ' + n + ' saved');
-  listTally.textContent = n + ' saved';
+  listBtn.setAttribute('aria-label', 'Open your list, ' + n + ' to do');
+  listTally.textContent = n + ' to do';
 }
 
 function decide(v){
@@ -1165,15 +1195,98 @@ function saveIdea(){
 }
 
 /* ------------------------------ yes list -------------------------------- */
-function renderList(){
-  listBody.innerHTML = '';
-  var rows = Object.keys(state.decisions).filter(function(id){
-    return state.decisions[id].v === 'yes' && byId(id);
-  }).sort(function(a, b){
-    return (state.decisions[b].t || 0) - (state.decisions[a].t || 0);
+function listRow(idea, done){
+  var li = el('li');
+  li.setAttribute('data-w', idea.w);
+  if(done) li.setAttribute('data-done', '1');
+
+  var mark = el('span', 'yes-mark');
+  mark.innerHTML = ICON[idea.w];
+  li.appendChild(mark);
+
+  var sub = idea.note || W[idea.w].chip;
+  if(done){
+    var at = doneAt(idea);
+    sub = at
+      ? 'Done ' + new Date(at).toLocaleDateString(undefined, { month:'short', day:'numeric', year:'numeric' })
+      : 'Done before';
+  }
+  var text = el('div', 'yes-text');
+  text.appendChild(el('span', 'yes-title', idea.title));
+  text.appendChild(el('span', 'yes-note', sub));
+  li.appendChild(text);
+
+  function action(cls, label, svg, fn){
+    var b = el('button', 'row-btn' + (cls ? ' ' + cls : ''));
+    b.type = 'button';
+    b.setAttribute('aria-label', label);
+    b.innerHTML = svg;
+    b.addEventListener('click', fn);
+    li.appendChild(b);
+    return b;
+  }
+
+  function refresh(){ save(); buildQueue(); render(); updateCounts(); renderList(); }
+
+  if(done){
+    action('', 'Put ' + idea.title + ' back in the deck', SVG_REDO, function(){
+      state.revived[idea.id] = true;
+      delete state.doneLocal[idea.id];
+      delete state.decisions[idea.id];
+      refresh();
+      toast('Back in the deck.');
+    });
+    return li;
+  }
+
+  if(idea.custom){
+    action('', 'Delete ' + idea.title + ' for good', SVG_TRASH, function(){
+      state.customs = state.customs.filter(function(c){ return c.id !== idea.id; });
+      delete state.decisions[idea.id];
+      reindex(); refresh();
+      toast('Deleted.');
+    });
+  }
+
+  action('row-btn--done', 'Mark ' + idea.title + ' as done', SVG_CHECK, function(){
+    state.doneLocal[idea.id] = { at: Date.now() };
+    delete state.revived[idea.id];
+    refresh();
+    toast('Marked done.');
   });
 
-  if(!rows.length){
+  action('', 'Put ' + idea.title + ' back in the deck', SVG_X, function(){
+    delete state.decisions[idea.id];
+    refresh();
+  });
+
+  return li;
+}
+
+function listSection(label, list, done){
+  if(!list.length) return;
+  var head = el('div', 'sec-head');
+  head.appendChild(el('span', null, label));
+  head.appendChild(el('span', null, String(list.length)));
+  listBody.appendChild(head);
+  var ul = el('ul', 'yeslist');
+  list.forEach(function(idea){ ul.appendChild(listRow(idea, done)); });
+  listBody.appendChild(ul);
+}
+
+function renderList(){
+  listBody.innerHTML = '';
+
+  var wants = Object.keys(state.decisions).filter(function(id){
+    var idea = byId(id);
+    return state.decisions[id].v === 'yes' && idea && !isDone(idea);
+  }).sort(function(a, b){
+    return (state.decisions[b].t || 0) - (state.decisions[a].t || 0);
+  }).map(byId);
+
+  var dones = ideas().filter(isDone).sort(function(a, b){ return doneAt(b) - doneAt(a); });
+
+  if(!wants.length && !dones.length){
     var blank = el('div', 'blank');
     blank.appendChild(el('strong', null, 'Nothing yet'));
     blank.appendChild(el('p', null, 'Swipe right on something and it lands here.'));
@@ -1181,48 +1294,8 @@ function renderList(){
     return;
   }
 
-  var ul = el('ul', 'yeslist');
-  rows.forEach(function(id){
-    var idea = byId(id);
-    var li = el('li');
-    li.setAttribute('data-w', idea.w);
-
-    var mark = el('span', 'yes-mark');
-    mark.innerHTML = ICON[idea.w];
-    li.appendChild(mark);
-
-    var text = el('div', 'yes-text');
-    text.appendChild(el('span', 'yes-title', idea.title));
-    text.appendChild(el('span', 'yes-note', idea.note || W[idea.w].chip));
-    li.appendChild(text);
-
-    if(idea.custom){
-      var del = el('button', 'row-btn');
-      del.type = 'button';
-      del.setAttribute('aria-label', 'Delete ' + idea.title + ' for good');
-      del.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 6.5h16"/><path d="M9 6.5V4.2h6v2.3"/><path d="M6.5 6.5 7.4 20h9.2l.9-13.5"/></svg>';
-      del.addEventListener('click', function(){
-        state.customs = state.customs.filter(function(c){ return c.id !== idea.id; });
-        delete state.decisions[idea.id];
-        reindex(); save(); buildQueue(); render(); updateCounts(); renderList();
-        toast('Deleted.');
-      });
-      li.appendChild(del);
-    }
-
-    var back = el('button', 'row-btn');
-    back.type = 'button';
-    back.setAttribute('aria-label', 'Put ' + idea.title + ' back in the deck');
-    back.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>';
-    back.addEventListener('click', function(){
-      delete state.decisions[idea.id];
-      save(); buildQueue(); render(); updateCounts(); renderList();
-    });
-    li.appendChild(back);
-
-    ul.appendChild(li);
-  });
-  listBody.appendChild(ul);
+  listSection('Want to do', wants, false);
+  listSection('Already done', dones, true);
 }
 
 /* ------------------------------ wiring ---------------------------------- */
@@ -1273,13 +1346,13 @@ clearYesBtn.addEventListener('click', function(){
     clearYesBtn.textContent = 'Tap again to clear';
     clearTimer = setTimeout(function(){
       clearArmed = false;
-      clearYesBtn.textContent = 'Clear the list';
+      clearYesBtn.textContent = 'Clear want to do';
     }, 3200);
     return;
   }
   clearTimeout(clearTimer);
   clearArmed = false;
-  clearYesBtn.textContent = 'Clear the list';
+  clearYesBtn.textContent = 'Clear want to do';
   for(var id in state.decisions){
     if(state.decisions[id].v === 'yes') delete state.decisions[id];
   }
